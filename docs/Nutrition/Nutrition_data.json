@@ -1,0 +1,101 @@
+{
+    "dietaryGuidelines": {
+      "title": "Dietary Guidelines for Americans 2020-2025 Data",
+      "appendices": {
+        "appendix1": {
+          "title": "Nutritional Goals for Age-Sex Groups",
+          "tables": [
+            {
+              "id": "A1-1",
+              "title": "Daily Nutritional Goals, Ages 6 Through 11 Months and 12 Through 23 Months",
+              "columnHeaders": ["Nutrient", "Goal_6_11_Months", "Source_of_Goal_6_11_Months", "Goal_12_23_Months", "Source_of_Goal_12_23_Months"],
+              "data": [
+                {"sectionHeader": "Macronutrients"},
+                { "Nutrient": "Protein (g)", "Goal_6_11_Months": "11", "Source_of_Goal_6_11_Months": "RDA", "Goal_12_23_Months": "13", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Carbohydrate (g)", "Goal_6_11_Months": "95", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "130", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Fiber, total dietary (g)", "Goal_6_11_Months": "n/a<sup>d</sup>", "Source_of_Goal_6_11_Months": "n/a<sup>d</sup>", "Goal_12_23_Months": "19", "Source_of_Goal_12_23_Months": "AI" },
+                { "Nutrient": "Total lipid (% kcal)", "Goal_6_11_Months": "n/a<sup>d</sup>", "Source_of_Goal_6_11_Months": "n/a<sup>d</sup>", "Goal_12_23_Months": "30-40", "Source_of_Goal_12_23_Months": "AMDR" },
+                { "Nutrient": "18:2 Linoleic acid (g)", "Goal_6_11_Months": "4.6", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "7", "Source_of_Goal_12_23_Months": "AI" },
+                { "Nutrient": "18:3 Linolenic acid (g)", "Goal_6_11_Months": "0.5", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "0.7", "Source_of_Goal_12_23_Months": "AI" },
+                {"sectionHeader": "Minerals"},
+                { "Nutrient": "Calcium (mg)", "Goal_6_11_Months": "260", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "700", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Iron (mg)", "Goal_6_11_Months": "11", "Source_of_Goal_6_11_Months": "RDA", "Goal_12_23_Months": "7", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Magnesium (mg)", "Goal_6_11_Months": "75", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "80", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Phosphorus (mg)", "Goal_6_11_Months": "275", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "460", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Potassium (mg)", "Goal_6_11_Months": "860", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "2,000", "Source_of_Goal_12_23_Months": "AI" },
+                { "Nutrient": "Sodium (mg)", "Goal_6_11_Months": "370", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "1,200", "Source_of_Goal_12_23_Months": "CDRR" },
+                { "Nutrient": "Zinc (mg)", "Goal_6_11_Months": "3", "Source_of_Goal_6_11_Months": "RDA", "Goal_12_23_Months": "3", "Source_of_Goal_12_23_Months": "RDA" },
+                {"sectionHeader": "Vitamins"},
+                { "Nutrient": "Vitamin A (mcg RAE<sup>c</sup>)", "Goal_6_11_Months": "500", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "300", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Vitamin E (mg AT<sup>c</sup>)", "Goal_6_11_Months": "5", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "6", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Vitamin D (IU<sup>c</sup>)", "Goal_6_11_Months": "400", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "600", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Vitamin C (mg)", "Goal_6_11_Months": "50", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "15", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Thiamin (mg)", "Goal_6_11_Months": "0.3", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "0.5", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Riboflavin (mg)", "Goal_6_11_Months": "0.4", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "0.5", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Niacin (mg)", "Goal_6_11_Months": "4", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "6", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Vitamin B-6 (mg)", "Goal_6_11_Months": "0.3", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "0.5", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Vitamin B-12 (mcg)", "Goal_6_11_Months": "0.5", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "0.9", "Source_of_Goal_12_23_Months": "RDA" },
+                { "Nutrient": "Choline (mg)", "Goal_6_11_Months": "150", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "200", "Source_of_Goal_12_23_Months": "AI" },
+                { "Nutrient": "Vitamin K (mcg)", "Goal_6_11_Months": "2.5", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "30", "Source_of_Goal_12_23_Months": "AI" },
+                { "Nutrient": "Folate (mcg DFE<sup>c</sup>)", "Goal_6_11_Months": "80", "Source_of_Goal_6_11_Months": "AI", "Goal_12_23_Months": "150", "Source_of_Goal_12_23_Months": "RDA" }
+              ],
+              "disclosures": [
+                "<sup>a</sup> Goals reflect Dietary Reference Intakes developed for 7 to 12 months or 6 to 12 months applied to ages 6 to 12 months and DRIs for 1 to 3 years applied to 12 to 24 months.",
+                "<sup>b</sup> AI = Adequate Intake, CDRR = Chronic Disease Risk Reduction Level, RDA = Recommended Dietary Allowance.",
+                "<sup>c</sup> AT = alpha-tocopherol, DFE = Dietary Folate Equivalent, IU = International Units, RAE = Retinol Activity Equivalents.",
+                "<sup>d</sup> n/a = not applicable to this age group."
+              ],
+              "sources": "Institute of Medicine. Dietary Reference Intakes: The Essential Guide to Nutrient Requirements. Washington, DC: The National Academies Press; 2006. Institute of Medicine. Dietary Reference Intakes for Calcium and Vitamin D. Washington, DC: The National Academies Press; 2011. National Academies of Sciences, Engineering, and Medicine. Dietary Reference Intakes for Sodium and Potassium. Washington, DC: The National Academies Press; 2019."
+            },
+            {
+              "id": "A1-2",
+              "title": "Daily Nutritional Goals, Ages 2 and Older",
+              "columnHeaders": ["Category", "Source_of_Goal", "M_F_2_3", "F_4_8", "F_9_13", "F_14_18", "F_19_30", "F_31_50", "F_51_plus", "M_4_8", "M_9_13", "M_14_18", "M_19_30", "M_31_50", "M_51_plus", "Calorie_Level_Assessed_M_F_2_3", "Calorie_Level_Assessed_F_4_8", "Calorie_Level_Assessed_F_9_13", "Calorie_Level_Assessed_F_14_18", "Calorie_Level_Assessed_F_19_30", "Calorie_Level_Assessed_F_31_50", "Calorie_Level_Assessed_F_51_plus", "Calorie_Level_Assessed_M_4_8", "Calorie_Level_Assessed_M_9_13", "Calorie_Level_Assessed_M_14_18", "Calorie_Level_Assessed_M_19_30", "Calorie_Level_Assessed_M_31_50", "Calorie_Level_Assessed_M_51_plus"],
+              "calorieLevels": { "M_F_2_3": "1,000", "F_4_8": "1,200", "F_9_13": "1,600", "F_14_18": "1,800", "F_19_30": "2,000", "F_31_50": "1,800", "F_51_plus": "1,600", "M_4_8": "1,400", "M_9_13": "1,800", "M_14_18": "2,200", "M_19_30": "2,400", "M_31_50": "2,200", "M_51_plus": "2,000" },
+              "data": [
+                {"sectionHeader": "Macronutrients"},
+                { "Category": "Protein (% kcal)", "Source_of_Goal": "AMDR", "M_F_2_3": "5-20", "F_4_8": "10-30", "F_9_13": "10-30", "F_14_18": "10-30", "F_19_30": "10-35", "F_31_50": "10-35", "F_51_plus": "10-35", "M_4_8": "10-30", "M_9_13": "10-30", "M_14_18": "10-30", "M_19_30": "10-35", "M_31_50": "10-35", "M_51_plus": "10-35" },
+                { "Category": "Protein (g)", "Source_of_Goal": "RDA", "M_F_2_3": "13", "F_4_8": "19", "F_9_13": "34", "F_14_18": "46", "F_19_30": "46", "F_31_50": "46", "F_51_plus": "46", "M_4_8": "19", "M_9_13": "34", "M_14_18": "52", "M_19_30": "56", "M_31_50": "56", "M_51_plus": "56" },
+                { "Category": "Carbohydrate (% kcal)", "Source_of_Goal": "AMDR", "M_F_2_3": "45-65", "F_4_8": "45-65", "F_9_13": "45-65", "F_14_18": "45-65", "F_19_30": "45-65", "F_31_50": "45-65", "F_51_plus": "45-65", "M_4_8": "45-65", "M_9_13": "45-65", "M_14_18": "45-65", "M_19_30": "45-65", "M_31_50": "45-65", "M_51_plus": "45-65" },
+                { "Category": "Carbohydrate (g)", "Source_of_Goal": "RDA", "M_F_2_3": "130", "F_4_8": "130", "F_9_13": "130", "F_14_18": "130", "F_19_30": "130", "F_31_50": "130", "F_51_plus": "130", "M_4_8": "130", "M_9_13": "130", "M_14_18": "130", "M_19_30": "130", "M_31_50": "130", "M_51_plus": "130" },
+                { "Category": "Fiber (g)", "Source_of_Goal": "14g/1,000 kcal", "M_F_2_3": "14", "F_4_8": "17", "F_9_13": "22", "F_14_18": "25", "F_19_30": "28", "F_31_50": "25", "F_51_plus": "22", "M_4_8": "20", "M_9_13": "25", "M_14_18": "31", "M_19_30": "34", "M_31_50": "31", "M_51_plus": "28" },
+                { "Category": "Added Sugars (% kcal)", "Source_of_Goal": "DGA", "M_F_2_3": "<10", "F_4_8": "<10", "F_9_13": "<10", "F_14_18": "<10", "F_19_30": "<10", "F_31_50": "<10", "F_51_plus": "<10", "M_4_8": "<10", "M_9_13": "<10", "M_14_18": "<10", "M_19_30": "<10", "M_31_50": "<10", "M_51_plus": "<10" },
+                { "Category": "Total lipid (% kcal)", "Source_of_Goal": "AMDR", "M_F_2_3": "30-40", "F_4_8": "25-35", "F_9_13": "25-35", "F_14_18": "25-35", "F_19_30": "20-35", "F_31_50": "20-35", "F_51_plus": "20-35", "M_4_8": "25-35", "M_9_13": "25-35", "M_14_18": "25-35", "M_19_30": "20-35", "M_31_50": "20-35", "M_51_plus": "20-35" },
+                { "Category": "Saturated Fatty Acids (% kcal)", "Source_of_Goal": "DGA", "M_F_2_3": "<10", "F_4_8": "<10", "F_9_13": "<10", "F_14_18": "<10", "F_19_30": "<10", "F_31_50": "<10", "F_51_plus": "<10", "M_4_8": "<10", "M_9_13": "<10", "M_14_18": "<10", "M_19_30": "<10", "M_31_50": "<10", "M_51_plus": "<10" },
+                { "Category": "18:2 Linoleic acid (g)", "Source_of_Goal": "AI", "M_F_2_3": "7", "F_4_8": "10", "F_9_13": "10", "F_14_18": "11", "F_19_30": "12", "F_31_50": "12", "F_51_plus": "11", "M_4_8": "10", "M_9_13": "12", "M_14_18": "16", "M_19_30": "17", "M_31_50": "17", "M_51_plus": "14" },
+                { "Category": "18:3 Linoleic acid (g)", "Source_of_Goal": "AI", "M_F_2_3": "0.7", "F_4_8": "0.9", "F_9_13": "1.0", "F_14_18": "1.1", "F_19_30": "1.1", "F_31_50": "1.1", "F_51_plus": "1.1", "M_4_8": "0.9", "M_9_13": "1.2", "M_14_18": "1.6", "M_19_30": "1.6", "M_31_50": "1.6", "M_51_plus": "1.6" },
+                {"sectionHeader": "Minerals"},
+                { "Category": "Calcium (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "700", "F_4_8": "1,000", "F_9_13": "1,300", "F_14_18": "1,300", "F_19_30": "1,000", "F_31_50": "1,000", "F_51_plus": "1,200", "M_4_8": "1,000", "M_9_13": "1,300", "M_14_18": "1,300", "M_19_30": "1,000", "M_31_50": "1,000", "M_51_plus": "1,000<sup>b</sup>" },
+                { "Category": "Iron (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "7", "F_4_8": "10", "F_9_13": "8", "F_14_18": "15", "F_19_30": "18", "F_31_50": "18", "F_51_plus": "8", "M_4_8": "10", "M_9_13": "8", "M_14_18": "11", "M_19_30": "8", "M_31_50": "8", "M_51_plus": "8" },
+                { "Category": "Magnesium (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "80", "F_4_8": "130", "F_9_13": "240", "F_14_18": "360", "F_19_30": "310", "F_31_50": "320", "F_51_plus": "320", "M_4_8": "130", "M_9_13": "240", "M_14_18": "410", "M_19_30": "400", "M_31_50": "420", "M_51_plus": "420" },
+                { "Category": "Phosphorus (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "460", "F_4_8": "500", "F_9_13": "1,250", "F_14_18": "1,250", "F_19_30": "700", "F_31_50": "700", "F_51_plus": "700", "M_4_8": "500", "M_9_13": "1,250", "M_14_18": "1,250", "M_19_30": "700", "M_31_50": "700", "M_51_plus": "700" },
+                { "Category": "Potassium (mg)", "Source_of_Goal": "AI", "M_F_2_3": "2,000", "F_4_8": "2,300", "F_9_13": "2,300", "F_14_18": "2,300", "F_19_30": "2,600", "F_31_50": "2,600", "F_51_plus": "2,600", "M_4_8": "2,300", "M_9_13": "2,500", "M_14_18": "3,000", "M_19_30": "3,400", "M_31_50": "3,400", "M_51_plus": "3,400" },
+                { "Category": "Sodium (mg)", "Source_of_Goal": "CDRR", "M_F_2_3": "1,200", "F_4_8": "1,500", "F_9_13": "1,800", "F_14_18": "2,300", "F_19_30": "2,300", "F_31_50": "2,300", "F_51_plus": "2,300", "M_4_8": "1,500", "M_9_13": "1,800", "M_14_18": "2,300", "M_19_30": "2,300", "M_31_50": "2,300", "M_51_plus": "2,300" },
+                { "Category": "Zinc (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "3", "F_4_8": "5", "F_9_13": "8", "F_14_18": "9", "F_19_30": "8", "F_31_50": "8", "F_51_plus": "8", "M_4_8": "5", "M_9_13": "8", "M_14_18": "11", "M_19_30": "11", "M_31_50": "11", "M_51_plus": "11" },
+                {"sectionHeader": "Vitamins"},
+                { "Category": "Vitamin A (mcg RAE<sup>d</sup>)", "Source_of_Goal": "RDA", "M_F_2_3": "300", "F_4_8": "400", "F_9_13": "600", "F_14_18": "700", "F_19_30": "700", "F_31_50": "700", "F_51_plus": "700", "M_4_8": "400", "M_9_13": "600", "M_14_18": "900", "M_19_30": "900", "M_31_50": "900", "M_51_plus": "900" },
+                { "Category": "Vitamin E (mg AT<sup>d</sup>)", "Source_of_Goal": "RDA", "M_F_2_3": "6", "F_4_8": "7", "F_9_13": "11", "F_14_18": "15", "F_19_30": "15", "F_31_50": "15", "F_51_plus": "15", "M_4_8": "7", "M_9_13": "11", "M_14_18": "15", "M_19_30": "15", "M_31_50": "15", "M_51_plus": "15" },
+                { "Category": "Vitamin D (IU<sup>d</sup>)", "Source_of_Goal": "RDA", "M_F_2_3": "600", "F_4_8": "600", "F_9_13": "600", "F_14_18": "600", "F_19_30": "600", "F_31_50": "600", "F_51_plus": "600<sup>c</sup>", "M_4_8": "600", "M_9_13": "600", "M_14_18": "600", "M_19_30": "600", "M_31_50": "600", "M_51_plus": "600<sup>c</sup>" },
+                { "Category": "Vitamin C (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "15", "F_4_8": "25", "F_9_13": "45", "F_14_18": "65", "F_19_30": "75", "F_31_50": "75", "F_51_plus": "75", "M_4_8": "25", "M_9_13": "45", "M_14_18": "75", "M_19_30": "90", "M_31_50": "90", "M_51_plus": "90" },
+                { "Category": "Thiamin (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "0.5", "F_4_8": "0.6", "F_9_13": "0.9", "F_14_18": "1.0", "F_19_30": "1.1", "F_31_50": "1.1", "F_51_plus": "1.1", "M_4_8": "0.6", "M_9_13": "0.9", "M_14_18": "1.2", "M_19_30": "1.2", "M_31_50": "1.2", "M_51_plus": "1.2" },
+                { "Category": "Riboflavin (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "0.5", "F_4_8": "0.6", "F_9_13": "0.9", "F_14_18": "1.0", "F_19_30": "1.1", "F_31_50": "1.1", "F_51_plus": "1.1", "M_4_8": "0.6", "M_9_13": "0.9", "M_14_18": "1.3", "M_19_30": "1.3", "M_31_50": "1.3", "M_51_plus": "1.3" },
+                { "Category": "Niacin (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "6", "F_4_8": "8", "F_9_13": "12", "F_14_18": "14", "F_19_30": "14", "F_31_50": "14", "F_51_plus": "14", "M_4_8": "8", "M_9_13": "12", "M_14_18": "16", "M_19_30": "16", "M_31_50": "16", "M_51_plus": "16" },
+                { "Category": "Vitamin B-6 (mg)", "Source_of_Goal": "RDA", "M_F_2_3": "0.5", "F_4_8": "0.6", "F_9_13": "1.0", "F_14_18": "1.2", "F_19_30": "1.3", "F_31_50": "1.3", "F_51_plus": "1.5", "M_4_8": "0.6", "M_9_13": "1.0", "M_14_18": "1.3", "M_19_30": "1.3", "M_31_50": "1.3", "M_51_plus": "1.7" },
+                { "Category": "Vitamin B-12 (mcg)", "Source_of_Goal": "RDA", "M_F_2_3": "0.9", "F_4_8": "1.2", "F_9_13": "1.8", "F_14_18": "2.4", "F_19_30": "2.4", "F_31_50": "2.4", "F_51_plus": "2.4", "M_4_8": "1.2", "M_9_13": "1.8", "M_14_18": "2.4", "M_19_30": "2.4", "M_31_50": "2.4", "M_51_plus": "2.4" },
+                { "Category": "Choline (mg)", "Source_of_Goal": "AI", "M_F_2_3": "200", "F_4_8": "250", "F_9_13": "375", "F_14_18": "400", "F_19_30": "425", "F_31_50": "425", "F_51_plus": "425", "M_4_8": "250", "M_9_13": "375", "M_14_18": "550", "M_19_30": "550", "M_31_50": "550", "M_51_plus": "550" },
+                { "Category": "Vitamin K (mcg)", "Source_of_Goal": "AI", "M_F_2_3": "30", "F_4_8": "55", "F_9_13": "60", "F_14_18": "75", "F_19_30": "90", "F_31_50": "90", "F_51_plus": "90", "M_4_8": "55", "M_9_13": "60", "M_14_18": "75", "M_19_30": "120", "M_31_50": "120", "M_51_plus": "120" },
+                { "Category": "Folate (mcg DFE<sup>d</sup>)", "Source_of_Goal": "RDA", "M_F_2_3": "150", "F_4_8": "200", "F_9_13": "300", "F_14_18": "400", "F_19_30": "400", "F_31_50": "400", "F_51_plus": "400", "M_4_8": "200", "M_9_13": "300", "M_14_18": "400", "M_19_30": "400", "M_31_50": "400", "M_51_plus": "400" }
+              ],
+              "disclosures": [
+                "<sup>a</sup> AI = Adequate Intake, CDRR = Chronic Disease Risk Reduction Level, DGA = Dietary Guidelines for Americans, 2020-2025, RDA = Recommended Dietary Allowance.",
+                "<sup>b</sup> Calcium RDA for males ages 71+ years is 1,200 mg.",
+                "<sup>c</sup> Vitamin D RDA for males and females ages 71+ years is 800 IU.",
+                "<sup>d</sup> AT = alpha-tocopherol, DFE = Dietary Folate Equivalent, IU = International Units, RAE = Retinol Activity Equivalents."
+              ],
+              "sources": "Institute of Medicine. Dietary Reference Intakes: The Essential Guide to Nutrient Requirements. Washington, DC: The National Academies Press; 2006. Institute of Medicine. Dietary Reference Intakes for Calcium and Vitamin D. Washington, DC: The National Academies Press; 2011. National Academies of Sciences, Engineering, and Medicine. Dietary Reference Intakes for Sodium and Potassium. Washington, DC: The National Academies Press; 2019."
+            }
+          ]
+        }
+      }
+    }
+  }
