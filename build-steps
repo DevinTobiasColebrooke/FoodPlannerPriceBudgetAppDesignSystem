@@ -1,0 +1,2 @@
+docker build --load -t food-planner-design .
+docker run -d -p 8080:80 food-planner-design
