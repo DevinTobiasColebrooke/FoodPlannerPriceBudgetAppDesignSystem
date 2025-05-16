@@ -1,0 +1,258 @@
+// layout.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Layout Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Oddly Calming", cursive; }
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+        code { background-color: #f3f4f6; padding: 0.2em 0.4em; margin: 0; font-size: 0.9em; border-radius: 0.25rem; color: #4b5563; }
+        pre { background-color: #f3f4f6; padding: 1em; border-radius: 0.375rem; overflow-x: auto; margin-top: 0.5em; margin-bottom: 1em; }
+        pre code { background-color: transparent; padding: 0; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['"Oddly Calming"', 'cursive'], },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-yellow': '#F0AB1F', 'fp-accent-yellow-alt': '#D4D45A',
+                        'fp-accent-orange': '#FD7E14', 'fp-footer-bg': '#BDDA83',
+                        'fp-neutral-text': '#111827', 'fp-neutral-text-light': '#6B7280', 'fp-neutral-darkest': '#333333',
+                        'fp-neutral': '#9CA3AF', 'fp-neutral-dark': '#6B7280', 'fp-neutral-medium': '#D1D5DB',
+                        'fp-neutral-light': '#F9FAFB', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-success': '#28A745', 'fp-success-bg': '#D4EDDA', 'fp-error': '#DC3545', 'fp-error-bg': '#F8D7DA',
+                        'fp-warning': '#FFC107', 'fp-warning-bg': '#FFF3CD', 'fp-info': '#17A2B8', 'fp-info-bg': '#D1ECF1',
+                        'fp-tag1-bg': '#F3F6D6', 'fp-tag1-text': '#F0AB1F',
+                    },
+                    boxShadow: {
+                        'fp-cta': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        'fp-card': '0 4px 8px rgba(0, 0, 0, 0.08)',
+                        'fp-modal': '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    },
+                    borderRadius: { 'fp': '0.5rem', },
+                    borderColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.gray.300', 'currentColor'), 'fp-primary-green': '#5AD479', }),
+                    ringColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.blue.500', '#5A6AD4'), 'fp-primary-green': '#5AD479', })
+                }
+            },
+            plugins: [],
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <a href="index.html">Introduction</a>
+                    <a href="typography.html">Typography</a>
+                    <a href="colors.html">Color Palette</a>
+                    <a href="buttons.html">Buttons</a>
+                    <a href="forms.html">Forms & Inputs</a>
+                    <a href="shadows.html">Shadows</a>
+                    <a href="layout.html" class="active">Layout Notes</a>
+                    <a href="icons.html">Icons</a>
+                    <a href="svg_lookbook.html">SVG Lookbook</a>
+                    <a href="data_display_tables.html">Data & Tables</a>
+                    <a href="cards.html">Cards</a>
+                    <a href="modals.html">Modals</a>
+                    <a href="alerts_notifications.html">Alerts & Notifications</a>
+                    <a href="tooltips_citations.html">Tooltips & Citations</a>
+                    <a href="specialized_components.html">Specialized Components</a>
+                    <a href="./loading_indicators.html">Loading Indicators</a>
+                    <a href="./ratings_pickers.html">Ratings & Pickers</a>
+                    <a href="./calendar_view.html">Calendar View</a>
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">7. Layout Notes</h1>
+                <p class="mb-6 text-fp-neutral-text">This section provides general guidelines and considerations for the application layout, focusing on a mobile-first approach.</p>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">Core Principles</h2>
+                    <ul class="list-disc pl-5 text-fp-neutral-text space-y-2">
+                        <li>
+                            <strong>Mobile-First:</strong> Design components and layouts to be optimal on small screens first. Use Tailwind's responsive prefixes (<code>sm:</code>, <code>md:</code>, <code>lg:</code>, <code>xl:</code>, <code>2xl:</code>) to adapt and enhance layouts for larger screens.
+                        </li>
+                        <li>
+                            <strong>Consistency:</strong> Strive for consistent use of spacing, padding, and margins using Tailwind's spacing scale. This creates visual harmony.
+                        </li>
+                        <li>
+                            <strong>Clear Hierarchy:</strong> Use typography, color, and shadows (as defined in this system) to establish a clear visual hierarchy, guiding the user's attention to important elements.
+                        </li>
+                        <li>
+                            <strong>Accessibility:</strong> Ensure sufficient color contrast, keyboard navigability, and semantic HTML for all interactive elements.
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">Key Screens & Structure</h2>
+                    <ul class="list-disc pl-5 text-fp-neutral-text space-y-2">
+                        <li>
+                            <strong>Onboarding:</strong> Likely a series of full-screen views on mobile, guiding the user step-by-step. Desktop could use a modal or a focused centered layout.
+                        </li>
+                        <li>
+                            <strong>Main Dashboard:</strong>
+                            <ul class="list-circle pl-5 mt-1 space-y-1">
+                                <li>Mobile: Vertical scroll is key. The circular timer should be prominent at the top, followed by meal listings. "Eyebrow" action buttons might be fixed or appear contextually.</li>
+                                <li>Desktop: More horizontal space allows for a potential multi-column layout, perhaps with the timer and key stats in one column, and meals in another.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Calendar Dashboard:</strong>
+                             <ul class="list-circle pl-5 mt-1 space-y-1">
+                                <li>Mobile: A compact monthly view, with tappable days to show meal summaries or navigate to a daily detail view.</li>
+                                <li>Desktop: A larger, more detailed calendar view.</li>
+                            </ul>
+                        </li>
+                         <li>
+                            <strong>Current Meal Dashboard / Recipe View:</strong>
+                             <ul class="list-circle pl-5 mt-1 space-y-1">
+                                <li>Mobile: Clear, sequential presentation of ingredients, instructions, and nutrition. Tabs or accordions might be used for sections.</li>
+                                <li>Desktop: Could use a two-column layout (e.g., ingredients/nutrition on one side, steps on the other).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Shopping List:</strong> A clear, checklist-style layout, potentially grouped by store or aisle.
+                        </li>
+                         <li>
+                            <strong>Settings:</strong> Typically a list-based navigation to various setting sub-sections.
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">Navigation</h2>
+                     <ul class="list-disc pl-5 text-fp-neutral-text space-y-2">
+                        <li>
+                            <strong>Mobile Primary Navigation:</strong> A bottom tab bar is recommended for frequently accessed sections (e.g., Dashboard, Calendar, Shopping, Settings). Icons should be clear and accompanied by text labels for accessibility.
+                            <p class="mt-2 mb-1 text-sm text-fp-neutral-text">Live example from <code>dashboard.html</code>:</p>
+                            <div class="mt-2 p-0 bg-fp-neutral-lightest border border-fp-neutral-medium rounded-lg">
+                                <!-- Actual Bottom Navigation from dashboard.html -->
+                                <nav class="bottom-nav" style="background-color: #fbfdf8; border-top: 1px solid #D1D5DB; display: flex; justify-content: space-around; padding: 0.75rem 0;">
+                                    <a href="javascript:void(0);" class="nav-item active" style="display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; padding: 0.25rem 0.5rem; color: #5AD479;">
+                                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="margin-bottom: 0.125rem;"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                                       Home
+                                   </a>
+                                   <a href="javascript:void(0);" class="nav-item" style="display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; color: #6B7280; padding: 0.25rem 0.5rem;">
+                                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" style="margin-bottom: 0.125rem;"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" /></svg>
+                                       Calendar
+                                   </a>
+                                   <a href="javascript:void(0);" class="nav-item" style="display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; color: #6B7280; padding: 0.25rem 0.5rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-bottom: 0.125rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                                       Shopping
+                                   </a>
+                                   <a href="javascript:void(0);" class="nav-item" style="display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; color: #6B7280; padding: 0.25rem 0.5rem;">
+                                       <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" style="margin-bottom: 0.125rem;">
+                                        <path fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"
+                                              d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.646.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 1.255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.333.183-.582.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-1.255c.007-.378-.137-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                       Settings
+                                   </a>
+                               </nav>
+                                <!-- Note: The following CSS classes are defined in dashboard.html or a global style: -->
+                                <!-- .bottom-nav, .nav-item, .nav-item.active -->
+                                <!-- For this example, minimal inline styles are used to replicate appearance. -->
+                            </div>
+                            <pre class="mt-2"><code class="html">
+&lt;nav class=&quot;bottom-nav&quot;&gt;
+    &lt;a href=&quot;dashboard.html&quot; class=&quot;nav-item active&quot;&gt;
+       &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;h-5 w-5&quot; viewBox=&quot;0 0 20 20&quot; fill=&quot;currentColor&quot;&gt;&lt;path d=&quot;M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z&quot; /&gt;&lt;/svg&gt;
+       Home
+   &lt;/a&gt;
+   &lt;a href=&quot;calendar-dashboard.html&quot; class=&quot;nav-item&quot;&gt;
+       &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;h-5 w-5&quot; viewBox=&quot;0 0 20 20&quot; fill=&quot;currentColor&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z&quot; clip-rule=&quot;evenodd&quot; /&gt;&lt;/svg&gt;
+       Calendar
+   &lt;/a&gt;
+   &lt;a href=&quot;shopping.html&quot; class=&quot;nav-item&quot;&gt;
+        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;h-5 w-5&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;&gt;&lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z&quot; /&gt;&lt;/svg&gt;
+       Shopping
+   &lt;/a&gt;
+   &lt;a href=&quot;settings.html&quot; class=&quot;nav-item&quot;&gt;
+       &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; fill=&quot;currentColor&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;1.5&quot; stroke=&quot;currentColor&quot; class=&quot;h-5 w-5&quot;&gt;
+        &lt;path fill-rule=&quot;evenodd&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;
+              d=&quot;M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.646.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 1.255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.333.183-.582.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-1.255c.007-.378-.137-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z M15 12a3 3 0 11-6 0 3 3 0 016 0z&quot; /&gt;
+        &lt;/svg&gt;
+       Settings
+   &lt;/a&gt;
+&lt;/nav&gt;
+&lt;!-- Required CSS classes from dashboard.html's &lt;style&gt; tag or Tailwind:
+.bottom-nav { background-color: #fbfdf8; border-top: 1px solid #D1D5DB; display: flex; justify-content: space-around; padding: 0.75rem 0; }
+.nav-item { display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; color: #6B7280; padding: 0.25rem 0.5rem; }
+.nav-item svg { margin-bottom: 0.125rem; }
+.nav-item.active { color: #5AD479; }
+--&gt;
+                            </code></pre>
+                        </li>
+                        <li>
+                            <strong>Desktop Primary Navigation:</strong> A collapsible sidebar could be suitable if the application has many top-level sections. For simpler apps, a top navigation bar might suffice.
+                        </li>
+                        <li>
+                            <strong>Secondary Navigation:</strong> Within sections (e.g., Settings), use clear sub-headings or tabs.
+                        </li>
+                        <li>
+                            <strong>Back Navigation:</strong> Consistent "Back" buttons or gestures are crucial, especially on mobile.
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">Grid and Spacing</h2>
+                    <p class="text-fp-neutral-text mb-2">
+                        Tailwind's default spacing scale (multiples of 0.25rem) should be used for padding, margins, and gaps to maintain visual rhythm.
+                        For page layouts, CSS Grid or Flexbox will be the primary tools.
+                    </p>
+                    <p class="text-fp-neutral-text">
+                        Example of a simple responsive card grid:
+                    </p>
+                    <pre><code class="html"><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+  <div class="bg-fp-white p-4 rounded-fp shadow-fp-card">Card 1</div>
+  <div class="bg-fp-white p-4 rounded-fp shadow-fp-card">Card 2</div>
+  <div class="bg-fp-white p-4 rounded-fp shadow-fp-card">Card 3</div>
+</div></code></pre>
+                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                        <div class="bg-fp-white p-4 rounded-fp shadow-fp-card text-center">Card 1</div>
+                        <div class="bg-fp-white p-4 rounded-fp shadow-fp-card text-center">Card 2</div>
+                        <div class="bg-fp-white p-4 rounded-fp shadow-fp-card text-center">Card 3</div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+    <script>
+        // Script to dynamically set active class on nav links
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

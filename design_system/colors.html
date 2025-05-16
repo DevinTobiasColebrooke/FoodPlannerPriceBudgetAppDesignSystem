@@ -1,0 +1,239 @@
+// colors.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Color Palette</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Oddly Calming", cursive; }
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+        code { background-color: #f3f4f6; padding: 0.2em 0.4em; margin: 0; font-size: 0.9em; border-radius: 0.25rem; color: #4b5563; }
+        pre { background-color: #f3f4f6; padding: 1em; border-radius: 0.375rem; overflow-x: auto; margin-top: 0.5em; margin-bottom: 1em; }
+        pre code { background-color: transparent; padding: 0; }
+        .color-swatch { width: 100px; height: 100px; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; text-align: center; flex-direction: column; padding: 0.5rem; border-radius: 0.375rem; }
+        .color-info { margin-top: 0.5rem; font-size: 0.75rem; }
+        .grid-cols-auto-fit-100 { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+        .grid-cols-auto-fit-120 { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['"Oddly Calming"', 'cursive'], },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-yellow': '#F0AB1F', 'fp-accent-yellow-alt': '#D4D45A',
+                        'fp-accent-orange': '#FD7E14', 'fp-footer-bg': '#BDDA83',
+                        'fp-neutral-text': '#111827', 'fp-neutral-text-light': '#6B7280', 'fp-neutral-darkest': '#333333',
+                        'fp-neutral': '#9CA3AF', 'fp-neutral-dark': '#6B7280', 'fp-neutral-medium': '#D1D5DB',
+                        'fp-neutral-light': '#F9FAFB', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-success': '#28A745', 'fp-success-bg': '#D4EDDA', 'fp-error': '#DC3545', 'fp-error-bg': '#F8D7DA',
+                        'fp-warning': '#FFC107', 'fp-warning-bg': '#FFF3CD', 'fp-info': '#17A2B8', 'fp-info-bg': '#D1ECF1',
+                        'fp-tag1-bg': '#F3F6D6', 'fp-tag1-text': '#F0AB1F',
+                    },
+                    boxShadow: { 'fp-cta': '0 2px 4px rgba(0,0,0,0.1)', 'fp-card': '0 4px 8px rgba(0,0,0,0.08)', 'fp-modal': '0 8px 24px rgba(0,0,0,0.15)', },
+                    borderRadius: { 'fp': '0.5rem', },
+                    borderColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.gray.300', 'currentColor'), 'fp-primary-green': '#5AD479', }),
+                    ringColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.blue.500', '#5A6AD4'), 'fp-primary-green': '#5AD479', })
+                }
+            },
+            plugins: [],
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <a href="index.html">Introduction</a>
+                    <a href="typography.html">Typography</a>
+                    <a href="colors.html" class="active">Color Palette</a>
+                    <a href="buttons.html">Buttons</a>
+                    <a href="forms.html">Forms & Inputs</a>
+                    <a href="shadows.html">Shadows</a>
+                    <a href="layout.html">Layout Notes</a>
+                    <a href="icons.html">Icons</a>
+                    <a href="svg_lookbook.html">SVG Lookbook</a>
+                    <a href="data_display_tables.html">Data & Tables</a>
+                    <a href="cards.html">Cards</a>
+                    <a href="modals.html">Modals</a>
+                    <a href="alerts_notifications.html">Alerts & Notifications</a>
+                    <a href="tooltips_citations.html">Tooltips & Citations</a>
+                    <a href="specialized_components.html">Specialized Components</a>
+                    <a href="./loading_indicators.html">Loading Indicators</a>
+                    <a href="./ratings_pickers.html">Ratings & Pickers</a>
+                    <a href="./calendar_view.html">Calendar View</a>
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">3. Color Palette</h1>
+                <p class="mb-6 text-fp-neutral-text">Colors are chosen to be inviting, clear, and to support data visualization where needed.</p>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">3.1. Primary & Core Colors</h2>
+                    <div class="grid grid-cols-auto-fit-120 gap-6">
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto" style="background-color: #E7F1D3;">FP Body BG</div>
+                            <div class="color-info">#E7F1D3<br/><code>bg-fp-body-bg</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #5AD479;">FP Primary Green</div>
+                            <div class="color-info">#5AD479<br/><code>bg-fp-primary-green</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #34C759;">FP Primary Green Dark</div>
+                            <div class="color-info">#34C759<br/><code>bg-fp-primary-green-dark</code></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">3.2. Secondary & Accent Colors</h2>
+                     <div class="grid grid-cols-auto-fit-120 gap-6">
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #5A6AD4;">FP Accent Blue</div>
+                            <div class="color-info">#5A6AD4<br/><code>bg-fp-accent-blue</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest" style="background-color: #F0AB1F;">FP Accent Yellow</div>
+                            <div class="color-info">#F0AB1F<br/><code>bg-fp-accent-yellow</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest" style="background-color: #D4D45A;">FP Accent Yellow Alt</div>
+                            <div class="color-info">#D4D45A<br/><code>bg-fp-accent-yellow-alt</code></div>
+                        </div>
+                         <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest" style="background-color: #FD7E14;">FP Accent Orange</div>
+                            <div class="color-info">#FD7E14<br/><code>bg-fp-accent-orange</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest" style="background-color: #BDDA83;">FP Footer/Subtle BG</div>
+                            <div class="color-info">#BDDA83<br/><code>bg-fp-footer-bg</code></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">3.3. Neutral Colors</h2>
+                    <div class="grid grid-cols-auto-fit-100 gap-6">
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #111827;">Text Main</div>
+                            <div class="color-info">#111827<br/><code>text-fp-neutral-text</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #333333;">Text Darkest</div>
+                            <div class="color-info">#333333<br/><code>text-fp-neutral-darkest</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #6B7280;">Text Light</div>
+                            <div class="color-info">#6B7280<br/><code>text-fp-neutral-text-light</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #9CA3AF;">UI Neutral</div>
+                            <div class="color-info">#9CA3AF<br/><code>bg-fp-neutral</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-white" style="background-color: #6B7280;">UI Neutral Dark</div>
+                            <div class="color-info">#6B7280<br/><code>bg-fp-neutral-dark</code></div>
+                        </div>
+                         <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest border border-fp-neutral-medium" style="background-color: #D1D5DB;">Input Border</div>
+                            <div class="color-info">#D1D5DB<br/><code>border-fp-neutral-medium</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest border border-fp-neutral-medium" style="background-color: #F9FAFB;">Input BG Light</div>
+                            <div class="color-info">#F9FAFB<br/><code>bg-fp-neutral-light</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest border border-fp-neutral-medium" style="background-color: #FBFDF8;">Container BG Lightest</div>
+                            <div class="color-info">#FBFDF8<br/><code>bg-fp-neutral-lightest</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto text-fp-neutral-darkest border border-fp-neutral-medium" style="background-color: #FFFFFF;">White</div>
+                            <div class="color-info">#FFFFFF<br/><code>bg-fp-white</code></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">3.4. Semantic Colors</h2>
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-md bg-fp-success-bg text-fp-success">
+                            <strong>Success:</strong> This is a success message. (<code>bg-fp-success-bg text-fp-success</code>)
+                        </div>
+                        <div class="p-4 rounded-md bg-fp-error-bg text-fp-error">
+                            <strong>Error/Alert:</strong> This is an error message. (<code>bg-fp-error-bg text-fp-error</code>)
+                        </div>
+                        <div class="p-4 rounded-md bg-fp-warning-bg text-fp-warning">
+                            <strong>Warning:</strong> This is a warning message. (<code>bg-fp-warning-bg text-fp-warning</code>)
+                        </div>
+                        <div class="p-4 rounded-md bg-fp-info-bg text-fp-info">
+                            <strong>Info:</strong> This is an informational message. (<code>bg-fp-info-bg text-fp-info</code>)
+                        </div>
+                        <p>Focus Ring: Use <code>focus:ring-fp-primary-green</code> or <code>focus:ring-fp-accent-blue</code>.</p>
+                    </div>
+                </section>
+
+                 <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">3.5. Timer Segment Colors</h2>
+                    <div class="grid grid-cols-auto-fit-100 gap-6">
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto" style="background-color: #F0AB1F;">Prep Time</div>
+                            <div class="color-info">#F0AB1F<br/><code>bg-fp-accent-yellow</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto" style="background-color: #FD7E14;">Cook Time</div>
+                            <div class="color-info">#FD7E14<br/><code>bg-fp-accent-orange</code></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="color-swatch mx-auto" style="background-color: #5AD479;">Eat/Until Meal</div>
+                            <div class="color-info">#5AD479<br/><code>bg-fp-primary-green</code></div>
+                        </div>
+                    </div>
+                </section>
+
+                 <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">3.6. Tag & Badge Colors</h2>
+                     <div class="flex flex-wrap gap-4">
+                        <span class="px-3 py-1 rounded-full text-sm bg-fp-tag1-bg text-fp-tag1-text">Tag 1 (Yellow)</span>
+                        <!-- Add more examples if defined in your palette -->
+                    </div>
+                 </section>
+
+            </main>
+        </div>
+    </div>
+    <script>
+        // Script to dynamically set active class on nav links
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

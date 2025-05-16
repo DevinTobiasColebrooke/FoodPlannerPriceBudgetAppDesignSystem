@@ -1,0 +1,169 @@
+// typography.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Typography</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Oddly Calming", cursive; }
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+        code { background-color: #f3f4f6; padding: 0.2em 0.4em; margin: 0; font-size: 0.9em; border-radius: 0.25rem; color: #4b5563; }
+        pre { background-color: #f3f4f6; padding: 1em; border-radius: 0.375rem; overflow-x: auto; margin-top: 0.5em; margin-bottom: 1em; }
+        pre code { background-color: transparent; padding: 0; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['"Oddly Calming"', 'cursive'], },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-yellow': '#F0AB1F', 'fp-accent-yellow-alt': '#D4D45A',
+                        'fp-accent-orange': '#FD7E14', 'fp-footer-bg': '#BDDA83',
+                        'fp-neutral-text': '#111827', 'fp-neutral-text-light': '#6B7280', 'fp-neutral-darkest': '#333333',
+                        'fp-neutral': '#9CA3AF', 'fp-neutral-dark': '#6B7280', 'fp-neutral-medium': '#D1D5DB',
+                        'fp-neutral-light': '#F9FAFB', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-success': '#28A745', 'fp-success-bg': '#D4EDDA', 'fp-error': '#DC3545', 'fp-error-bg': '#F8D7DA',
+                        'fp-warning': '#FFC107', 'fp-warning-bg': '#FFF3CD', 'fp-info': '#17A2B8', 'fp-info-bg': '#D1ECF1',
+                        'fp-tag1-bg': '#F3F6D6', 'fp-tag1-text': '#F0AB1F',
+                    },
+                    boxShadow: { 'fp-cta': '0 2px 4px rgba(0,0,0,0.1)', 'fp-card': '0 4px 8px rgba(0,0,0,0.08)', 'fp-modal': '0 8px 24px rgba(0,0,0,0.15)', },
+                    borderRadius: { 'fp': '0.5rem', },
+                    borderColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.gray.300', 'currentColor'), 'fp-primary-green': '#5AD479', }),
+                    ringColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.blue.500', '#5A6AD4'), 'fp-primary-green': '#5AD479', })
+                }
+            },
+            plugins: [],
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <a href="index.html">Introduction</a>
+                    <a href="typography.html" class="active">Typography</a>
+                    <a href="colors.html">Color Palette</a>
+                    <a href="buttons.html">Buttons</a>
+                    <a href="forms.html">Forms & Inputs</a>
+                    <a href="shadows.html">Shadows</a>
+                    <a href="layout.html">Layout Notes</a>
+                    <a href="icons.html">Icons</a>
+                    <a href="svg_lookbook.html">SVG Lookbook</a>
+                    <a href="data_display_tables.html">Data & Tables</a>
+                    <a href="cards.html">Cards</a>
+                    <a href="modals.html">Modals</a>
+                    <a href="alerts_notifications.html">Alerts & Notifications</a>
+                    <a href="tooltips_citations.html">Tooltips & Citations</a>
+                    <a href="specialized_components.html">Specialized Components</a>
+                    <a href="./loading_indicators.html">Loading Indicators</a>
+                    <a href="./ratings_pickers.html">Ratings & Pickers</a>
+                    <a href="./calendar_view.html">Calendar View</a>
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">2. Typography</h1>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">2.1. Fonts</h2>
+                    <div class="mb-6">
+                        <h3 class="ds-subsection-title font-sans text-xl font-semibold">Primary Font (Sans-serif): Poppins</h3>
+                        <p class="text-fp-neutral-text"><strong>Tailwind Class:</strong> <code>font-sans</code> (default)</p>
+                        <p class="text-fp-neutral-text"><strong>Weights:</strong> Light (300), Regular (400), Medium (500), Semi-Bold (600), Bold (700), Extra-Bold (800)</p>
+                        <p class="font-sans text-lg mt-2">Example of Poppins body text (text-lg).</p>
+                        <p class="font-sans font-light mt-1">Example of Poppins light text (font-light).</p>
+                        <p class="font-sans font-medium mt-1">Example of Poppins medium text (font-medium).</p>
+                        <p class="font-sans font-semibold mt-1">Example of Poppins semi-bold text (font-semibold).</p>
+                        <p class="font-sans font-bold mt-1">Example of Poppins bold text (font-bold).</p>
+                        <p class="font-sans font-extrabold mt-1">Example of Poppins extra-bold text (font-extrabold).</p>
+                    </div>
+                    <div>
+                        <h3 class="ds-subsection-title font-sans text-xl font-semibold">Display Font: "Oddly Calming"</h3>
+                        <p class="text-fp-neutral-text"><strong>Tailwind Class:</strong> <code>font-display</code></p>
+                        <p class="text-fp-neutral-text"><strong>Usage:</strong> Main headings (H1), special callouts, branding elements.</p>
+                        <p class="font-display text-3xl mt-2 text-fp-neutral-darkest">Example of Oddly Calming display text.</p>
+                        <p class="mt-2 text-sm text-fp-neutral-text-light"><em>(Ensure "Oddly Calming" font is loaded in your project. This demo uses a 'cursive' fallback.)</em></p>
+                    </div>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">2.2. Typographic Scale & Usage (Mobile First)</h2>
+                    <div class="space-y-8">
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">H1 (Main Page/Screen Title): <code>font-display text-3xl text-fp-neutral-darkest text-shadow-dark</code> (Desktop: <code>text-4xl</code>)</p>
+                            <h1 class="font-display text-3xl md:text-4xl text-fp-neutral-darkest text-shadow-dark">Main Page Title Example</h1>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">H2 (Section Title): <code>font-display text-2xl text-fp-neutral-darkest</code> (Desktop: <code>text-3xl</code>)</p>
+                            <h2 class="font-display text-2xl md:text-3xl text-fp-neutral-darkest">Section Title Example</h2>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">H3 (Sub-section Title/Card Headers): <code>font-sans text-lg font-semibold text-fp-neutral-darkest</code> (Desktop: <code>text-xl</code>)</p>
+                            <h3 class="font-sans text-lg md:text-xl font-semibold text-fp-neutral-darkest">Sub-section Title Example</h3>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">Body Text: <code>font-sans text-base text-fp-neutral-text</code></p>
+                            <p class="font-sans text-base text-fp-neutral-text">This is standard body text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">Small/Caption Text: <code>font-sans text-sm text-fp-neutral-text-light</code></p>
+                            <p class="font-sans text-sm text-fp-neutral-text-light">This is small caption text, useful for secondary information or tidbits.</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">Button Text: <code>font-sans font-semibold</code> or <code>font-bold</code> (Showcased in Buttons section)</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">Input Labels: <code>font-sans text-sm font-medium text-fp-neutral-darkest</code></p>
+                            <label class="font-sans text-sm font-medium text-fp-neutral-darkest">Example Input Label</label>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">Data/Stats Text: <code>font-sans text-base text-fp-neutral-darkest</code></p>
+                            <p class="font-sans text-base text-fp-neutral-darkest">Calories: <span class="font-semibold">350</span> | Protein: <span class="font-semibold">20g</span></p>
+                            <p class="font-mono text-base text-fp-neutral-darkest mt-1">Using font-mono: <code>123.45</code></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">Tooltip Text: <code>font-sans text-xs</code> (Contextual styling in Tooltips section)</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-fp-neutral-text-light mb-1">Citation Text: <code>font-sans text-xs text-fp-neutral-text-light italic</code></p>
+                            <p class="font-sans text-xs text-fp-neutral-text-light italic">Source: U.S. Department of Agriculture, FoodData Central.</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script>
+        // Script to dynamically set active class on nav links
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

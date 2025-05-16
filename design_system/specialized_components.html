@@ -1,0 +1,482 @@
+// specialized_components.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Specialized Components</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Oddly Calming", cursive; }
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+        code { background-color: #f3f4f6; padding: 0.2em 0.4em; margin: 0; font-size: 0.9em; border-radius: 0.25rem; color: #4b5563; }
+        pre { background-color: #f3f4f6; padding: 1em; border-radius: 0.375rem; overflow-x: auto; margin-top: 0.5em; margin-bottom: 1em; }
+        pre code { background-color: transparent; padding: 0; }
+
+        /* Circular Timer Demo */
+        .circular-timer-demo { 
+            width: 160px; height: 160px; border-radius: 50%; 
+            background-color: #fbfdf8; /* fp-neutral-lightest - Final background revealed */
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            position: relative; 
+            border: 8px solid #f0f0f0; /* Base static track */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .timer-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            /* Conic gradient for receding effect will be applied via inline style */
+        }
+        .timer-layer-until-prep { z-index: 5; background-color: #5A6AD4; /* Blue */ }
+        .timer-layer-prep       { z-index: 4; background-color: #F0AB1F; /* Yellow */ }
+        .timer-layer-cook       { z-index: 3; background-color: #FD7E14; /* Orange */ }
+        .timer-layer-eat        { z-index: 2; background-color: #5AD479; /* Green */ }
+        /* Base track is the border of .circular-timer-demo, final reveal is its background */
+
+        .circular-timer-demo .inner-circle { 
+            width: calc(100% - 24px); height: calc(100% - 24px); 
+            background-color: #fbfdf8; /* fp-neutral-lightest */ 
+            border-radius: 50%; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            z-index: 6; /* Above all timer layers */
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+        .circular-timer-demo .time-left { 
+            font-size: 1.75rem; /* Adjusted for better fit */ 
+            font-weight: 700; /* font-bold */ 
+            color: #333333; /* fp-neutral-darkest */ 
+            font-family: 'Poppins', sans-serif; /* Ensure Poppins for time */
+        }
+        .circular-timer-demo .status { 
+            font-size: 0.75rem; /* text-xs */ 
+            color: #6B7280; /* fp-neutral-text-light */ 
+            margin-top: 0.125rem; /* Adjusted margin */
+        }
+
+        /* Tidbit Carousel Demo */
+        .tidbit-carousel-container { display: flex; overflow-x: auto; padding-bottom: 1rem; /* for scrollbar visibility */ scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+        .tidbit-carousel-container::-webkit-scrollbar { height: 8px; }
+        .tidbit-carousel-container::-webkit-scrollbar-thumb { background: #BDDA83; border-radius: 4px; }
+        .tidbit-item { flex: 0 0 auto; width: 140px; /* Adjusted width for icon + text */ margin-right: 0.75rem; /* gap-3 */ scroll-snap-align: start; }
+        .tidbit-item img, .tidbit-item .inline-svg-preview svg { width: 2rem; /* w-8 */ height: 2rem; /* h-8 */ margin-bottom: 0.25rem; object-fit: contain; }
+
+
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['"Oddly Calming"', 'cursive'], },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-yellow': '#F0AB1F', 'fp-accent-yellow-alt': '#D4D45A',
+                        'fp-accent-orange': '#FD7E14', 'fp-footer-bg': '#BDDA83',
+                        'fp-neutral-text': '#111827', 'fp-neutral-text-light': '#6B7280', 'fp-neutral-darkest': '#333333',
+                        'fp-neutral': '#9CA3AF', 'fp-neutral-dark': '#6B7280', 'fp-neutral-medium': '#D1D5DB',
+                        'fp-neutral-light': '#F9FAFB', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-success': '#28A745', 'fp-success-bg': '#D4EDDA', 'fp-error': '#DC3545', 'fp-error-bg': '#F8D7DA',
+                        'fp-warning': '#FFC107', 'fp-warning-bg': '#FFF3CD', 'fp-info': '#17A2B8', 'fp-info-bg': '#D1ECF1',
+                        'fp-tag1-bg': '#F3F6D6', 'fp-tag1-text': '#F0AB1F',
+                    },
+                    boxShadow: {
+                        'fp-cta': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        'fp-card': '0 4px 8px rgba(0, 0, 0, 0.08)',
+                        'fp-modal': '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    },
+                    borderRadius: { 'fp': '0.5rem', },
+                    borderColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.gray.300', 'currentColor'), 'fp-primary-green': '#5AD479', }),
+                    ringColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.blue.500', '#5A6AD4'), 'fp-primary-green': '#5AD479', })
+                }
+            },
+            plugins: [],
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <a href="index.html">Introduction</a>
+                    <a href="typography.html">Typography</a>
+                    <a href="colors.html">Color Palette</a>
+                    <a href="buttons.html">Buttons</a>
+                    <a href="forms.html">Forms & Inputs</a>
+                    <a href="shadows.html">Shadows</a>
+                    <a href="layout.html">Layout Notes</a>
+                    <a href="icons.html">Icons</a>
+                    <a href="svg_lookbook.html">SVG Lookbook</a>
+                    <a href="data_display_tables.html">Data & Tables</a>
+                    <a href="cards.html">Cards</a>
+                    <a href="modals.html">Modals</a>
+                    <a href="alerts_notifications.html">Alerts & Notifications</a>
+                    <a href="tooltips_citations.html">Tooltips & Citations</a>
+                    <a href="specialized_components.html" class="active">Specialized Components</a>
+                    <a href="./loading_indicators.html">Loading Indicators</a>
+                    <a href="./ratings_pickers.html">Ratings & Pickers</a>
+                    <a href="./calendar_view.html">Calendar View</a>
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">15. Specialized Components</h1>
+                <p class="mb-6 text-fp-neutral-text">This section outlines components unique to the Food Planner Budget App, often requiring more complex styling or JavaScript interaction. Illustrative icons use <code><img></code> tags.</p>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">15.1. Circular Timer (Main Dashboard)</h2>
+                    <p class="text-fp-neutral-text mb-2">A visual timer composed of colored layers representing different phases: "Until Prep" (Blue), "Prep Time" (Yellow), "Cook Time" (Orange), and "Meal Time" (Green). As time progresses for a phase, its corresponding colored layer "recedes" (by having a growing transparent segment in its conic gradient) to reveal the solid color of the next phase's layer underneath. When the final (Green) layer recedes, it reveals the timer's light background (<code>#fbfdf8</code>). The outermost grey ring (<code>#f0f0f0</code>) is a static track. JavaScript is required for actual animation.</p>
+                    <ul class="list-disc pl-5 text-fp-neutral-text space-y-1 mb-4">
+                        <li>Layer Colors: Until Prep (<code>#5A6AD4</code> - Blue), Prep (<code>#F0AB1F</code> - Yellow), Cook (<code>#FD7E14</code> - Orange), Eat (<code>#5AD479</code> - Green).</li>
+                        <li>Receding Effect: Achieved by a <code>conic-gradient</code> on each layer, going from <code>transparent</code> to its phase color.</li>
+                        <li>Final Revealed Background: <code>#fbfdf8</code> (<code>fp-neutral-lightest</code>).</li>
+                        <li>Central text displays current time/status.</li>
+                    </ul>
+                    
+                    <button id="startTimerAnimationDemo" class="mb-4 bg-fp-accent-blue text-white py-2 px-4 rounded-fp hover:bg-fp-accent-blue-dark transition-colors">Start Animation Demo (First Timer)</button>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-6 items-center justify-items-center">
+                        <!-- State 1: "Until Prep Time" (Blue 25% receded) -->
+                        <div class="text-center">
+                            <h3 class="ds-subsection-title text-sm mb-2">1. Until Prep</h3>
+                            <div class="circular-timer-demo" id="interactive-timer-demo">
+                                <div class="timer-layer timer-layer-eat"></div>
+                                <div class="timer-layer timer-layer-cook"></div>
+                                <div class="timer-layer timer-layer-prep"></div>
+                                <div class="timer-layer timer-layer-until-prep" style="background: conic-gradient(transparent 0% 25%, #5A6AD4 25% 100%);"></div>
+                                <div class="inner-circle">
+                                    <div class="time-left font-display">03:45</div>
+                                    <div class="status">Until Prep</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- State 2: "Prep Time" (Blue 100% receded, Yellow 50% receded) -->
+                        <div class="text-center">
+                            <h3 class="ds-subsection-title text-sm mb-2">2. Prep Time</h3>
+                            <div class="circular-timer-demo">
+                                <div class="timer-layer timer-layer-eat"></div>
+                                <div class="timer-layer timer-layer-cook"></div>
+                                <div class="timer-layer timer-layer-prep" style="background: conic-gradient(transparent 0% 50%, #F0AB1F 50% 100%);"></div>
+                                <div class="timer-layer timer-layer-until-prep" style="background: conic-gradient(transparent 0% 100%);"></div>
+                                <div class="inner-circle">
+                                    <div class="time-left font-display">07:30</div>
+                                    <div class="status">Prep Time</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- State 3: "Cook Time" (Blue, Yellow 100% receded, Orange 75% receded) -->
+                        <div class="text-center">
+                            <h3 class="ds-subsection-title text-sm mb-2">3. Cook Time</h3>
+                            <div class="circular-timer-demo">
+                                <div class="timer-layer timer-layer-eat"></div>
+                                <div class="timer-layer timer-layer-cook" style="background: conic-gradient(transparent 0% 75%, #FD7E14 75% 100%);"></div>
+                                <div class="timer-layer timer-layer-prep" style="background: conic-gradient(transparent 0% 100%);"></div>
+                                <div class="timer-layer timer-layer-until-prep" style="background: conic-gradient(transparent 0% 100%);"></div>
+                                <div class="inner-circle">
+                                    <div class="time-left font-display">03:45</div>
+                                    <div class="status">Cook Time</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- State 4: "Meal Time" (Blue, Yellow, Orange 100% receded, Green 25% receded) -->
+                        <div class="text-center">
+                            <h3 class="ds-subsection-title text-sm mb-2">4. Meal Time</h3>
+                            <div class="circular-timer-demo">
+                                <div class="timer-layer timer-layer-eat" style="background: conic-gradient(transparent 0% 25%, #5AD479 25% 100%);"></div>
+                                <div class="timer-layer timer-layer-cook" style="background: conic-gradient(transparent 0% 100%);"></div>
+                                <div class="timer-layer timer-layer-prep" style="background: conic-gradient(transparent 0% 100%);"></div>
+                                <div class="timer-layer timer-layer-until-prep" style="background: conic-gradient(transparent 0% 100%);"></div>
+                                <div class="inner-circle">
+                                    <div class="time-left font-display">15:00</div>
+                                    <div class="status">Meal Time</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-fp-neutral-text-light text-center mt-4">Note: Percentages in gradients are illustrative. Actual implementation for smooth animation requires JavaScript.</p>
+                    <pre class="mt-4"><code class="html">&lt;!-- HTML Structure for a Timer State (e.g., Prep Time active, 50% done) --&gt;
+&lt;div class="circular-timer-demo"&gt;
+    &lt;!-- Layers are stacked by z-index. Higher z-index is on top. --&gt;
+    &lt;!-- Green layer (bottom) --&gt;
+    &lt;div class="timer-layer timer-layer-eat"&gt;&lt;/div&gt;
+    &lt;!-- Orange layer --&gt;
+    &lt;div class="timer-layer timer-layer-cook"&gt;&lt;/div&gt;
+    &lt;!-- Yellow layer (currently active and 50% receded) --&gt;
+    &lt;div class="timer-layer timer-layer-prep" 
+         style="background: conic-gradient(transparent 0% 50%, #F0AB1F 50% 100%);"&gt;&lt;/div&gt;
+    &lt;!-- Blue layer (fully receded) --&gt;
+    &lt;div class="timer-layer timer-layer-until-prep" 
+         style="background: conic-gradient(transparent 0% 100%);"&gt;&lt;/div&gt;
+    
+    &lt;div class="inner-circle"&gt;
+        &lt;div class="time-left font-display"&gt;07:30&lt;/div&gt;
+        &lt;div class="status"&gt;Prep Time&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Relevant CSS (add to your stylesheet) --&gt;
+&lt;style&gt;
+.circular-timer-demo { 
+    width: 160px; height: 160px; border-radius: 50%; 
+    background-color: #fbfdf8; /* Final background revealed */
+    display: flex; align-items: center; justify-content: center; 
+    position: relative; 
+    border: 8px solid #f0f0f0; /* Base static track */
+}
+.timer-layer {
+    position: absolute; width: 100%; height: 100%;
+    border-radius: 50%;
+    /* Default state is solid color; receding effect via inline conic-gradient */
+}
+.timer-layer-until-prep { z-index: 5; background-color: #5A6AD4; /* Blue */ }
+.timer-layer-prep       { z-index: 4; background-color: #F0AB1F; /* Yellow */ }
+.timer-layer-cook       { z-index: 3; background-color: #FD7E14; /* Orange */ }
+.timer-layer-eat        { z-index: 2; background-color: #5AD479; /* Green */ }
+
+.circular-timer-demo .inner-circle { 
+    width: calc(100% - 24px); height: calc(100% - 24px); 
+    background-color: #fbfdf8;
+    border-radius: 50%; 
+    display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; 
+    z-index: 6; /* Must be above all timer layers */
+    text-align: center;
+}
+/* ... other styles for .time-left, .status ... */
+&lt;/style&gt;
+</code></pre>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">15.2. Tidbit Carousel (Under Meals)</h2>
+                    <p class="text-fp-neutral-text mb-2">A horizontal scrolling area for small pieces of information related to a meal.</p>
+                     <ul class="list-disc pl-5 text-fp-neutral-text space-y-1 mb-4">
+                        <li>Container: Horizontal scroll, <code>scroll-snap-type: x mandatory</code>.</li>
+                        <li>Items: Small cards (<code>bg-fp-neutral-lightest p-3 rounded-fp shadow-fp-card text-center</code>). May include small icons.</li>
+                    </ul>
+                    <div class="tidbit-carousel-container">
+                        <div class="tidbit-item bg-fp-neutral-lightest p-3 rounded-fp shadow-fp-card text-center flex flex-col items-center">
+                            <img src="../svgs/4285413-time-and-date/svg/007-timer.svg" alt="Prep Time" class="mx-auto">
+                            <p class="text-xs font-medium text-fp-neutral-darkest">Prep Time</p>
+                            <p class="text-sm font-semibold text-fp-primary-green mt-0.5">15 mins</p>
+                        </div>
+                        <div class="tidbit-item bg-fp-neutral-lightest p-3 rounded-fp shadow-fp-card text-center flex flex-col items-center">
+                            <img src="../svgs/4285413-time-and-date/svg/042-clock.svg" alt="Cook Time" class="mx-auto">
+                            <p class="text-xs font-medium text-fp-neutral-darkest">Cook Time</p>
+                            <p class="text-sm font-semibold text-fp-accent-orange mt-0.5">30 mins</p>
+                        </div>
+                        <div class="tidbit-item bg-fp-neutral-lightest p-3 rounded-fp shadow-fp-card text-center flex flex-col items-center">
+                            <!-- Placeholder for calorie icon, you might need to find/create one or use text -->
+                            <div class="inline-svg-preview text-fp-neutral-darkest mx-auto"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg></div>
+                            <p class="text-xs font-medium text-fp-neutral-darkest">Calories</p>
+                            <p class="text-sm font-semibold text-fp-neutral-darkest mt-0.5">~450</p>
+                        </div>
+                        <div class="tidbit-item bg-fp-neutral-lightest p-3 rounded-fp shadow-fp-card text-center flex flex-col items-center">
+                             <img src="../svgs/1046743-fast-food/svg/025-meat.svg" alt="Protein" class="mx-auto">
+                            <p class="text-xs font-medium text-fp-neutral-darkest">Protein</p>
+                            <p class="text-sm font-semibold text-fp-neutral-darkest mt-0.5">32g</p>
+                        </div>
+                         <div class="tidbit-item bg-fp-neutral-lightest p-3 rounded-fp shadow-fp-card text-center flex flex-col items-center">
+                             <img src="../svgs/4491012-vegan/svg/001-vegan.svg" alt="Vitamins" class="mx-auto">
+                            <p class="text-xs font-medium text-fp-neutral-darkest">Vitamins</p>
+                            <p class="text-sm font-semibold text-fp-accent-yellow mt-0.5">54% Daily</p>
+                        </div>
+                    </div>
+                     <pre class="mt-2"><code class="html"><div class="flex overflow-x-auto space-x-3 pb-2 scroll-snap-type-x-mandatory">
+  <div class="tidbit-item bg-fp-neutral-lightest p-3 rounded-fp shadow-fp-card text-center flex flex-col items-center scroll-snap-align-start">
+    <img src="../svgs/3176258-marketing/svg/018-medal.svg" alt="Title" class="mx-auto w-8 h-8 mb-1 object-contain">
+    <p class="text-xs font-medium text-fp-neutral-darkest">Title</p>
+    <p class="text-sm font-semibold text-fp-primary-green mt-0.5">Value</p>
+  </div>
+</div></code></pre> 
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">15.3. Avatar Picker (Onboarding)</h2>
+                    <p class="text-fp-neutral-text mb-2">A grid of selectable avatar images. Paths reference your <code>svgs/920999-avatar/svg/</code> folder.</p>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 max-w-md">
+                        <img src="../svgs/920999-avatar/svg/001-man.svg" alt="Man Avatar" class="w-full aspect-square rounded-full object-cover border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer transition-all p-1 bg-white">
+                        <img src="../svgs/920999-avatar/svg/002-girl.svg" alt="Girl Avatar" class="w-full aspect-square rounded-full object-cover border-4 border-fp-primary-green ring-2 ring-fp-primary-green ring-offset-1 cursor-pointer transition-all p-1 bg-white">
+                        <img src="../svgs/920999-avatar/svg/003-boy.svg" alt="Boy Avatar" class="w-full aspect-square rounded-full object-cover border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer transition-all p-1 bg-white">
+                        <img src="../svgs/920999-avatar/svg/004-woman.svg" alt="Woman Avatar" class="w-full aspect-square rounded-full object-cover border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer transition-all p-1 bg-white">
+                        <img src="../svgs/920999-avatar/svg/005-man-1.svg" alt="Man Avatar 2" class="w-full aspect-square rounded-full object-cover border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer transition-all p-1 bg-white">
+                        <!-- Add more as desired -->
+                    </div>
+                    <button class="mt-4 font-sans font-medium text-sm text-fp-accent-blue hover:underline">Skip & Use Default</button>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">15.4. Progress Indicators</h2>
+                     <p class="text-fp-neutral-text mb-2">Used for multi-step processes like onboarding or goal tracking.</p>
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="ds-subsection-title font-sans text-lg font-semibold">Linear Progress Bar</h3>
+                            <div class="w-full bg-fp-neutral-medium rounded-full h-2.5">
+                                <div class="bg-fp-primary-green h-2.5 rounded-full" style="width: 45%"></div>
+                            </div>
+                            <p class="text-xs text-fp-neutral-text-light mt-1 text-right">Step 2 of 4 (45%)</p>
+                        </div>
+                        <div>
+                            <h3 class="ds-subsection-title font-sans text-lg font-semibold">Step Progress</h3>
+                            <ol class="flex items-center w-full text-sm font-medium text-center text-fp-neutral-text-light">
+                                <li class="flex md:w-full items-center text-fp-primary-green sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-fp-primary-green after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">
+                                    <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200">
+                                        <!-- Checkmark Icon (Inlined for color control) -->
+                                        <svg class="w-4 h-4 mr-2 sm:w-5 sm:h-5 fill-current" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                        Profile
+                                    </span>
+                                </li>
+                                <li class="flex md:w-full items-center text-fp-primary-green sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-fp-primary-green after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10">
+                                    <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200">
+                                        <span class="mr-2 p-1 rounded-full bg-fp-primary-green text-fp-white text-xs w-5 h-5 flex items-center justify-center">2</span>
+                                        Allergies
+                                    </span>
+                                </li>
+                                <li class="flex items-center text-fp-neutral-text-light">
+                                     <span class="mr-2 p-1 rounded-full bg-fp-neutral-medium text-fp-neutral-darkest text-xs w-5 h-5 flex items-center justify-center">3</span>
+                                    Preferences
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+    <script>
+        // Script to dynamically set active class on nav links
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // --- Interactive Timer Demo Script ---
+            const timerDemoButton = document.getElementById('startTimerAnimationDemo');
+            if (timerDemoButton) {
+                timerDemoButton.addEventListener('click', runInteractiveTimerDemo);
+            }
+        });
+
+        function runInteractiveTimerDemo() {
+            const timerContainer = document.getElementById('interactive-timer-demo');
+            if (!timerContainer) return;
+
+            const layers = {
+                untilPrep: timerContainer.querySelector('.timer-layer-until-prep'),
+                prep: timerContainer.querySelector('.timer-layer-prep'),
+                cook: timerContainer.querySelector('.timer-layer-cook'),
+                eat: timerContainer.querySelector('.timer-layer-eat'),
+            };
+            const timeLeftDisplay = timerContainer.querySelector('.time-left');
+            const statusDisplay = timerContainer.querySelector('.status');
+
+            const phases = [
+                { name: "Until Prep", duration: 60, color: '#5A6AD4', layer: layers.untilPrep, nextLayerColor: '#F0AB1F' }, // Blue, reveals Yellow
+                { name: "Prep Time",  duration: 60, color: '#F0AB1F', layer: layers.prep, nextLayerColor: '#FD7E14' },    // Yellow, reveals Orange
+                { name: "Cook Time",  duration: 60, color: '#FD7E14', layer: layers.cook, nextLayerColor: '#5AD479' },    // Orange, reveals Green
+                { name: "Meal Time",  duration: 60, color: '#5AD479', layer: layers.eat, nextLayerColor: '#fbfdf8' }     // Green, reveals timer background
+            ];
+
+            let currentPhaseIndex = 0;
+            let _current_time_in_phase = phases[currentPhaseIndex].duration;
+            let intervalId = null;
+
+            function formatTime(seconds) {
+                const _m = Math.floor(seconds / 60);
+                const _s = seconds % 60;
+                return `${_m.toString().padStart(2, '0')}:${_s.toString().padStart(2, '0')}`;
+            }
+
+            function updateTimerDisplay() {
+                timeLeftDisplay.textContent = formatTime(_current_time_in_phase);
+                statusDisplay.textContent = phases[currentPhaseIndex].name;
+
+                const currentPhase = phases[currentPhaseIndex];
+                const _p = (_current_time_in_phase / currentPhase.duration) * 100;
+                const percentageReceded = 100 - _p;
+
+                // Update current active layer
+                currentPhase.layer.style.background = `conic-gradient(transparent 0% ${percentageReceded}%, ${currentPhase.color} ${percentageReceded}% 100%)`;
+
+                // Ensure layers above current are fully receded (transparent)
+                for (let i = 0; i < currentPhaseIndex; i++) {
+                    phases[i].layer.style.background = `conic-gradient(transparent 0% 100%)`;
+                }
+                // Ensure layers below current are solid (their base color)
+                for (let i = currentPhaseIndex + 1; i < phases.length; i++) {
+                    phases[i].layer.style.background = phases[i].color;
+                }
+                 // Reset the layer that is revealed by the current active layer to its solid color
+                if (currentPhaseIndex + 1 < phases.length) {
+                    phases[currentPhaseIndex + 1].layer.style.background = phases[currentPhaseIndex + 1].color;
+                } else { // last phase reveals timer background, ensure .timer-layer-eat is correctly handled when it's done
+                     if (_p === 0) currentPhase.layer.style.background = `conic-gradient(transparent 0% 100%)`;
+                }
+            }
+
+            function advancePhase() {
+                currentPhaseIndex++;
+                if (currentPhaseIndex >= phases.length) {
+                    clearInterval(intervalId);
+                    statusDisplay.textContent = "All Done!";
+                    timeLeftDisplay.textContent = "00:00";
+                     // Ensure all layers are transparent if the timer finishes entirely
+                    Object.values(layers).forEach(layer => layer.style.background = 'transparent');
+                    return;
+                }
+                _current_time_in_phase = phases[currentPhaseIndex].duration;
+                updateTimerDisplay(); // Initial display for new phase
+            }
+
+            function tick() {
+                _current_time_in_phase--;
+                if (_current_time_in_phase < 0) {
+                    advancePhase();
+                } else {
+                    updateTimerDisplay();
+                }
+            }
+            
+            // Reset to initial state before starting
+            currentPhaseIndex = 0;
+            _current_time_in_phase = phases[currentPhaseIndex].duration;
+            // Set initial state of layers correctly (all solid except the very first one might start partway)
+            layers.untilPrep.style.background = phases[0].color; // Solid Blue
+            layers.prep.style.background = phases[1].color;       // Solid Yellow
+            layers.cook.style.background = phases[2].color;       // Solid Orange
+            layers.eat.style.background = phases[3].color;        // Solid Green
+            updateTimerDisplay(); // Initial call to set display for the first phase
+
+            if (intervalId) clearInterval(intervalId); // Clear any existing interval
+            intervalId = setInterval(tick, 1000); // 1000ms = 1 second
+        }
+
+    </script>
+</body>
+</html>

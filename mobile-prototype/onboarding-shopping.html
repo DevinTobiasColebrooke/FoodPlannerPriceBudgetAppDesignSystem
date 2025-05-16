@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Food Planner - Shopping Preferences</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; color: #111827; }
+        .font-display-prototype { font-family: 'Satisfy', cursive; }
+        .text-shadow-dark-prototype { text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); }
+        .radio-card input:checked + label {
+            border-color: #5AD479; /* fp-primary-green */
+            /* ring: 2px; ring-color: #5AD479; /* These are not standard CSS and will be ignored. */
+            background-color: #dbf8e3; /* lighter green */
+        }
+        .radio-card input:checked + label h3 {
+            color: #34C759; /* fp-primary-green-dark */
+        }
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #5AD479; }
+        input:checked + .slider:before { transform: translateX(22px); }
+        .tooltip-container { position: relative; display: inline-block; }
+        .tooltip-icon { cursor: help; color: #5A6AD4; margin-left: 4px; }
+        .tooltip-text { visibility: hidden; width: 220px; background-color: #333; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 0.75rem; line-height: 1.2; }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Satisfy', 'cursive'], },
+                    colors: { // ...
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-blue-dark': '#4755c4', 'fp-neutral-text': '#111827',
+                        'fp-neutral-darkest': '#333333', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-neutral-medium': '#D1D5DB', 'fp-neutral-light': '#F9FAFB',
+                        'fp-neutral-text-light':'#6B7280', 'red-500': '#ef4444', 'red-600': '#dc2626',
+                        'gray-100': '#f3f4f6', 'green-50': '#ecfdf5',
+                    }, // ...
+                    boxShadow: { 'fp-cta': '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)', },
+                    borderRadius: { 'fp': '0.5rem', }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <div class="w-full max-w-[430px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl mx-auto bg-fp-body-bg flex flex-col min-h-screen shadow-xl p-6">
+        <header class="pt-10 pb-6"> 
+            <a href="onboarding-timeprep.html" class="text-fp-accent-blue hover:text-fp-accent-blue-dark inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back
+            </a>
+            <h1 class="font-display-prototype text-3xl text-fp-neutral-darkest text-shadow-dark-prototype text-center mt-4">Shopping Setup</h1>
+        </header>
+
+        <main class="flex-grow space-y-6 overflow-y-auto"> 
+            <p class="text-fp-neutral-text text-center text-sm">Let's optimize your grocery runs!</p>
+
+            <div>
+                <label for="shopping-difficulty" class="block font-sans text-sm font-medium text-fp-neutral-darkest mb-1">Shopping Difficulty Preference:</label>
+                <select id="shopping-difficulty" class="block w-full p-3 rounded-fp border border-fp-neutral-medium bg-fp-white shadow-sm focus:border-fp-primary-green focus:ring-1 focus:ring-fp-primary-green">
+                    <option value="convenient">Most Convenient (fewer stores, maybe slightly pricier)</option>
+                    <option value="cheapest" selected>Cheapest (might involve multiple stores)</option>
+                    <option value="balanced">Balanced (good mix of price and convenience)</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="weekly-budget" class="block font-sans text-sm font-medium text-fp-neutral-darkest mb-1">Estimated Weekly Grocery Budget:</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-fp-neutral-text-light sm:text-sm">$</span>
+                    </div>
+                    <input type="number" id="weekly-budget" placeholder="e.g., 75" min="15"
+                           class="block w-full p-3 pl-7 pr-12 rounded-fp border border-fp-neutral-medium bg-fp-white shadow-sm focus:border-fp-primary-green focus:ring-1 focus:ring-fp-primary-green">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                         <span class="text-fp-neutral-text-light sm:text-sm">USD</span>
+                    </div>
+                </div>
+                <div id="budget-error" class="text-red-600 text-xs mt-1 hidden">Budget must be $15 or more.</div>
+                <div class="flex items-center justify-between mt-3"> 
+                    <label for="flexible-budget" class="text-sm text-fp-neutral-darkest flex items-center">
+                        Flexible Budget?
+                        <span class="tooltip-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 tooltip-icon"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" /></svg>
+                            <span class="tooltip-text">We'll try to fit the menu within your budget. Enabling flexible may mean we go a few dollars over/under for better options.</span>
+                        </span>
+                    </label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="flexible-budget" checked> 
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+             <div>
+                <p class="block font-sans text-sm font-medium text-fp-neutral-darkest mb-2">Location for Price Estimates:</p>
+                <div class="space-y-4"> 
+                    <div class="radio-card">
+                        <input type="radio" id="location-auto" name="location_type" value="auto" class="sr-only">
+                        <label for="location-auto" class="block p-3 bg-fp-white rounded-fp border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer">
+                            <h3 class="font-semibold text-fp-neutral-darkest text-sm">Use My Current Location (Recommended)</h3>
+                            <p class="text-xs text-fp-neutral-text-light">Allows scanning nearby stores for best prices. We'll ask for permission.</p>
+                        </label>
+                    </div>
+                    <div class="radio-card">
+                        <input type="radio" id="location-region" name="location_type" value="region" class="sr-only">
+                        <label for="location-region" class="block p-3 bg-fp-white rounded-fp border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer">
+                            <h3 class="font-semibold text-fp-neutral-darkest text-sm">Set General Region/Zip Code</h3>
+                            <p class="text-xs text-fp-neutral-text-light">Provides general price estimates. Less accurate for local deals.</p>
+                        </label>
+                    </div>
+                    <input type="text" id="region-input" placeholder="Enter Zip Code or Region" class="hidden mt-2 w-full p-3 rounded-fp border border-fp-neutral-medium bg-fp-white shadow-sm focus:border-fp-primary-green focus:ring-1 focus:ring-fp-primary-green">
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="pt-8 pb-6"> 
+             <a href="onboarding-avatar.html" id="next-button" class="w-full text-center block font-semibold py-3 px-6 rounded-fp bg-fp-primary-green text-fp-white shadow-fp-cta hover:bg-fp-primary-green-dark">
+                Next
+            </a>
+        </footer>
+    </div>
+    <script>
+        const locationRadios = document.querySelectorAll('input[name="location_type"]');
+        const regionInput = document.getElementById('region-input');
+        let currentlyCheckedId = null; // No radio is checked by default
+
+        locationRadios.forEach(radio => {
+            radio.addEventListener('click', function() {
+                if (this.id === currentlyCheckedId && this.checked) {
+                    // This radio was checked, and the user clicked it again.
+                    // The browser's default action keeps it checked. We want to uncheck it.
+                    // However, directly setting this.checked = false might be problematic if the click has already fully processed.
+                    // A more reliable way is to check if it *was* the checked one.
+                    // Re-evaluating: if this.id === currentlyCheckedId means it *was* the one.
+                    // The click happens, it's still checked. So we uncheck it.
+                    this.checked = false;
+                    currentlyCheckedId = null;
+                } else if (this.checked) {
+                    // This radio is now checked (either it was newly selected, or it's the one that was already checked and we didn't uncheck it above)
+                    // This branch means: it was not currentlyCheckedId OR it became checked.
+                    // It effectively means a radio button is now definitively selected.
+                    currentlyCheckedId = this.id;
+                } else {
+                    // This radio is now unchecked (e.g. if it was the currentlyCheckedId and we set it to false)
+                    // Ensure currentlyCheckedId is cleared if it was this one.
+                    if (this.id === currentlyCheckedId) {
+                         currentlyCheckedId = null;
+                    }
+                }
+
+                // Handle visibility of regionInput
+                const regionRadio = document.getElementById('location-region');
+                if (regionRadio.checked) {
+                    regionInput.classList.remove('hidden');
+                    // Focus only if 'location-region' was the one specifically clicked AND it is now checked.
+                    if (this.id === 'location-region') {
+                        regionInput.focus();
+                    }
+                } else {
+                    regionInput.classList.add('hidden');
+                }
+            });
+        });
+
+        const weeklyBudgetInput = document.getElementById('weekly-budget');
+        const budgetError = document.getElementById('budget-error');
+        const nextButton = document.getElementById('next-button');
+
+        function validateBudget() {
+            const rawValueTrimmed = weeklyBudgetInput.value.trim();
+            const value = parseFloat(weeklyBudgetInput.value); 
+
+            let isValid = true;
+            let message = "";
+
+            if (rawValueTrimmed === "") {
+                budgetError.classList.add('hidden');
+                weeklyBudgetInput.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                weeklyBudgetInput.classList.add('border-fp-neutral-medium', 'focus:border-fp-primary-green', 'focus:ring-fp-primary-green');
+                return true;
+            } else if (isNaN(value)) {
+                isValid = false;
+                message = "Please enter a valid number for the budget.";
+            } else if (value < 15) {
+                isValid = false;
+                message = "Budget must be at least $15 if specified.";
+            }
+
+            if (!isValid) {
+                budgetError.textContent = message;
+                budgetError.classList.remove('hidden');
+                
+                weeklyBudgetInput.classList.remove('border-fp-neutral-medium', 'focus:border-fp-primary-green', 'focus:ring-fp-primary-green');
+                weeklyBudgetInput.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                return false;
+            } else {    
+                budgetError.classList.add('hidden');
+                weeklyBudgetInput.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                weeklyBudgetInput.classList.add('border-fp-neutral-medium', 'focus:border-fp-primary-green', 'focus:ring-fp-primary-green');
+                return true;
+            }
+        }
+
+        if (weeklyBudgetInput) {
+            weeklyBudgetInput.addEventListener('input', validateBudget);
+            weeklyBudgetInput.addEventListener('blur', () => {
+                if(weeklyBudgetInput.value.trim() !== "") {
+                    validateBudget();
+                } else { 
+                    budgetError.classList.add('hidden');
+                    weeklyBudgetInput.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+                    weeklyBudgetInput.classList.add('border-fp-neutral-medium', 'focus:border-fp-primary-green', 'focus:ring-fp-primary-green');
+                }
+            });
+        }
+
+        if (nextButton) {
+            nextButton.addEventListener('click', function(event) {
+                if (!validateBudget()) {
+                    event.preventDefault(); 
+                    weeklyBudgetInput.focus(); 
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

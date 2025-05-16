@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Calendar View</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        /* SHARED STYLES (copy from another DS page) */
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Satisfy", cursive; }
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+
+        /* Calendar Styles */
+        .calendar-container { background-color: #FBFDF8; /* fp-neutral-lightest */ border-radius: 0.5rem; /* rounded-fp */ padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); /* shadow-fp-card or similar */ }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .calendar-header h3 { font-family: "Satisfy", cursive; /* font-display */ font-size: 1.5rem; /* text-2xl */ color: #333333; /* fp-neutral-darkest */ }
+        .calendar-header button { background: none; border: none; cursor: pointer; color: #5A6AD4; /* fp-accent-blue */ padding: 0.25rem; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background-color: #D1D5DB; /* fp-neutral-medium - for grid lines */ border: 1px solid #D1D5DB; }
+        .calendar-day-header { text-align: center; font-size: 0.75rem; /* text-xs */ font-weight: 500; /* font-medium */ color: #6B7280; /* fp-neutral-text-light */ padding: 0.5rem 0.25rem; background-color: #F9FAFB; /* fp-neutral-light */ }
+        .calendar-date-cell { min-height: 4rem; /* Adjust for content */ background-color: #FFFFFF; /* fp-white */ padding: 0.25rem; font-size: 0.75rem; /* text-xs */ cursor: pointer; transition: background-color 0.2s; position: relative;}
+        .calendar-date-cell:hover { background-color: #E7F1D3; /* fp-body-bg for hover */ }
+        .calendar-date-cell.other-month .date-number { color: #9CA3AF; /* fp-neutral */ }
+        .calendar-date-cell.today .date-number { font-weight: bold; color: #5AD479; /* fp-primary-green */ }
+        .calendar-date-cell.selected { background-color: #5AD479; /* fp-primary-green */ }
+        .calendar-date-cell.selected .date-number { color: white; }
+        .calendar-date-cell .date-number { text-align: right; display: block; margin-bottom: 0.125rem; }
+        .meal-indicator { display: block; width: 6px; height: 6px; border-radius: 50%; margin: 1px; }
+        .meal-indicator-breakfast { background-color: #F0AB1F; /* fp-accent-yellow */ }
+        .meal-indicator-lunch { background-color: #5A6AD4; /* fp-accent-blue */ }
+        .meal-indicator-dinner { background-color: #FD7E14; /* fp-accent-orange */ }
+        .meal-summary-text { font-size: 0.65rem; line-height: 1.2; color: #6B7280; max-height: 2.5em; overflow: hidden; text-overflow: ellipsis; }
+
+
+    </style>
+    <script>
+        tailwind.config = { /* Same Tailwind config */
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Satisfy', 'cursive'], },
+                     colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-accent-blue': '#5A6AD4',
+                        'fp-accent-yellow': '#F0AB1F', 'fp-accent-orange': '#FD7E14', 'fp-neutral-text': '#111827',
+                        'fp-neutral-darkest': '#333333', 'fp-neutral-medium': '#D1D5DB',
+                        'fp-neutral-light': '#F9FAFB', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-neutral-text-light': '#6B7280', 'fp-neutral': '#9CA3AF',
+                    },
+                    borderRadius: { 'fp': '0.5rem', }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <a href="./index.html">Introduction</a>
+                    <a href="./typography.html">Typography</a>
+                    <!-- ... other links ... -->
+                    <a href="./loading_indicators.html">Loading Indicators</a>
+                    <a href="./ratings_pickers.html">Ratings & Pickers</a>
+                    <a href="./calendar_view.html" class="active">Calendar View</a>
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">5. Calendar Dashboard Look</h1>
+                <p class="text-fp-neutral-text mb-4">Visual mock-up for a monthly calendar view. Full interactivity (navigation, event handling) would require JavaScript.</p>
+
+                <section class="ds-section">
+                    <div class="calendar-container max-w-lg mx-auto">
+                        <div class="calendar-header">
+                            <button title="Previous month">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                            </button>
+                            <h3>October 2023</h3>
+                            <button title="Next month">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                            </button>
+                        </div>
+                        <div class="calendar-grid">
+                            <!-- Day Headers -->
+                            <div class="calendar-day-header">Su</div><div class="calendar-day-header">Mo</div><div class="calendar-day-header">Tu</div><div class="calendar-day-header">We</div><div class="calendar-day-header">Th</div><div class="calendar-day-header">Fr</div><div class="calendar-day-header">Sa</div>
+                            <!-- Dates -->
+                            <div class="calendar-date-cell other-month"><span class="date-number">24</span></div>
+                            <div class="calendar-date-cell other-month"><span class="date-number">25</span></div>
+                            <div class="calendar-date-cell other-month"><span class="date-number">26</span></div>
+                            <div class="calendar-date-cell other-month"><span class="date-number">27</span></div>
+                            <div class="calendar-date-cell other-month"><span class="date-number">28</span></div>
+                            <div class="calendar-date-cell other-month"><span class="date-number">29</span></div>
+                            <div class="calendar-date-cell other-month"><span class="date-number">30</span></div>
+
+                            <div class="calendar-date-cell"><span class="date-number">1</span></div>
+                            <div class="calendar-date-cell"><span class="date-number">2</span></div>
+                            <div class="calendar-date-cell"><span class="date-number">3</span><div class="flex mt-0.5"><span class="meal-indicator meal-indicator-breakfast"></span><span class="meal-indicator meal-indicator-lunch"></span></div></div>
+                            <div class="calendar-date-cell"><span class="date-number">4</span></div>
+                            <div class="calendar-date-cell"><span class="date-number">5</span><div class="meal-summary-text">Oatmeal, Salad</div></div>
+                            <div class="calendar-date-cell"><span class="date-number">6</span></div>
+                            <div class="calendar-date-cell"><span class="date-number">7</span></div>
+
+                            <div class="calendar-date-cell"><span class="date-number">8</span></div>
+                            <div class="calendar-date-cell"><span class="date-number">9</span></div>
+                            <div class="calendar-date-cell today"><span class="date-number">10</span><div class="flex mt-0.5"><span class="meal-indicator meal-indicator-breakfast"></span><span class="meal-indicator meal-indicator-lunch"></span><span class="meal-indicator meal-indicator-dinner"></span></div></div>
+                            <div class="calendar-date-cell selected"><span class="date-number">11</span><div class="meal-summary-text text-white">Chicken Stir-fry</div></div>
+                            <div class="calendar-date-cell"><span class="date-number">12</span></div>
+                            <div class="calendar-date-cell"><span class="date-number">13</span></div>
+                            <div class="calendar-date-cell"><span class="date-number">14</span></div>
+                            <!-- Fill in more rows as needed -->
+                             <div class="calendar-date-cell"><span class="date-number">15</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">16</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">17</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">18</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">19</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">20</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">21</span></div>
+
+                             <div class="calendar-date-cell"><span class="date-number">22</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">23</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">24</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">25</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">26</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">27</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">28</span></div>
+
+                             <div class="calendar-date-cell"><span class="date-number">29</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">30</span></div>
+                             <div class="calendar-date-cell"><span class="date-number">31</span></div>
+                             <div class="calendar-date-cell other-month"><span class="date-number">1</span></div>
+                             <div class="calendar-date-cell other-month"><span class="date-number">2</span></div>
+                             <div class="calendar-date-cell other-month"><span class="date-number">3</span></div>
+                             <div class="calendar-date-cell other-month"><span class="date-number">4</span></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script>
+        // Sidebar active link script
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href').endsWith(currentPage)) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

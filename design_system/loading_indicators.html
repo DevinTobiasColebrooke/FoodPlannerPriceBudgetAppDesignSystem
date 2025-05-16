@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Loading Indicators</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        /* SHARED STYLES (copy from another DS page like index.html or typography.html) */
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Satisfy", cursive; } /* Adjusted to prototype's placeholder */
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+        code { background-color: #f3f4f6; padding: 0.2em 0.4em; margin: 0; font-size: 0.9em; border-radius: 0.25rem; color: #4b5563; }
+        pre { background-color: #f3f4f6; padding: 1em; border-radius: 0.375rem; overflow-x: auto; margin-top: 0.5em; margin-bottom: 1em; }
+        pre code { background-color: transparent; padding: 0; }
+
+        /* Skeleton Styles */
+        .skeleton { background-color: #e5e7eb; /* gray-200 */ border-radius: 0.25rem; /* rounded */ position: relative; overflow: hidden; }
+        .skeleton.skeleton-text { height: 0.75rem; /* h-3 */ margin-bottom: 0.5rem; /* mb-2 */ }
+        .skeleton.skeleton-title { height: 1.25rem; /* h-5 */ width: 60%; margin-bottom: 0.75rem; /* mb-3 */ }
+        .skeleton.skeleton-avatar { width: 3rem; /* w-12 */ height: 3rem; /* h-12 */ border-radius: 9999px; /* rounded-full */ }
+        .skeleton.skeleton-image { width: 100%; height: 8rem; /* h-32 */ }
+        .skeleton::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(90deg, rgba(255,255,255,0) 0, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.5) 60%, rgba(255,255,255,0));
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+        /* Spinner SVG */
+        .spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+    <script>
+        tailwind.config = { /* Same Tailwind config as other DS pages */
+             theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Satisfy', 'cursive'], },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-yellow': '#F0AB1F', 'fp-accent-orange': '#FD7E14',
+                        'fp-neutral-text': '#111827', 'fp-neutral-text-light': '#6B7280', 'fp-neutral-darkest': '#333333',
+                        'fp-neutral-medium': '#D1D5DB', 'fp-neutral-light': '#F9FAFB', 'fp-white': '#FFFFFF',
+                    },
+                    boxShadow: { 'fp-card': '0 4px 8px rgba(0,0,0,0.08)', },
+                    borderRadius: { 'fp': '0.5rem', }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <!-- Make sure these links are correct for your DS file structure -->
+                    <a href="./index.html">Introduction</a>
+                    <a href="./typography.html">Typography</a>
+                    <a href="./colors.html">Color Palette</a>
+                    <a href="./buttons.html">Buttons</a>
+                    <a href="./forms.html">Forms & Inputs</a>
+                    <a href="./shadows.html">Shadows</a>
+                    <a href="./layout.html">Layout Notes</a>
+                    <a href="./icons.html">Icons</a>
+                    <a href="./data_display_tables.html">Data & Tables</a>
+                    <a href="./cards.html">Cards</a>
+                    <a href="./modals.html">Modals</a>
+                    <a href="./alerts_notifications.html">Alerts & Notifications</a>
+                    <a href="./tooltips_citations.html">Tooltips & Citations</a>
+                    <a href="./specialized_components.html">Specialized Comp.</a>
+                    <a href="./loading_indicators.html" class="active">Loading Indicators</a> <!-- New Link -->
+                    <a href="./ratings_pickers.html">Ratings & Pickers</a> <!-- New Link for Star Rating & Date Picker -->
+                    <a href="./calendar_view.html">Calendar View</a> <!-- New Link for Calendar -->
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">Loading Indicators</h1>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">2a. Skeleton Screens</h2>
+                    <p class="text-fp-neutral-text mb-4">Skeleton screens provide a visual placeholder while content is loading, improving perceived performance.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Skeleton Card -->
+                        <div class="bg-fp-white p-4 rounded-fp shadow-fp-card">
+                            <div class="skeleton skeleton-image mb-3"></div>
+                            <div class="skeleton skeleton-title"></div>
+                            <div class="skeleton skeleton-text w-5/6"></div>
+                            <div class="skeleton skeleton-text w-3/4"></div>
+                            <div class="skeleton skeleton-text w-1/2 mt-3 h-8"></div>
+                        </div>
+                        <!-- Skeleton List -->
+                        <div>
+                            <h3 class="ds-subsection-title font-sans">Skeleton List Item</h3>
+                            <div class="bg-fp-white p-4 rounded-fp shadow-fp-card space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="skeleton skeleton-avatar"></div>
+                                    <div class="flex-1 space-y-1">
+                                        <div class="skeleton skeleton-text w-3/4"></div>
+                                        <div class="skeleton skeleton-text w-1/2"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="skeleton skeleton-avatar"></div>
+                                    <div class="flex-1 space-y-1">
+                                        <div class="skeleton skeleton-text w-5/6"></div>
+                                        <div class="skeleton skeleton-text w-2/3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <pre class="mt-4"><code class="html"><!-- Skeleton Card Example -->
+<div class="bg-fp-white p-4 rounded-fp shadow-fp-card">
+  <div class="skeleton skeleton-image mb-3"></div>
+  <div class="skeleton skeleton-title"></div>
+  <div class="skeleton skeleton-text w-5/6"></div>
+  <div class="skeleton skeleton-text w-3/4"></div>
+</div></code></pre>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">2b. Animated SVG / Spinners</h2>
+                    <p class="text-fp-neutral-text mb-4">For shorter loading times or when a full skeleton isn't necessary, an animated spinner or a simple cycling SVG animation can be used.</p>
+                    <div class="flex flex-wrap gap-8 items-center">
+                        <div>
+                            <h3 class="ds-subsection-title font-sans">Standard Spinner</h3>
+                            <svg class="spinner w-12 h-12 text-fp-primary-green" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="ds-subsection-title font-sans">Conceptual Cycling Food Icons</h3>
+                            <div class="relative w-16 h-16 bg-fp-neutral-light p-2 rounded-fp flex items-center justify-center">
+                                <!-- In a real app, JS would cycle these or use an animated SVG -->
+                                <img src="../svgs/381006-healthy-food/svg/051-apple.svg" alt="Loading food" class="w-10 h-10 opacity-75">
+                                <p class="absolute bottom-0 text-xs text-fp-neutral-text-light">Loading...</p>
+                            </div>
+                            <p class="text-xs text-fp-neutral-text-light mt-1">Imagine these icons cycling.</p>
+                        </div>
+                    </div>
+                    <p class="text-fp-neutral-text mt-4">True SVG cycling animation (swapping different food icons) would require JavaScript. The spinner is CSS-animated.</p>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script>
+        // Sidebar active link script (copy from other DS pages)
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href').endsWith(currentPage)) { // Adjusted for potential ./
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

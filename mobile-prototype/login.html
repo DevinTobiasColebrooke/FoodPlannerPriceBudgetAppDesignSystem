@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Food Planner - Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; color: #111827; }
+        .font-display-prototype { font-family: 'Satisfy', cursive; }
+        .text-shadow-dark-prototype { text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); }
+    </style>
+    <script>
+        tailwind.config = {
+             theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Satisfy', 'cursive'], },
+                    colors: { // ...
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-blue-dark': '#4755c4', 'fp-neutral-text': '#111827',
+                        'fp-neutral-darkest': '#333333', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                         'fp-neutral-medium': '#D1D5DB', 'gray-100': '#f3f4f6',
+                    }, // ...
+                    boxShadow: { 'fp-cta': '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)', },
+                    borderRadius: { 'fp': '0.5rem', }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <div class="w-full max-w-[430px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl mx-auto bg-fp-body-bg flex flex-col min-h-screen shadow-xl p-6">
+        <header class="pt-12 pb-8"> 
+             <a href="index.html" class="text-fp-accent-blue hover:text-fp-accent-blue-dark inline-flex items-center mb-8"> 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back to Welcome
+            </a>
+            <h1 class="font-display-prototype text-4xl text-fp-neutral-darkest text-shadow-dark-prototype text-center">Sign In</h1>
+        </header>
+
+        <main class="flex-grow space-y-6"> 
+            <div>
+                <label for="email" class="block font-sans text-sm font-medium text-fp-neutral-darkest mb-1">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com"
+                       class="block w-full p-3 rounded-fp border border-fp-neutral-medium bg-fp-white shadow-sm focus:border-fp-primary-green focus:ring-1 focus:ring-fp-primary-green">
+            </div>
+            <div>
+                <label for="password" class="block font-sans text-sm font-medium text-fp-neutral-darkest mb-1">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••"
+                       class="block w-full p-3 rounded-fp border border-fp-neutral-medium bg-fp-white shadow-sm focus:border-fp-primary-green focus:ring-1 focus:ring-fp-primary-green">
+            </div>
+             <a href="#" class="block text-xs text-fp-accent-blue hover:underline text-right">Forgot password?</a>
+        </main>
+
+        <footer class="pt-10 pb-6 space-y-4"> 
+            <a href="dashboard.html" class="w-full text-center block font-semibold py-3 px-6 rounded-fp bg-fp-primary-green text-fp-white shadow-fp-cta hover:bg-fp-primary-green-dark"> 
+                Sign In
+            </a>
+            <p class="text-center text-sm text-fp-neutral-text">
+                Don't have an account? <a href="onboarding-disclosure.html" class="font-medium text-fp-accent-blue hover:underline">Start your journey!</a> 
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

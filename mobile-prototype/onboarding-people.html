@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Food Planner - Household Size</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; color: #111827; }
+        .font-display-prototype { font-family: 'Satisfy', cursive; }
+        .text-shadow-dark-prototype { text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); }
+        .radio-card { transition: all 0.2s ease-in-out; }
+        .radio-card input:checked + label {
+            border-color: #5AD479; /* fp-primary-green */
+            ring: 2px; /* from people_effect.html */
+            ring-color: #5AD479; /* from people_effect.html */
+            background-color: #dbf8e3; /* lighter green from people_effect.html */
+        }
+        .radio-card input:checked + label h3 {
+            color: #34C759; /* fp-primary-green-dark */
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Satisfy', 'cursive'], },
+                    colors: { // ...
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-blue-dark': '#4755c4', 'fp-neutral-text': '#111827',
+                        'fp-neutral-darkest': '#333333', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-neutral-medium': '#D1D5DB', 'fp-neutral-light': '#F9FAFB', 'fp-neutral-text-light':'#6B7280',
+                        'gray-100': '#f3f4f6', 'green-50': '#ecfdf5', // for checked background
+                    }, // ...
+                    boxShadow: { 'fp-cta': '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)', },
+                    borderRadius: { 'fp': '0.5rem', }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <div class="w-full max-w-[430px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl mx-auto bg-fp-body-bg flex flex-col min-h-screen shadow-xl p-6">
+        <header class="pt-10 pb-6"> 
+            <a href="onboarding-goals.html" class="text-fp-accent-blue hover:text-fp-accent-blue-dark inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back
+            </a>
+            <h1 class="font-display-prototype text-3xl text-fp-neutral-darkest text-shadow-dark-prototype text-center mt-4">Who are we planning for?</h1>
+        </header>
+
+        <main class="flex-grow space-y-8"> 
+            <p class="text-fp-neutral-text text-center text-sm">This helps us estimate ingredient quantities and costs accurately.</p>
+
+            <div class="space-y-4"> 
+                <div class="radio-card">
+                    <input type="radio" id="people-1-4" name="household_size" value="1-4" class="sr-only" checked> 
+                    <label for="people-1-4" class="block p-4 bg-fp-white rounded-fp border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer">
+                        <h3 class="font-semibold text-fp-neutral-darkest">Just Me or a Few (1-4 people)</h3>
+                        <p class="text-xs text-fp-neutral-text-light">Perfect for individuals, couples, or small families.</p>
+                    </label>
+                </div>
+                <div class="radio-card">
+                    <input type="radio" id="people-5-10" name="household_size" value="5-10" class="sr-only">
+                    <label for="people-5-10" class="block p-4 bg-fp-white rounded-fp border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer">
+                        <h3 class="font-semibold text-fp-neutral-darkest">A Bigger Crew (5-10 people)</h3>
+                        <p class="text-xs text-fp-neutral-text-light">Ideal for larger families or group meal planning.</p>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-fp-neutral-lightest rounded-fp border border-fp-neutral-medium"> 
+                <p class="text-xs text-fp-neutral-text">
+                    <strong>Planning for more than 10?</strong> Or want to invite others to collaborate on this plan (e.g., roommates, family members)? We'll have options for that soon!
+                    Invited members will be able to set their own allergy profiles.
+                </p>
+            </div>
+        </main>
+
+        <footer class="pt-8 pb-6"> 
+             <a href="onboarding-allergies.html" class="w-full text-center block font-semibold py-3 px-6 rounded-fp bg-fp-primary-green text-fp-white shadow-fp-cta hover:bg-fp-primary-green-dark">
+                Next
+            </a>
+        </footer>
+    </div>
+</body>
+</html>

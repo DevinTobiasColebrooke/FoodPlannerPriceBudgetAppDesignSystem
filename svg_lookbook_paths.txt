@@ -1,0 +1,644 @@
+# SVG Lookbook Paths
+# This file contains relative paths to all SVG files in the svgs directory and its subfolders
+
+# Root SVGs
+svgs/seaweed.svg
+svgs/shield.svg
+svgs/sick.svg
+svgs/laughing.svg
+
+# Subfolder SVGs
+# 4497507-product-features
+svgs/4497507-product-features/svg/001-high quality.svg
+svgs/4497507-product-features/svg/002-easy to use.svg
+svgs/4497507-product-features/svg/003-must have.svg
+svgs/4497507-product-features/svg/004-coming soon.svg
+svgs/4497507-product-features/svg/005-new item.svg
+svgs/4497507-product-features/svg/006-sale.svg
+svgs/4497507-product-features/svg/007-best seller.svg
+svgs/4497507-product-features/svg/008-available worldwide.svg
+svgs/4497507-product-features/svg/009-certified.svg
+svgs/4497507-product-features/svg/010-fresh.svg
+svgs/4497507-product-features/svg/011-favorite.svg
+svgs/4497507-product-features/svg/012-genuine.svg
+svgs/4497507-product-features/svg/013-organic.svg
+svgs/4497507-product-features/svg/014-easy maintenance.svg
+svgs/4497507-product-features/svg/015-best choice.svg
+svgs/4497507-product-features/svg/016-lightweight.svg
+svgs/4497507-product-features/svg/017-premium.svg
+svgs/4497507-product-features/svg/018-free.svg
+svgs/4497507-product-features/svg/019-warranty.svg
+svgs/4497507-product-features/svg/020-best quality.svg
+svgs/4497507-product-features/svg/021-limited.svg
+svgs/4497507-product-features/svg/022-long lasting.svg
+svgs/4497507-product-features/svg/023-best price.svg
+svgs/4497507-product-features/svg/024-best value.svg
+svgs/4497507-product-features/svg/025-halal.svg
+svgs/4497507-product-features/svg/026-new.svg
+svgs/4497507-product-features/svg/027-featured.svg
+svgs/4497507-product-features/svg/028-prime.svg
+svgs/4497507-product-features/svg/029-free delivery.svg
+svgs/4497507-product-features/svg/030-eco friendly.svg
+
+# 2937320-pharmacy
+svgs/2937320-pharmacy/svg/001-emergency call.svg
+svgs/2937320-pharmacy/svg/002-medical mask.svg
+svgs/2937320-pharmacy/svg/003-ampoule.svg
+svgs/2937320-pharmacy/svg/004-stethoscope.svg
+svgs/2937320-pharmacy/svg/005-Pear Enema.svg
+svgs/2937320-pharmacy/svg/006-vitamins.svg
+svgs/2937320-pharmacy/svg/007-nasal spray.svg
+svgs/2937320-pharmacy/svg/008-prescription.svg
+svgs/2937320-pharmacy/svg/009-ointment.svg
+svgs/2937320-pharmacy/svg/010-pharmacy.svg
+svgs/2937320-pharmacy/svg/011-mortar.svg
+svgs/2937320-pharmacy/svg/012-hand sanitizer.svg
+svgs/2937320-pharmacy/svg/013-urine sample.svg
+svgs/2937320-pharmacy/svg/014-pharmacy.svg
+svgs/2937320-pharmacy/svg/015-capsules.svg
+svgs/2937320-pharmacy/svg/016-online service.svg
+svgs/2937320-pharmacy/svg/017-band aid.svg
+svgs/2937320-pharmacy/svg/018-syrup.svg
+svgs/2937320-pharmacy/svg/019-weight scale.svg
+svgs/2937320-pharmacy/svg/020-hand cream.svg
+svgs/2937320-pharmacy/svg/021-thermometer.svg
+svgs/2937320-pharmacy/svg/022-fish pills.svg
+svgs/2937320-pharmacy/svg/023-syringe.svg
+svgs/2937320-pharmacy/svg/024-condom.svg
+svgs/2937320-pharmacy/svg/025-cotton swabs.svg
+svgs/2937320-pharmacy/svg/026-vial.svg
+svgs/2937320-pharmacy/svg/027-medical prescription.svg
+svgs/2937320-pharmacy/svg/028-online shop.svg
+svgs/2937320-pharmacy/svg/029-medicine.svg
+svgs/2937320-pharmacy/svg/030-pills.svg
+svgs/2937320-pharmacy/svg/031-hygieia.svg
+svgs/2937320-pharmacy/svg/032-glucometer.svg
+svgs/2937320-pharmacy/svg/033-eye dropper.svg
+svgs/2937320-pharmacy/svg/034-asthma.svg
+svgs/2937320-pharmacy/svg/035-pharmacy.svg
+svgs/2937320-pharmacy/svg/036-tablets.svg
+svgs/2937320-pharmacy/svg/037-spray.svg
+svgs/2937320-pharmacy/svg/038-emergency call.svg
+svgs/2937320-pharmacy/svg/039-pharmacy.svg
+svgs/2937320-pharmacy/svg/040-thermometer.svg
+svgs/2937320-pharmacy/svg/041-serum.svg
+svgs/2937320-pharmacy/svg/042-pregnancy test.svg
+svgs/2937320-pharmacy/svg/043-cream.svg
+svgs/2937320-pharmacy/svg/044-effervescent.svg
+svgs/2937320-pharmacy/svg/045-medical history.svg
+svgs/2937320-pharmacy/svg/046-medical report.svg
+svgs/2937320-pharmacy/svg/047-smartphone.svg
+svgs/2937320-pharmacy/svg/048-medical insurance.svg
+svgs/2937320-pharmacy/svg/049-tablets.svg
+svgs/2937320-pharmacy/svg/050-herbal.svg
+
+# 3176258-marketing
+svgs/3176258-marketing/svg/001-pie chart.svg
+svgs/3176258-marketing/svg/002-documents.svg
+svgs/3176258-marketing/svg/003-document.svg
+svgs/3176258-marketing/svg/004-doughnut.svg
+svgs/3176258-marketing/svg/005-smartphone.svg
+svgs/3176258-marketing/svg/006-trophy.svg
+svgs/3176258-marketing/svg/007-strategic plan.svg
+svgs/3176258-marketing/svg/008-omnichannel merchandising.svg
+svgs/3176258-marketing/svg/009-attraction.svg
+svgs/3176258-marketing/svg/010-promotion.svg
+svgs/3176258-marketing/svg/011-line chart.svg
+svgs/3176258-marketing/svg/012-accounting.svg
+svgs/3176258-marketing/svg/013-browser.svg
+svgs/3176258-marketing/svg/014-online shop.svg
+svgs/3176258-marketing/svg/015-gear.svg
+svgs/3176258-marketing/svg/016-flipchart.svg
+svgs/3176258-marketing/svg/017-to do list.svg
+svgs/3176258-marketing/svg/018-medal.svg
+svgs/3176258-marketing/svg/019-target audience.svg
+svgs/3176258-marketing/svg/020-lightbulb.svg
+svgs/3176258-marketing/svg/021-time is money.svg
+svgs/3176258-marketing/svg/022-price tag.svg
+svgs/3176258-marketing/svg/023-web search engine.svg
+svgs/3176258-marketing/svg/024-review.svg
+svgs/3176258-marketing/svg/025-present.svg
+svgs/3176258-marketing/svg/026-gift card.svg
+svgs/3176258-marketing/svg/027-shopping bag.svg
+svgs/3176258-marketing/svg/028-cloud storage.svg
+svgs/3176258-marketing/svg/029-debit card.svg
+svgs/3176258-marketing/svg/030-badge.svg
+svgs/3176258-marketing/svg/031-Cooperation.svg
+svgs/3176258-marketing/svg/032-collaborative.svg
+svgs/3176258-marketing/svg/033-target.svg
+svgs/3176258-marketing/svg/034-monetization.svg
+svgs/3176258-marketing/svg/035-password.svg
+svgs/3176258-marketing/svg/036-bookmark.svg
+svgs/3176258-marketing/svg/037-link.svg
+svgs/3176258-marketing/svg/038-landing page.svg
+svgs/3176258-marketing/svg/039-coding.svg
+svgs/3176258-marketing/svg/040-optimization.svg
+svgs/3176258-marketing/svg/041-sales funnel.svg
+svgs/3176258-marketing/svg/042-money magnet.svg
+svgs/3176258-marketing/svg/043-email.svg
+svgs/3176258-marketing/svg/044-chat bubble.svg
+svgs/3176258-marketing/svg/045-key.svg
+svgs/3176258-marketing/svg/046-calendar.svg
+svgs/3176258-marketing/svg/047-magnifying glass.svg
+svgs/3176258-marketing/svg/048-shopping cart.svg
+svgs/3176258-marketing/svg/049-open.svg
+svgs/3176258-marketing/svg/050-megaphone.svg
+
+# 1825615-banking
+svgs/1825615-banking/svg/001-Gold Ingots.svg
+svgs/1825615-banking/svg/002-scale.svg
+svgs/1825615-banking/svg/003-bills.svg
+svgs/1825615-banking/svg/004-coins.svg
+svgs/1825615-banking/svg/005-cheque.svg
+svgs/1825615-banking/svg/006-online shopping.svg
+svgs/1825615-banking/svg/007-purse.svg
+svgs/1825615-banking/svg/008-piggy bank.svg
+svgs/1825615-banking/svg/009-wallet.svg
+svgs/1825615-banking/svg/010-money bag.svg
+svgs/1825615-banking/svg/011-invoice.svg
+svgs/1825615-banking/svg/012-pay.svg
+svgs/1825615-banking/svg/013-credit card.svg
+svgs/1825615-banking/svg/014-payment terminal.svg
+svgs/1825615-banking/svg/015-printer.svg
+svgs/1825615-banking/svg/016-loupe.svg
+svgs/1825615-banking/svg/017-identification card.svg
+svgs/1825615-banking/svg/018-police.svg
+svgs/1825615-banking/svg/019-banker.svg
+svgs/1825615-banking/svg/020-plant.svg
+svgs/1825615-banking/svg/021-truck.svg
+svgs/1825615-banking/svg/022-briefcase.svg
+svgs/1825615-banking/svg/023-save money.svg
+svgs/1825615-banking/svg/024-strongbox.svg
+svgs/1825615-banking/svg/025-bank.svg
+svgs/1825615-banking/svg/026-document.svg
+svgs/1825615-banking/svg/027-mallet.svg
+svgs/1825615-banking/svg/028-folder.svg
+svgs/1825615-banking/svg/029-bodyguard.svg
+svgs/1825615-banking/svg/030-diamond.svg
+svgs/1825615-banking/svg/031-tax.svg
+svgs/1825615-banking/svg/032-eye.svg
+svgs/1825615-banking/svg/033-invoice.svg
+svgs/1825615-banking/svg/034-pie chart.svg
+svgs/1825615-banking/svg/035-calculator.svg
+svgs/1825615-banking/svg/036-dollar.svg
+svgs/1825615-banking/svg/037-shield.svg
+svgs/1825615-banking/svg/038-money bag.svg
+svgs/1825615-banking/svg/039-graduation.svg
+svgs/1825615-banking/svg/040-mortgage.svg
+svgs/1825615-banking/svg/041-bomb.svg
+svgs/1825615-banking/svg/042-calendar.svg
+svgs/1825615-banking/svg/043-plant.svg
+svgs/1825615-banking/svg/044-ecommerce.svg
+svgs/1825615-banking/svg/045-atm.svg
+svgs/1825615-banking/svg/046-coin.svg
+svgs/1825615-banking/svg/047-payment.svg
+svgs/1825615-banking/svg/048-stamp.svg
+svgs/1825615-banking/svg/049-bills.svg
+
+# 1046743-fast-food
+svgs/1046743-fast-food/svg/001-popcorn.svg
+svgs/1046743-fast-food/svg/002-tea.svg
+svgs/1046743-fast-food/svg/003-chinese-food.svg
+svgs/1046743-fast-food/svg/004-tomato-sauce.svg
+svgs/1046743-fast-food/svg/005-cola-1.svg
+svgs/1046743-fast-food/svg/006-burger-2.svg
+svgs/1046743-fast-food/svg/007-burger-1.svg
+svgs/1046743-fast-food/svg/008-fried-potatoes.svg
+svgs/1046743-fast-food/svg/009-coffee.svg
+svgs/1046743-fast-food/svg/010-burger.svg
+svgs/1046743-fast-food/svg/011-ice-cream-1.svg
+svgs/1046743-fast-food/svg/012-cola.svg
+svgs/1046743-fast-food/svg/013-milkshake.svg
+svgs/1046743-fast-food/svg/014-sauces.svg
+svgs/1046743-fast-food/svg/015-hot-dog-1.svg
+svgs/1046743-fast-food/svg/016-chicken-leg-1.svg
+svgs/1046743-fast-food/svg/017-croissant.svg
+svgs/1046743-fast-food/svg/018-cheese.svg
+svgs/1046743-fast-food/svg/019-sausage.svg
+svgs/1046743-fast-food/svg/020-fried-egg.svg
+svgs/1046743-fast-food/svg/021-fried-chicken.svg
+svgs/1046743-fast-food/svg/022-serving-dish.svg
+svgs/1046743-fast-food/svg/023-pizza-slice.svg
+svgs/1046743-fast-food/svg/024-chef-hat.svg
+svgs/1046743-fast-food/svg/025-meat.svg
+svgs/1046743-fast-food/svg/026-ice-cream.svg
+svgs/1046743-fast-food/svg/027-donut.svg
+svgs/1046743-fast-food/svg/028-rice.svg
+svgs/1046743-fast-food/svg/029-package.svg
+svgs/1046743-fast-food/svg/030-kebab.svg
+svgs/1046743-fast-food/svg/031-delivery.svg
+svgs/1046743-fast-food/svg/032-food-truck.svg
+svgs/1046743-fast-food/svg/033-waiter-1.svg
+svgs/1046743-fast-food/svg/034-waiter.svg
+svgs/1046743-fast-food/svg/035-taco.svg
+svgs/1046743-fast-food/svg/036-chips.svg
+svgs/1046743-fast-food/svg/037-soda.svg
+svgs/1046743-fast-food/svg/038-take-away.svg
+svgs/1046743-fast-food/svg/039-fork.svg
+svgs/1046743-fast-food/svg/040-coffee-cup.svg
+svgs/1046743-fast-food/svg/041-waffle.svg
+svgs/1046743-fast-food/svg/042-beer.svg
+svgs/1046743-fast-food/svg/043-chicken-leg.svg
+svgs/1046743-fast-food/svg/044-pitcher.svg
+svgs/1046743-fast-food/svg/045-coffee-machine.svg
+svgs/1046743-fast-food/svg/046-noodles.svg
+svgs/1046743-fast-food/svg/047-menu.svg
+svgs/1046743-fast-food/svg/048-hot-dog.svg
+svgs/1046743-fast-food/svg/049-breakfast.svg
+svgs/1046743-fast-food/svg/050-french-fries.svg
+
+# 381006-healthy-food
+svgs/381006-healthy-food/svg/051-apple.svg
+svgs/381006-healthy-food/svg/051-asparagus.svg
+svgs/381006-healthy-food/svg/051-avocado.svg
+svgs/381006-healthy-food/svg/051-banana.svg
+svgs/381006-healthy-food/svg/051-beans.svg
+svgs/381006-healthy-food/svg/051-beet.svg
+svgs/381006-healthy-food/svg/051-bell-pepper.svg
+svgs/381006-healthy-food/svg/051-boiled-egg.svg
+svgs/381006-healthy-food/svg/051-broccoli.svg
+svgs/381006-healthy-food/svg/051-cabbage.svg
+svgs/381006-healthy-food/svg/051-carrot.svg
+svgs/381006-healthy-food/svg/051-cauliflower.svg
+svgs/381006-healthy-food/svg/051-celery.svg
+svgs/381006-healthy-food/svg/051-cereals.svg
+svgs/381006-healthy-food/svg/051-clove-garlic.svg
+svgs/381006-healthy-food/svg/051-corn-1.svg
+svgs/381006-healthy-food/svg/051-corn.svg
+svgs/381006-healthy-food/svg/051-cucumber.svg
+svgs/381006-healthy-food/svg/051-dill.svg
+svgs/381006-healthy-food/svg/051-dried-fruits.svg
+svgs/381006-healthy-food/svg/051-eggplant.svg
+svgs/381006-healthy-food/svg/051-fish.svg
+svgs/381006-healthy-food/svg/051-ginger.svg
+svgs/381006-healthy-food/svg/051-grapes.svg
+svgs/381006-healthy-food/svg/051-honey.svg
+svgs/381006-healthy-food/svg/051-juice.svg
+svgs/381006-healthy-food/svg/051-kiwi.svg
+svgs/381006-healthy-food/svg/051-leek.svg
+svgs/381006-healthy-food/svg/051-milk.svg
+svgs/381006-healthy-food/svg/051-mushroom.svg
+svgs/381006-healthy-food/svg/051-nuts.svg
+svgs/381006-healthy-food/svg/051-olive-oil.svg
+svgs/381006-healthy-food/svg/051-onion.svg
+svgs/381006-healthy-food/svg/051-orange.svg
+svgs/381006-healthy-food/svg/051-parsley.svg
+svgs/381006-healthy-food/svg/051-peach.svg
+svgs/381006-healthy-food/svg/051-pear.svg
+svgs/381006-healthy-food/svg/051-peas.svg
+svgs/381006-healthy-food/svg/051-pineapple.svg
+svgs/381006-healthy-food/svg/051-pumpkin.svg
+svgs/381006-healthy-food/svg/051-radish.svg
+svgs/381006-healthy-food/svg/051-smoothie-1.svg
+svgs/381006-healthy-food/svg/051-smoothie.svg
+svgs/381006-healthy-food/svg/051-spinach.svg
+svgs/381006-healthy-food/svg/051-strawberry.svg
+svgs/381006-healthy-food/svg/051-tea.svg
+svgs/381006-healthy-food/svg/051-tomato.svg
+svgs/381006-healthy-food/svg/051-turnip.svg
+svgs/381006-healthy-food/svg/051-water.svg
+svgs/381006-healthy-food/svg/051-yogurt.svg
+
+# 920999-avatar
+svgs/920999-avatar/svg/001-man.svg
+svgs/920999-avatar/svg/002-girl.svg
+svgs/920999-avatar/svg/003-boy.svg
+svgs/920999-avatar/svg/004-woman.svg
+svgs/920999-avatar/svg/005-man-1.svg
+svgs/920999-avatar/svg/006-woman-1.svg
+svgs/920999-avatar/svg/007-boy-1.svg
+svgs/920999-avatar/svg/008-clown.svg
+svgs/920999-avatar/svg/009-firefighter.svg
+svgs/920999-avatar/svg/010-girl-1.svg
+svgs/920999-avatar/svg/011-man-2.svg
+svgs/920999-avatar/svg/012-woman-2.svg
+svgs/920999-avatar/svg/013-woman-3.svg
+svgs/920999-avatar/svg/014-man-3.svg
+svgs/920999-avatar/svg/015-woman-4.svg
+svgs/920999-avatar/svg/016-boy-2.svg
+svgs/920999-avatar/svg/017-girl-2.svg
+svgs/920999-avatar/svg/018-boy-3.svg
+svgs/920999-avatar/svg/019-woman-5.svg
+svgs/920999-avatar/svg/020-man-4.svg
+svgs/920999-avatar/svg/021-girl-3.svg
+svgs/920999-avatar/svg/022-man-5.svg
+svgs/920999-avatar/svg/023-man-6.svg
+svgs/920999-avatar/svg/024-woman-6.svg
+svgs/920999-avatar/svg/025-boy-4.svg
+svgs/920999-avatar/svg/026-girl-4.svg
+svgs/920999-avatar/svg/027-man-7.svg
+svgs/920999-avatar/svg/028-woman-7.svg
+svgs/920999-avatar/svg/029-man-8.svg
+svgs/920999-avatar/svg/030-policewoman.svg
+svgs/920999-avatar/svg/031-policeman.svg
+svgs/920999-avatar/svg/032-girl-5.svg
+svgs/920999-avatar/svg/033-superhero.svg
+svgs/920999-avatar/svg/034-woman-8.svg
+svgs/920999-avatar/svg/035-woman-9.svg
+svgs/920999-avatar/svg/036-man-9.svg
+svgs/920999-avatar/svg/037-arab-woman.svg
+svgs/920999-avatar/svg/038-man-10.svg
+svgs/920999-avatar/svg/039-woman-10.svg
+svgs/920999-avatar/svg/040-man-11.svg
+svgs/920999-avatar/svg/041-woman-11.svg
+svgs/920999-avatar/svg/042-vampire.svg
+svgs/920999-avatar/svg/043-chef.svg
+svgs/920999-avatar/svg/044-farmer.svg
+svgs/920999-avatar/svg/045-man-12.svg
+svgs/920999-avatar/svg/046-woman-12.svg
+svgs/920999-avatar/svg/047-man-13.svg
+svgs/920999-avatar/svg/048-boy-5.svg
+svgs/920999-avatar/svg/049-thief.svg
+svgs/920999-avatar/svg/050-catwoman.svg
+svgs/920999-avatar/svg/051-american-football-player.svg
+svgs/920999-avatar/svg/052-witch.svg
+svgs/920999-avatar/svg/053-concierge.svg
+svgs/920999-avatar/svg/054-woman-13.svg
+svgs/920999-avatar/svg/055-bodybuilder.svg
+svgs/920999-avatar/svg/056-girl-6.svg
+svgs/920999-avatar/svg/057-woman-14.svg
+svgs/920999-avatar/svg/058-death.svg
+svgs/920999-avatar/svg/059-doctor.svg
+svgs/920999-avatar/svg/060-doctor-1.svg
+svgs/920999-avatar/svg/061-nun.svg
+svgs/920999-avatar/svg/062-builder.svg
+svgs/920999-avatar/svg/063-girl-7.svg
+svgs/920999-avatar/svg/064-punk.svg
+svgs/920999-avatar/svg/065-pinup.svg
+svgs/920999-avatar/svg/066-boy-6.svg
+svgs/920999-avatar/svg/067-man-14.svg
+svgs/920999-avatar/svg/068-girl-8.svg
+svgs/920999-avatar/svg/069-woman-15.svg
+svgs/920999-avatar/svg/070-man-15.svg
+
+# 5620857-italian-food
+svgs/5620857-italian-food/svg/001-italian food.svg
+svgs/5620857-italian-food/svg/002-spaghetti.svg
+svgs/5620857-italian-food/svg/003-provola.svg
+svgs/5620857-italian-food/svg/004-tortellini.svg
+svgs/5620857-italian-food/svg/005-gnocchi.svg
+svgs/5620857-italian-food/svg/006-parmesan.svg
+svgs/5620857-italian-food/svg/007-oil.svg
+svgs/5620857-italian-food/svg/008-cannelloni.svg
+svgs/5620857-italian-food/svg/009-bread.svg
+svgs/5620857-italian-food/svg/010-pasta.svg
+svgs/5620857-italian-food/svg/011-pizza.svg
+svgs/5620857-italian-food/svg/012-bresaola.svg
+svgs/5620857-italian-food/svg/013-ricotta.svg
+svgs/5620857-italian-food/svg/014-ossobuco.svg
+svgs/5620857-italian-food/svg/015-piadina.svg
+svgs/5620857-italian-food/svg/016-arancini.svg
+svgs/5620857-italian-food/svg/017-ravioli.svg
+svgs/5620857-italian-food/svg/018-carpaccio.svg
+svgs/5620857-italian-food/svg/019-bruschetta.svg
+svgs/5620857-italian-food/svg/020-tiramisu.svg
+svgs/5620857-italian-food/svg/021-espresso.svg
+svgs/5620857-italian-food/svg/022-calzone.svg
+svgs/5620857-italian-food/svg/023-panettone.svg
+svgs/5620857-italian-food/svg/024-vitello tonnato.svg
+svgs/5620857-italian-food/svg/025-grappa.svg
+svgs/5620857-italian-food/svg/026-lasagna.svg
+svgs/5620857-italian-food/svg/027-farfalle.svg
+svgs/5620857-italian-food/svg/028-minestrone.svg
+svgs/5620857-italian-food/svg/029-meatballs.svg
+svgs/5620857-italian-food/svg/030-basil.svg
+svgs/5620857-italian-food/svg/031-pizza.svg
+svgs/5620857-italian-food/svg/032-pasta.svg
+svgs/5620857-italian-food/svg/033-rigatoni.svg
+svgs/5620857-italian-food/svg/034-limoncello.svg
+svgs/5620857-italian-food/svg/035-polenta.svg
+svgs/5620857-italian-food/svg/036-panna cotta.svg
+svgs/5620857-italian-food/svg/037-porchetta.svg
+svgs/5620857-italian-food/svg/038-grissini.svg
+svgs/5620857-italian-food/svg/039-prosciutto.svg
+svgs/5620857-italian-food/svg/040-burrata.svg
+svgs/5620857-italian-food/svg/041-gelato.svg
+svgs/5620857-italian-food/svg/042-caprese.svg
+svgs/5620857-italian-food/svg/043-focaccia.svg
+svgs/5620857-italian-food/svg/044-fiorentina.svg
+svgs/5620857-italian-food/svg/045-parmigiana di melanzane.svg
+svgs/5620857-italian-food/svg/046-wine.svg
+svgs/5620857-italian-food/svg/047-menu.svg
+svgs/5620857-italian-food/svg/048-balsamic vinegar.svg
+svgs/5620857-italian-food/svg/049-cannoli.svg
+svgs/5620857-italian-food/svg/050-prosciutto.svg
+
+# 4645849-bubble-tea
+svgs/4645849-bubble-tea/svg/001-boba.svg
+svgs/4645849-bubble-tea/svg/002-bubble tea.svg
+svgs/4645849-bubble-tea/svg/003-tea.svg
+svgs/4645849-bubble-tea/svg/004-red tea.svg
+svgs/4645849-bubble-tea/svg/005-lemon tea.svg
+svgs/4645849-bubble-tea/svg/006-cassava root.svg
+svgs/4645849-bubble-tea/svg/007-bubble tea.svg
+svgs/4645849-bubble-tea/svg/008-mik tea.svg
+svgs/4645849-bubble-tea/svg/009-black tea.svg
+svgs/4645849-bubble-tea/svg/010-shop.svg
+svgs/4645849-bubble-tea/svg/011-bubble tea.svg
+svgs/4645849-bubble-tea/svg/012-bubble tea.svg
+svgs/4645849-bubble-tea/svg/013-green tea.svg
+svgs/4645849-bubble-tea/svg/014-herbal tea.svg
+svgs/4645849-bubble-tea/svg/015-bubble tea.svg
+svgs/4645849-bubble-tea/svg/016-milk tea.svg
+svgs/4645849-bubble-tea/svg/017-bubble tea.svg
+svgs/4645849-bubble-tea/svg/018-bubble tea.svg
+svgs/4645849-bubble-tea/svg/019-bubble tea.svg
+svgs/4645849-bubble-tea/svg/020-bubble tea.svg
+svgs/4645849-bubble-tea/svg/021-bubble tea.svg
+svgs/4645849-bubble-tea/svg/022-bubble tea.svg
+svgs/4645849-bubble-tea/svg/023-bubble tea.svg
+svgs/4645849-bubble-tea/svg/024-bubble tea.svg
+svgs/4645849-bubble-tea/svg/025-bubble tea.svg
+svgs/4645849-bubble-tea/svg/026-bubble tea.svg
+svgs/4645849-bubble-tea/svg/027-bubble tea.svg
+svgs/4645849-bubble-tea/svg/028-bubble tea.svg
+svgs/4645849-bubble-tea/svg/029-bubble tea.svg
+svgs/4645849-bubble-tea/svg/030-bubble tea.svg
+
+# 4491012-vegan
+svgs/4491012-vegan/svg/001-vegan.svg
+svgs/4491012-vegan/svg/002-vegan.svg
+svgs/4491012-vegan/svg/003-gluten free.svg
+svgs/4491012-vegan/svg/004-flask.svg
+svgs/4491012-vegan/svg/005-no gmo.svg
+svgs/4491012-vegan/svg/006-no pork.svg
+svgs/4491012-vegan/svg/007-no chicken.svg
+svgs/4491012-vegan/svg/008-no eggs.svg
+svgs/4491012-vegan/svg/009-no cheese.svg
+svgs/4491012-vegan/svg/010-no meat.svg
+svgs/4491012-vegan/svg/011-no beef.svg
+svgs/4491012-vegan/svg/012-no meat.svg
+svgs/4491012-vegan/svg/013-no honey.svg
+svgs/4491012-vegan/svg/014-cruelty free.svg
+svgs/4491012-vegan/svg/015-cruelty free.svg
+svgs/4491012-vegan/svg/016-paraben free.svg
+svgs/4491012-vegan/svg/017-organic.svg
+svgs/4491012-vegan/svg/018-sustainable.svg
+svgs/4491012-vegan/svg/019-non toxic.svg
+svgs/4491012-vegan/svg/020-vegan.svg
+svgs/4491012-vegan/svg/021-vegan.svg
+svgs/4491012-vegan/svg/022-pizza.svg
+svgs/4491012-vegan/svg/023-vegan burger.svg
+svgs/4491012-vegan/svg/024-sausage.svg
+svgs/4491012-vegan/svg/025-hot dog.svg
+svgs/4491012-vegan/svg/026-lasagna.svg
+svgs/4491012-vegan/svg/027-sandwich.svg
+svgs/4491012-vegan/svg/028-skewer.svg
+svgs/4491012-vegan/svg/029-ramen.svg
+svgs/4491012-vegan/svg/030-soy meat.svg
+svgs/4491012-vegan/svg/031-lactose free.svg
+svgs/4491012-vegan/svg/032-almond milk.svg
+svgs/4491012-vegan/svg/033-soy milk.svg
+svgs/4491012-vegan/svg/034-tofu.svg
+svgs/4491012-vegan/svg/035-olive oil.svg
+svgs/4491012-vegan/svg/036-smoothie.svg
+svgs/4491012-vegan/svg/037-blender.svg
+svgs/4491012-vegan/svg/038-spinach.svg
+svgs/4491012-vegan/svg/039-soup.svg
+svgs/4491012-vegan/svg/040-grocery bag.svg
+svgs/4491012-vegan/svg/041-fork.svg
+svgs/4491012-vegan/svg/042-fork.svg
+svgs/4491012-vegan/svg/043-fork.svg
+svgs/4491012-vegan/svg/044-vegan food.svg
+svgs/4491012-vegan/svg/045-vegan food.svg
+svgs/4491012-vegan/svg/046-pot.svg
+svgs/4491012-vegan/svg/047-chef.svg
+svgs/4491012-vegan/svg/048-apron.svg
+svgs/4491012-vegan/svg/049-shoes.svg
+svgs/4491012-vegan/svg/050-vegan.svg
+
+# 4285413-time-and-date
+svgs/4285413-time-and-date/svg/001-cuckoo clock.svg
+svgs/4285413-time-and-date/svg/002-hourglass.svg
+svgs/4285413-time-and-date/svg/003-event.svg
+svgs/4285413-time-and-date/svg/004-24 hours.svg
+svgs/4285413-time-and-date/svg/005-time is money.svg
+svgs/4285413-time-and-date/svg/006-time management.svg
+svgs/4285413-time-and-date/svg/007-timer.svg
+svgs/4285413-time-and-date/svg/008-digital clock.svg
+svgs/4285413-time-and-date/svg/009-smartwatch.svg
+svgs/4285413-time-and-date/svg/010-calendar.svg
+svgs/4285413-time-and-date/svg/011-stopwatch.svg
+svgs/4285413-time-and-date/svg/012-alarm clock.svg
+svgs/4285413-time-and-date/svg/013-birthday.svg
+svgs/4285413-time-and-date/svg/014-ring bell.svg
+svgs/4285413-time-and-date/svg/015-travel.svg
+svgs/4285413-time-and-date/svg/016-wristwatch.svg
+svgs/4285413-time-and-date/svg/017-schedule.svg
+svgs/4285413-time-and-date/svg/018-wall clock.svg
+svgs/4285413-time-and-date/svg/019-Work time.svg
+svgs/4285413-time-and-date/svg/020-bed time.svg
+svgs/4285413-time-and-date/svg/021-valentines day.svg
+svgs/4285413-time-and-date/svg/022-spring.svg
+svgs/4285413-time-and-date/svg/023-summer.svg
+svgs/4285413-time-and-date/svg/024-autumn.svg
+svgs/4285413-time-and-date/svg/025-winter.svg
+svgs/4285413-time-and-date/svg/026-coffee time.svg
+svgs/4285413-time-and-date/svg/027-add event.svg
+svgs/4285413-time-and-date/svg/028-remove.svg
+svgs/4285413-time-and-date/svg/029-fast time.svg
+svgs/4285413-time-and-date/svg/030-mute.svg
+svgs/4285413-time-and-date/svg/031-deadline.svg
+svgs/4285413-time-and-date/svg/032-organize.svg
+svgs/4285413-time-and-date/svg/033-smartphone.svg
+svgs/4285413-time-and-date/svg/034-time zone.svg
+svgs/4285413-time-and-date/svg/035-day and night.svg
+svgs/4285413-time-and-date/svg/036-earth hour.svg
+svgs/4285413-time-and-date/svg/037-add.svg
+svgs/4285413-time-and-date/svg/038-remove.svg
+svgs/4285413-time-and-date/svg/039-tea time.svg
+svgs/4285413-time-and-date/svg/040-padlock.svg
+svgs/4285413-time-and-date/svg/041-payday.svg
+svgs/4285413-time-and-date/svg/042-clock.svg
+svgs/4285413-time-and-date/svg/043-yesterday.svg
+svgs/4285413-time-and-date/svg/044-next week.svg
+svgs/4285413-time-and-date/svg/045-repeat.svg
+svgs/4285413-time-and-date/svg/046-tomorrow.svg
+svgs/4285413-time-and-date/svg/047-analysis.svg
+svgs/4285413-time-and-date/svg/048-reminder.svg
+svgs/4285413-time-and-date/svg/049-target.svg
+svgs/4285413-time-and-date/svg/050-monitor.svg
+
+# 4056818-fruits-and-vegetables
+svgs/4056818-fruits-and-vegetables/svg/001-turnip.svg
+svgs/4056818-fruits-and-vegetables/svg/002-radish.svg
+svgs/4056818-fruits-and-vegetables/svg/003-mushrooms.svg
+svgs/4056818-fruits-and-vegetables/svg/004-ginger.svg
+svgs/4056818-fruits-and-vegetables/svg/005-peas.svg
+svgs/4056818-fruits-and-vegetables/svg/006-cucumber.svg
+svgs/4056818-fruits-and-vegetables/svg/007-chili.svg
+svgs/4056818-fruits-and-vegetables/svg/008-potato.svg
+svgs/4056818-fruits-and-vegetables/svg/009-tomato.svg
+svgs/4056818-fruits-and-vegetables/svg/010-carrot.svg
+svgs/4056818-fruits-and-vegetables/svg/011-eggplant.svg
+svgs/4056818-fruits-and-vegetables/svg/012-corn.svg
+svgs/4056818-fruits-and-vegetables/svg/013-chard.svg
+svgs/4056818-fruits-and-vegetables/svg/014-cabbage.svg
+svgs/4056818-fruits-and-vegetables/svg/015-celery.svg
+svgs/4056818-fruits-and-vegetables/svg/016-sweet potato.svg
+svgs/4056818-fruits-and-vegetables/svg/017-kale.svg
+svgs/4056818-fruits-and-vegetables/svg/018-lemon.svg
+svgs/4056818-fruits-and-vegetables/svg/019-apple.svg
+svgs/4056818-fruits-and-vegetables/svg/020-orange.svg
+svgs/4056818-fruits-and-vegetables/svg/021-pear.svg
+svgs/4056818-fruits-and-vegetables/svg/022-broccoli.svg
+svgs/4056818-fruits-and-vegetables/svg/023-kiwi.svg
+svgs/4056818-fruits-and-vegetables/svg/024-melon.svg
+svgs/4056818-fruits-and-vegetables/svg/025-cashew.svg
+svgs/4056818-fruits-and-vegetables/svg/026-peach.svg
+svgs/4056818-fruits-and-vegetables/svg/027-avocado.svg
+svgs/4056818-fruits-and-vegetables/svg/028-cherry.svg
+svgs/4056818-fruits-and-vegetables/svg/029-mangosteen.svg
+svgs/4056818-fruits-and-vegetables/svg/030-papaya.svg
+svgs/4056818-fruits-and-vegetables/svg/031-watermelon.svg
+svgs/4056818-fruits-and-vegetables/svg/032-Raspberry.svg
+svgs/4056818-fruits-and-vegetables/svg/033-Bell pepper.svg
+svgs/4056818-fruits-and-vegetables/svg/034-coconut.svg
+svgs/4056818-fruits-and-vegetables/svg/035-banana.svg
+svgs/4056818-fruits-and-vegetables/svg/036-strawberry.svg
+svgs/4056818-fruits-and-vegetables/svg/037-mango.svg
+svgs/4056818-fruits-and-vegetables/svg/038-pineapple.svg
+svgs/4056818-fruits-and-vegetables/svg/039-pomegranate.svg
+svgs/4056818-fruits-and-vegetables/svg/040-plum.svg
+svgs/4056818-fruits-and-vegetables/svg/041-durian.svg
+svgs/4056818-fruits-and-vegetables/svg/042-starfruit.svg
+svgs/4056818-fruits-and-vegetables/svg/043-grape.svg
+svgs/4056818-fruits-and-vegetables/svg/044-mushrooms.svg
+svgs/4056818-fruits-and-vegetables/svg/045-blueberry.svg
+svgs/4056818-fruits-and-vegetables/svg/046-onion.svg
+svgs/4056818-fruits-and-vegetables/svg/047-beetroot.svg
+svgs/4056818-fruits-and-vegetables/svg/048-garlic.svg
+svgs/4056818-fruits-and-vegetables/svg/049-asparagus.svg
+svgs/4056818-fruits-and-vegetables/svg/050-spring onion.svg
+
+# 2014547-cheese
+svgs/2014547-cheese/svg/001-cheese.svg
+svgs/2014547-cheese/svg/002-cheese.svg
+svgs/2014547-cheese/svg/003-cheese.svg
+svgs/2014547-cheese/svg/004-cheese.svg
+svgs/2014547-cheese/svg/005-cheese.svg
+svgs/2014547-cheese/svg/006-cheese.svg
+svgs/2014547-cheese/svg/007-cheese.svg
+svgs/2014547-cheese/svg/008-cheese.svg
+svgs/2014547-cheese/svg/009-cheese.svg
+svgs/2014547-cheese/svg/010-cheese.svg
+svgs/2014547-cheese/svg/011-cheese.svg
+svgs/2014547-cheese/svg/012-cheese.svg
+svgs/2014547-cheese/svg/013-cheese.svg
+svgs/2014547-cheese/svg/014-cheese.svg
+svgs/2014547-cheese/svg/015-cheese.svg
+svgs/2014547-cheese/svg/016-cheese.svg
+svgs/2014547-cheese/svg/017-cheese.svg
+svgs/2014547-cheese/svg/018-cheese.svg
+svgs/2014547-cheese/svg/019-fondue.svg
+svgs/2014547-cheese/svg/020-cheese.svg
+svgs/2014547-cheese/svg/021-sandwich.svg
+svgs/2014547-cheese/svg/022-cheese.svg
+svgs/2014547-cheese/svg/023-cheese.svg
+svgs/2014547-cheese/svg/024-cheese.svg
+svgs/2014547-cheese/svg/025-cheese.svg
+svgs/2014547-cheese/svg/026-cheese knife.svg
+svgs/2014547-cheese/svg/027-cheese knife.svg
+svgs/2014547-cheese/svg/028-cheese knife.svg
+svgs/2014547-cheese/svg/029-cheese.svg
+svgs/2014547-cheese/svg/030-cheese.svg 

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner App - Project Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #E7F1D3; /* fp-body-bg from your DS */
+            color: #111827; /* fp-neutral-text from your DS */
+        }
+        .font-display-hub {
+            font-family: 'Satisfy', cursive; /* Placeholder for "Oddly Calming" */
+        }
+        .text-shadow-dark-hub {
+            text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        display: ['Satisfy', 'cursive'],
+                    },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3',
+                        'fp-primary-green': '#5AD479',
+                        'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4',
+                        'fp-neutral-text': '#111827',
+                        'fp-neutral-darkest': '#333333',
+                        'fp-white': '#FFFFFF',
+                    },
+                    boxShadow: {
+                        'fp-card': '0 4px 12px rgba(0,0,0,0.1)',
+                        'fp-cta': '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)',
+                    },
+                    borderRadius: {
+                        'fp': '0.75rem', // Slightly larger for cards on hub
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6">
+
+    <header class="text-center mb-12">
+        <h1 class="font-display-hub text-6xl text-fp-neutral-darkest text-shadow-dark-hub">Food Planner App</h1>
+        <p class="text-fp-neutral-text text-lg mt-2">Project Hub</p>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl w-full">
+        <a href="./design_system/index.html"
+           class="block p-8 bg-fp-white rounded-fp shadow-fp-card hover:shadow-lg transition-shadow duration-200 ease-in-out">
+            <div class="flex items-center mb-4">
+                <img src="./svgs\3176258-marketing\svg\016-flipchart.svg" alt="Design System Icon" class="h-10 w-10 mr-4 text-fp-primary-green">
+                <div>
+                    <h2 class="text-2xl font-semibold text-fp-neutral-darkest mb-1">Design System</h2>
+                    <p class="text-fp-neutral-text text-sm">View components, styles, and guidelines.</p>
+                </div>
+            </div>
+            <div class="text-right text-fp-primary-green font-medium">
+                Explore Design System →
+            </div>
+        </a>
+
+        <!-- Link to Mobile Prototype -->
+        <a href="./mobile-prototype/index.html"
+           class="block p-8 bg-fp-white rounded-fp shadow-fp-card hover:shadow-lg transition-shadow duration-200 ease-in-out">
+            <div class="flex items-center mb-4">
+                <img src="./svgs\3176258-marketing\svg\005-smartphone.svg" alt="Mobile Prototype Icon" class="h-10 w-10 mr-4 text-fp-primary-green">
+                <div>
+                    <h2 class="text-2xl font-semibold text-fp-neutral-darkest mb-1">Mobile Prototype</h2>
+                    <p class="text-fp-neutral-text text-sm">Click through the app's user flow.</p>
+                </div>
+            </div>
+             <div class="text-right text-fp-accent-blue font-medium">
+                Launch Prototype →
+            </div>
+        </a>
+    </main>
+
+    <footer class="mt-12 text-center text-xs text-fp-neutral-text-light">
+        <p>© 2023 Food Planner App Project. All assets are for demonstration purposes.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Food Planner - Cooking Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; color: #111827; }
+        .font-display-prototype { font-family: 'Satisfy', cursive; }
+        .text-shadow-dark-prototype { text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); }
+        .radio-card input:checked + label {
+            border-color: #5AD479; /* fp-primary-green */
+            /* ring: 2px; ring-color: #5AD479; /* These are not standard CSS and will be ignored. */
+            background-color: #dbf8e3; /* lighter green */
+        }
+        .radio-card input:checked + label h3 {
+            color: #34C759; /* fp-primary-green-dark */
+        }
+        .tooltip-container { position: relative; display: inline-block; }
+        .tooltip-icon { cursor: help; color: #5A6AD4; }
+        .tooltip-text { visibility: hidden; width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 6px; padding: 5px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -100px; opacity: 0; transition: opacity 0.3s; font-size: 0.75rem; line-height: 1.2; }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Satisfy', 'cursive'], },
+                    colors: { // ...
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-blue-dark': '#4755c4', 'fp-neutral-text': '#111827',
+                        'fp-neutral-darkest': '#333333', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-neutral-medium': '#D1D5DB', 'fp-neutral-text-light':'#6B7280',
+                        'gray-100': '#f3f4f6', 'green-50': '#ecfdf5',
+                    }, // ...
+                    boxShadow: { 'fp-cta': '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)', },
+                    borderRadius: { 'fp': '0.5rem', }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <div class="w-full max-w-[430px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl mx-auto bg-fp-body-bg flex flex-col min-h-screen shadow-xl p-6">
+        <header class="pt-10 pb-6"> 
+            <a href="onboarding-equipment.html" class="text-fp-accent-blue hover:text-fp-accent-blue-dark inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back
+            </a>
+            <h1 class="font-display-prototype text-3xl text-fp-neutral-darkest text-shadow-dark-prototype text-center mt-4">Your Cooking Style</h1>
+        </header>
+
+        <main class="flex-grow space-y-8 overflow-y-auto"> 
+            <p class="text-fp-neutral-text text-center text-sm">How much time and effort do you typically like to spend?</p>
+
+            <div>
+                <label for="cooking-time" class="block font-sans text-sm font-medium text-fp-neutral-darkest mb-1">Time spent on cooking/prep (per main meal):</label>
+                <select id="cooking-time" class="block w-full p-3 rounded-fp border border-fp-neutral-medium bg-fp-white shadow-sm focus:border-fp-primary-green focus:ring-1 focus:ring-fp-primary-green">
+                    <option value="quick">Quick (15-30 minutes)</option>
+                    <option value="moderate" selected>Moderate (30-60 minutes)</option>
+                    <option value="leisurely">Leisurely (60+ minutes)</option>
+                    <option value="varies">It Varies Greatly</option>
+                </select>
+            </div>
+
+            <div>
+                <p class="block font-sans text-sm font-medium text-fp-neutral-darkest mb-2">Preferred Meal Difficulty / Prep Style:</p>
+                <div class="space-y-4"> 
+                    <div class="radio-card">
+                        <input type="radio" id="difficulty-easy" name="difficulty" value="easy" class="sr-only" checked>
+                        <label for="difficulty-easy" class="block p-3 bg-fp-white rounded-fp border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer">
+                            <h3 class="font-semibold text-fp-neutral-darkest text-sm">Easy Peasy</h3>
+                            <p class="text-xs text-fp-neutral-text-light">Minimal prep, simple steps. (e.g., beans from a can)</p>
+                        </label>
+                    </div>
+                    <div class="radio-card">
+                        <input type="radio" id="difficulty-medium" name="difficulty" value="medium" class="sr-only">
+                        <label for="difficulty-medium" class="block p-3 bg-fp-white rounded-fp border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer">
+                            <h3 class="font-semibold text-fp-neutral-darkest text-sm">Balanced Effort</h3>
+                            <p class="text-xs text-fp-neutral-text-light">Some chopping, a few more steps. (e.g., dried beans with a pressure cooker)</p>
+                        </label>
+                    </div>
+                     <div class="radio-card">
+                        <input type="radio" id="difficulty-involved" name="difficulty" value="involved" class="sr-only">
+                        <label for="difficulty-involved" class="block p-3 bg-fp-white rounded-fp border-2 border-fp-neutral-medium hover:border-fp-primary-green cursor-pointer">
+                            <h3 class="font-semibold text-fp-neutral-darkest text-sm">More Involved</h3>
+                            <p class="text-xs text-fp-neutral-text-light">Enjoy the process, more complex. (e.g., dried beans, no pressure cooker)</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+             <p class="text-xs text-fp-neutral-text-light mt-6"> 
+                We'll use this to filter recipes and estimate preparation times for you.
+            </p>
+        </main>
+
+        <footer class="pt-8 pb-6"> 
+             <a href="onboarding-shopping.html" class="w-full text-center block font-semibold py-3 px-6 rounded-fp bg-fp-primary-green text-fp-white shadow-fp-cta hover:bg-fp-primary-green-dark">
+                Next
+            </a>
+        </footer>
+    </div>
+</body>
+</html>

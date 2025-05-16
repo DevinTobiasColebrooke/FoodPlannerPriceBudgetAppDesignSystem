@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Ratings & Pickers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        /* SHARED STYLES (copy from another DS page) */
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Satisfy", cursive; }
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+        code { background-color: #f3f4f6; padding: 0.2em 0.4em; margin: 0; font-size: 0.9em; border-radius: 0.25rem; color: #4b5563; }
+        pre { background-color: #f3f4f6; padding: 1em; border-radius: 0.375rem; overflow-x: auto; margin-top: 0.5em; margin-bottom: 1em; }
+        pre code { background-color: transparent; padding: 0; }
+
+        /* Star Rating */
+        .star-rating { display: flex; }
+        .star-rating label { cursor: pointer; color: #d1d5db; /* gray-300 */ transition: color 0.2s; }
+        .star-rating input[type="radio"] { display: none; }
+        /* Pure CSS hover/checked state for demo - JS would be better for real app */
+        .star-rating label:hover,
+        .star-rating label:hover ~ label, /* Color stars to the right on hover */
+        .star-rating input[type="radio"]:checked ~ label {
+            color: #F0AB1F; /* fp-accent-yellow */
+        }
+        /* Reverse order for filling stars on click */
+        .star-rating { unicode-bidi: bidi-override; direction: rtl; }
+        .star-rating > label:hover:before,
+        .star-rating > label:hover ~ label:before { content: "\2605"; position: absolute; opacity: 0.7; }
+         .star-rating > input:checked ~ label:before { content: "\2605"; position: absolute; }
+
+
+        /* Date Picker Conceptual Style */
+        .date-picker-input-container { position: relative; }
+        .date-picker-input-container svg { position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); color: #6B7280; }
+        .calendar-grid-demo { border: 1px solid #D1D5DB; padding: 0.5rem; border-radius: 0.5rem; background-color: #FBFDF8; margin-top:0.5rem; }
+        .calendar-grid-demo header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0.25rem; }
+        .calendar-grid-demo .days { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.75rem; color: #6B7280; margin-bottom: 0.25rem; }
+        .calendar-grid-demo .dates { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+        .calendar-grid-demo .date-cell { display: flex; align-items: center; justify-content: center; height: 2rem; font-size: 0.875rem; border-radius: 0.25rem; cursor: pointer; }
+        .calendar-grid-demo .date-cell:hover { background-color: #E7F1D3; }
+        .calendar-grid-demo .date-cell.today { background-color: #F0AB1F; color: white; font-weight: bold; }
+        .calendar-grid-demo .date-cell.selected { background-color: #5AD479; color: white; }
+        .calendar-grid-demo .date-cell.other-month { color: #9CA3AF; }
+
+
+    </style>
+    <script>
+        tailwind.config = { /* Same Tailwind config */
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Satisfy', 'cursive'], },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-accent-blue': '#5A6AD4',
+                        'fp-accent-yellow': '#F0AB1F', 'fp-neutral-text': '#111827', 'fp-neutral-darkest': '#333333',
+                        'fp-neutral-medium': '#D1D5DB', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-neutral-text-light': '#6B7280',
+                    },
+                    borderRadius: { 'fp': '0.5rem', }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                 <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <a href="./index.html">Introduction</a>
+                    <a href="./typography.html">Typography</a>
+                    <a href="./colors.html">Color Palette</a>
+                    <a href="./buttons.html">Buttons</a>
+                    <a href="./forms.html">Forms & Inputs</a>
+                    <a href="./shadows.html">Shadows</a>
+                    <a href="./layout.html">Layout Notes</a>
+                    <a href="./icons.html">Icons</a>
+                    <a href="./data_display_tables.html">Data & Tables</a>
+                    <a href="./cards.html">Cards</a>
+                    <a href="./modals.html">Modals</a>
+                    <a href="./alerts_notifications.html">Alerts & Notifications</a>
+                    <a href="./tooltips_citations.html">Tooltips & Citations</a>
+                    <a href="./specialized_components.html">Specialized Comp.</a>
+                    <a href="./loading_indicators.html">Loading Indicators</a>
+                    <a href="./ratings_pickers.html" class="active">Ratings & Pickers</a>
+                    <a href="./calendar_view.html">Calendar View</a>
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">Ratings & Pickers</h1>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">3. Star Rating</h2>
+                    <p class="text-fp-neutral-text mb-2">For user feedback on meals or recipes. This is a CSS-only visual demo; JavaScript would handle actual value submission.</p>
+                    <div class="mb-4">
+                        <h3 class="ds-subsection-title font-sans">Interactive Star Rating (CSS Demo)</h3>
+                        <div class="star-rating text-3xl">
+                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">★</label>
+                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+                            <input type="radio" id="star3" name="rating" value="3" checked /><label for="star3" title="3 stars">★</label>
+                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
+                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="ds-subsection-title font-sans">Displaying a Rating (e.g., 3.5 stars)</h3>
+                        <div class="flex items-center text-fp-accent-yellow">
+                            <!-- Filled stars -->
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <!-- Half Star (conceptual, often needs a dedicated half-star SVG or masking) -->
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292zM10 4.182v11.634L12.808 14.18l1.902 1.38-0.728-2.23.001-.002 1.624-1.18-2.22-.323L12.5 9.62l-1.902-1.38.728 2.23-.001.002-1.624 1.18 2.22.322L10 14.18z"></path></svg>
+                            <!-- Empty star -->
+                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <span class="ml-2 text-sm text-fp-neutral-text">(3.5)</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">4. Date Picker</h2>
+                     <div class="mb-6">
+                        <h3 class="ds-subsection-title font-sans">Native Date Picker</h3>
+                        <p class="text-fp-neutral-text text-sm mb-1">Styling is browser-dependent. Our base input styles apply.</p>
+                        <input type="date"
+                               class="block w-full max-w-xs p-2.5 rounded-lg border border-fp-neutral-medium bg-fp-white shadow-sm focus:border-fp-primary-green focus:ring-1 focus:ring-fp-primary-green">
+                    </div>
+                    <div>
+                        <h3 class="ds-subsection-title font-sans">Custom Date Picker (Conceptual Visual)</h3>
+                        <p class="text-fp-neutral-text text-sm mb-1">A custom picker offers consistent styling but requires JavaScript. Below is a visual mock-up.</p>
+                        <div class="date-picker-input-container max-w-xs mb-2">
+                            <input type="text" value="October 26, 2023" readonly
+                                   class="block w-full p-2.5 rounded-lg border border-fp-neutral-medium bg-fp-white shadow-sm cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" /></svg>
+                        </div>
+                        <div class="calendar-grid-demo max-w-xs">
+                            <header>
+                                <button class="text-fp-accent-blue"><</button>
+                                <span class="font-semibold text-fp-neutral-darkest">October 2023</span>
+                                <button class="text-fp-accent-blue">></button>
+                            </header>
+                            <div class="days"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
+                            <div class="dates">
+                                <div class="date-cell other-month">24</div><div class="date-cell other-month">25</div><div class="date-cell other-month">26</div><div class="date-cell other-month">27</div><div class="date-cell other-month">28</div><div class="date-cell other-month">29</div><div class="date-cell other-month">30</div>
+                                <div class="date-cell">1</div><div class="date-cell">2</div><div class="date-cell">3</div><div class="date-cell">4</div><div class="date-cell">5</div><div class="date-cell">6</div><div class="date-cell">7</div>
+                                <div class="date-cell">8</div><div class="date-cell">9</div><div class="date-cell">10</div><div class="date-cell">11</div><div class="date-cell">12</div><div class="date-cell">13</div><div class="date-cell">14</div>
+                                <div class="date-cell">15</div><div class="date-cell">16</div><div class="date-cell">17</div><div class="date-cell">18</div><div class="date-cell">19</div><div class="date-cell">20</div><div class="date-cell">21</div>
+                                <div class="date-cell">22</div><div class="date-cell">23</div><div class="date-cell">24</div><div class="date-cell">25</div><div class="date-cell selected">26</div><div class="date-cell today">27</div><div class="date-cell">28</div>
+                                <div class="date-cell">29</div><div class="date-cell">30</div><div class="date-cell">31</div><div class="date-cell other-month">1</div><div class="date-cell other-month">2</div><div class="date-cell other-month">3</div><div class="date-cell other-month">4</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+     <script>
+        // Sidebar active link script
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href').endsWith(currentPage)) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

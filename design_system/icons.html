@@ -1,0 +1,222 @@
+// icons.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Planner Design System - Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #E7F1D3; font-family: 'Poppins', sans-serif; color: #111827; margin: 0; }
+        .ds-container-wrapper { padding: 1.5rem; }
+        .ds-container { max-width: 1200px; margin-left: auto; margin-right: auto; background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; min-height: calc(100vh - 3rem); }
+        .ds-sidebar { width: 240px; flex-shrink: 0; background-color: #f0f4e8; padding: 1.5rem 1rem; border-right: 1px solid #d1d5db; }
+        .ds-sidebar h1 { margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #BDDA83; }
+        .ds-sidebar nav a { display: block; padding: 0.6rem 0.75rem; margin-bottom: 0.3rem; border-radius: 0.375rem; color: #333333; text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s ease, color 0.2s ease; }
+        .ds-sidebar nav a:hover { background-color: #BDDA83; color: #111827; }
+        .ds-sidebar nav a.active { background-color: #5AD479; color: white; font-weight: 500; }
+        .ds-main-content { flex-grow: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+        h1.ds-page-title { color: #333333; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #5AD479; }
+        h2.ds-section-title { color: #333333; margin-top: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #BDDA83; }
+        h3.ds-subsection-title { color: #333333; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .font-display { font-family: "Oddly Calming", cursive; }
+        .text-shadow-dark { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
+        section.ds-section { margin-bottom: 2.5rem; }
+        code { background-color: #f3f4f6; padding: 0.2em 0.4em; margin: 0; font-size: 0.9em; border-radius: 0.25rem; color: #4b5563; }
+        pre { background-color: #f3f4f6; padding: 1em; border-radius: 0.375rem; overflow-x: auto; margin-top: 0.5em; margin-bottom: 1em; }
+        pre code { background-color: transparent; padding: 0; }
+        .icon-link { color: #5A6AD4; text-decoration: underline; }
+        .icon-link:hover { color: #3b4cca; }
+        .icon-preview-item { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.375rem; background-color: #f9fafb; }
+        .icon-preview-item img { margin-bottom: 0.5rem; max-width: 48px; max-height: 48px; /* Adjust size as needed */ }
+        .icon-preview-item .inline-svg-preview svg { margin-bottom: 0.5rem; }
+        .icon-preview-item span { font-size: 0.75rem; color: #6b7280; word-break: break-all; margin-top: auto; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['"Oddly Calming"', 'cursive'], },
+                    colors: {
+                        'fp-body-bg': '#E7F1D3', 'fp-primary-green': '#5AD479', 'fp-primary-green-dark': '#34C759',
+                        'fp-accent-blue': '#5A6AD4', 'fp-accent-yellow': '#F0AB1F', 'fp-accent-yellow-alt': '#D4D45A',
+                        'fp-accent-orange': '#FD7E14', 'fp-footer-bg': '#BDDA83',
+                        'fp-neutral-text': '#111827', 'fp-neutral-text-light': '#6B7280', 'fp-neutral-darkest': '#333333',
+                        'fp-neutral': '#9CA3AF', 'fp-neutral-dark': '#6B7280', 'fp-neutral-medium': '#D1D5DB',
+                        'fp-neutral-light': '#F9FAFB', 'fp-neutral-lightest': '#FBFDF8', 'fp-white': '#FFFFFF',
+                        'fp-success': '#28A745', 'fp-success-bg': '#D4EDDA', 'fp-error': '#DC3545', 'fp-error-bg': '#F8D7DA',
+                        'fp-warning': '#FFC107', 'fp-warning-bg': '#FFF3CD', 'fp-info': '#17A2B8', 'fp-info-bg': '#D1ECF1',
+                        'fp-tag1-bg': '#F3F6D6', 'fp-tag1-text': '#F0AB1F',
+                    },
+                    boxShadow: {
+                        'fp-cta': '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        'fp-card': '0 4px 8px rgba(0, 0, 0, 0.08)',
+                        'fp-modal': '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    },
+                    borderRadius: { 'fp': '0.5rem', },
+                    borderColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.gray.300', 'currentColor'), 'fp-primary-green': '#5AD479', }),
+                    ringColor: theme => ({ ...theme('colors'), DEFAULT: theme('colors.blue.500', '#5A6AD4'), 'fp-primary-green': '#5AD479', })
+                }
+            },
+            plugins: [],
+        }
+    </script>
+</head>
+<body>
+    <div class="ds-container-wrapper">
+        <div class="ds-container">
+            <aside class="ds-sidebar">
+                <h1 class="font-display text-xl text-fp-neutral-darkest">Food Planner DS</h1>
+                <nav>
+                    <a href="index.html">Introduction</a>
+                    <a href="typography.html">Typography</a>
+                    <a href="colors.html">Color Palette</a>
+                    <a href="buttons.html">Buttons</a>
+                    <a href="forms.html">Forms & Inputs</a>
+                    <a href="shadows.html">Shadows</a>
+                    <a href="layout.html">Layout Notes</a>
+                    <a href="icons.html" class="active">Icons</a>
+                    <a href="svg_lookbook.html">SVG Lookbook</a>
+                    <a href="data_display_tables.html">Data & Tables</a>
+                    <a href="cards.html">Cards</a>
+                    <a href="modals.html">Modals</a>
+                    <a href="alerts_notifications.html">Alerts & Notifications</a>
+                    <a href="tooltips_citations.html">Tooltips & Citations</a>
+                    <a href="specialized_components.html">Specialized Components</a>
+                    <a href="./loading_indicators.html">Loading Indicators</a>
+                    <a href="./ratings_pickers.html">Ratings & Pickers</a>
+                    <a href="./calendar_view.html">Calendar View</a>
+                </nav>
+            </aside>
+            <main class="ds-main-content">
+                <h1 class="ds-page-title font-display text-4xl">9. Icons</h1>
+                <p class="mb-4 text-fp-neutral-text">
+                    Icons are sourced from Flaticon and placed in the <code>./svgs/</code> directory.
+                    This page demonstrates referencing them via relative paths using <code><img></code> tags.
+                    For icons needing CSS color control (e.g., single-color UI icons matching text color), inlining the SVG is preferred in component demos.
+                </p>
+                <p class="mb-6 text-fp-neutral-text">
+                    <strong>Important:</strong> When using <code><img src="path/to.svg"></code>, Tailwind text color classes (like <code>text-fp-primary-green</code>) will **not** change the SVG's internal colors. The icon will render with colors defined in the SVG file itself.
+                    Always check Flaticon licensing for commercial use and attribution requirements.
+                </p>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">9.1. Icon Packs (from Flaticon)</h2>
+                    <p class="text-fp-neutral-text mb-2">Click pack names to visit Flaticon. Icons are referenced from <code>./svgs/<pack-id>/svg/</code>.</p>
+                    <ul class="list-disc pl-5 text-fp-neutral-text space-y-2">
+                        <li><a href="https://www.flaticon.com/packs/fruits-and-vegetables-88" target="_blank" class="icon-link">Fruits & Vegetables (<code>./svgs/4056818-fruits-and-vegetables/svg/</code>)</a></li>
+                        <li><a href="https://www.flaticon.com/packs/healthy-food-2" target="_blank" class="icon-link">Healthy Food (<code>./svgs/381006-healthy-food/svg/</code>)</a></li>
+                        <li><a href="https://www.flaticon.com/packs/italian-food-42" target="_blank" class="icon-link">Italian Food (<code>./svgs/5620857-italian-food/svg/</code>)</a></li>
+                        <li><a href="https://www.flaticon.com/packs/cheese-3?word=cheese" target="_blank" class="icon-link">Cheese (<code>./svgs/2014547-cheese/svg/</code>)</a></li>
+                        <li><a href="https://www.flaticon.com/packs/bubble-tea-2?word=tea" target="_blank" class="icon-link">Bubble Tea (<code>./svgs/4645849-bubble-tea/svg/</code>)</a></li>
+                        <li><a href="https://www.flaticon.com/packs/vegan-62?word=food" target="_blank" class="icon-link">Vegan (<code>./svgs/4491012-vegan/svg/</code>)</a></li>
+                        <li><a href="https://www.flaticon.com/packs/time-and-date-71?word=calendar" target="_blank" class="icon-link">Time and Date (<code>./svgs/4285413-time-and-date/svg/</code>)</a></li>
+                        <li><a href="https://www.flaticon.com/packs/avatar-16?word=profile" target="_blank" class="icon-link">Avatar Pack (<code>./svgs/920999-avatar/svg/</code>)</a></li>
+                    </ul>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">9.2. Standalone Icons (from <code>./svgs/</code> root)</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        <div class="icon-preview-item">
+                            <img src="../svgs/shield.svg" alt="Shield Icon">
+                            <span>shield.svg</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/seaweed.svg" alt="Seaweed Icon">
+                            <span>seaweed.svg</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/sick.svg" alt="Sick Icon">
+                            <span>sick.svg</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/laughing.svg" alt="Laughing Icon">
+                            <span>laughing.svg</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">9.3. Example Icons from Packs (Referenced via `<img>`)</h2>
+                    <p class="text-fp-neutral-text mb-4">These demonstrate using relative paths. Sizing is controlled by CSS on the <code><img></code> tag (e.g., <code>w-12 h-12</code> or specific pixel dimensions via the `style` attribute if needed for aspect ratio).</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                        <div class="icon-preview-item">
+                            <img src="../svgs/381006-healthy-food/svg/051-apple.svg" alt="Apple">
+                            <span>051-apple.svg<br>(Healthy Food)</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/2014547-cheese/svg/003-cheese.svg" alt="Cheese">
+                            <span>003-cheese.svg<br>(Cheese)</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/4056818-fruits-and-vegetables/svg/012-corn.svg" alt="Corn">
+                            <span>012-corn.svg<br>(Fruits & Veg)</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/4285413-time-and-date/svg/010-calendar.svg" alt="Calendar">
+                            <span>010-calendar.svg<br>(Time/Date)</span>
+                        </div>
+                         <div class="icon-preview-item">
+                            <img src="../svgs/4491012-vegan/svg/001-vegan.svg" alt="Vegan Symbol">
+                            <span>001-vegan.svg<br>(Vegan)</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/4645849-bubble-tea/svg/001-boba.svg" alt="Boba Tea">
+                            <span>001-boba.svg<br>(Bubble Tea)</span>
+                        </div>
+                         <div class="icon-preview-item">
+                            <img src="../svgs/5620857-italian-food/svg/011-pizza.svg" alt="Pizza">
+                            <span>011-pizza.svg<br>(Italian Food)</span>
+                        </div>
+                        <div class="icon-preview-item">
+                            <img src="../svgs/920999-avatar/svg/006-woman-1.svg" alt="Woman Avatar">
+                            <span>006-woman-1.svg<br>(Avatar)</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ds-section">
+                    <h2 class="ds-section-title font-display text-3xl">9.4. Using Icons for UI Elements (Inlining for CSS Color Control)</h2>
+                    <p class="text-fp-neutral-text mb-4">For UI icons where color needs to be controlled by CSS (e.g., matching text color, hover states), inlining the SVG is preferred. Here are examples of where you might do that elsewhere in the design system:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="icon-preview-item !bg-fp-primary-green !border-fp-primary-green-dark">
+                            <div class="inline-svg-preview text-fp-white">
+                                <!-- Example: Close Icon (in a modal header) -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                            <span class="!text-fp-white">Close Icon (Inlined, <code>text-fp-white</code>)</span>
+                        </div>
+                        <div class="icon-preview-item !bg-fp-accent-blue !border-blue-700">
+                             <div class="inline-svg-preview text-fp-white">
+                                <!-- Example: Settings Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.646.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 1.255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.333.183-.582.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-1.255c.007-.378-.137-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            </div>
+                            <span class="!text-fp-white">Settings Icon (Inlined, <code>text-fp-white</code>)</span>
+                        </div>
+                    </div>
+                    <p class="text-fp-neutral-text mt-2 text-sm">To achieve the color control above (e.g., white icon on green background), the SVG would be inlined, and its <code>fill</code> or <code>stroke</code> attributes set to <code>currentColor</code> or specific paths targeted, with the parent element having the desired <code>text-fp-white</code> class.</p>
+                </section>
+
+            </main>
+        </div>
+    </div>
+    <script>
+        // Script to dynamically set active class on nav links
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.ds-sidebar nav a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
