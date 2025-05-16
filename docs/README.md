@@ -19,7 +19,8 @@ The user
             Lets start out easy
                 Introduce them to foods they are okay with
 
-
+Dietary intake for the user PDFS- https://nap.nationalacademies.org/collection/57/dietary-reference-intakes
+Dietary Guidelines - https://www.dietaryguidelines.gov/sites/default/files/2020-12/Dietary_Guidelines_for_Americans_2020-2025.pdf
 
 The meals
     The ingredients
@@ -28,6 +29,10 @@ The meals
             - Currently Existing in pantry
             - Cheaper option
             - Just different option
+    Dietary Guidelines - https://www.dietaryguidelines.gov/sites/default/files/2020-12/Dietary_Guidelines_for_Americans_2020-2025.pdf
+    Recalls - https://www.fsis.usda.gov/recalls
+
+
     Recipes
         - https://www.nutrition.gov/recipes
         - https://www.myplate.gov/myplate-kitchen
@@ -40,7 +45,8 @@ The shopping
     The price
     The convienence
 
-
+    Stores
+        - We should have an option where the person can do their own shopping, a button that says "I'm shopping at the market today"
 
 
 Features
@@ -55,3 +61,5 @@ Main Dashboard
         - Time till prep time, then goes into cook time, when cook time ends timer will change into a prompt asking "Did meal time end?" (Also phone notification), once selected yes timer will reappear
     Meals underneath
         -  
+
+    The menu when clicking the avatar in the header will display modal, it will give stats of total nutrients and if met. Design will be circles, progress of goal will correspond to how complete the circle is, a percent in side and the name of the nutrient below the circle. 
