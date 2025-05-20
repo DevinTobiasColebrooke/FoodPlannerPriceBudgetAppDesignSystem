@@ -4,6 +4,26 @@
 
 ### Overview
 Core service for fetching DRI values from the database based on nutrient, age, sex, and special conditions.
+Its responsibilities include:
+- Retrieving specific DRI values (EAR, RDA, AI, UL, AMDR percentages, CDRR for Sodium, etc.) based on the user's profile (age, sex, special conditions like pregnancy/lactation).
+- Fetching AIs and ULs for Water, Potassium, Sodium, and Chloride from the database tables, indexed by age group, sex, and special conditions (pregnancy/lactation).
+
+### Core Logic
+- Implement robust logic to find the correct `AgeGroup` given age (in months or years) and any special conditions.
+- Query the `DietaryReferenceIntakes` table using the determined `AgeGroup`, sex, and nutrient.
+
+### Data Sources & Fetched Data
+- **DGA Appendix 1 (Tables A1-1, A1-2, A1-3, A1-4):** Key for `DriLookupService` for Infants (0-12 months) and Toddlers (12-23 months), providing AIs and RDAs. For Children and Adults (Ages 2+), Pregnant, and Lactating Women, these tables are vital for macronutrient AMDR percentages, fiber g/1000kcal rule, % limits for added sugar/saturated fat, and absolute g/day for EFAs.
+- **NCBI DRI Summary Tables (NBK545442 - Elements, NBK56068 - Vitamins):** Primary source for micronutrient RDAs/AIs/ULs.
+- **Water DRI Report (e.g., Table S-2):** Source for AI for total water.
+- The service will fetch:
+    - Micronutrient RDAs/AIs/ULs.
+    - Macronutrient AMDR percentages, fiber g/1000kcal rule, % limits for added sugar/saturated fat, and absolute g/day for EFAs.
+    - Sodium CDRR.
+    - AI for total water.
+
+### Handling Edge Cases
+- Must gracefully handle "n/a" (not applicable) or "ND" (not determinable) values from the tables, likely by not returning a value for those specific nutrient/age group combinations.
 
 ### DRI Definitions
 - EAR (Estimated Average Requirement): Intake at which the risk of inadequacy is 0.5 (50%) for an individual.
@@ -34,6 +54,7 @@ Core service for fetching DRI values from the database based on nutrient, age, s
 
 II. Core Data / Reference Tables (Database - DriLookupService will query this):
 * DRI Tables for Calcium, Phosphorus, Magnesium, Vitamin D, Fluoride.
+* DRI tables for Water, Potassium, Sodium, and Chloride.
 * These tables must be structured based on the life-stage groups, sex, and special conditions detailed in the report (Tables S-1 to S-6, pp. 15-20, and life stage definitions pp. 31-36).
 * Key values to store per nutrient, per life-stage/sex/condition:
 * Estimated Average Requirement (EAR) - if available (e.g., Phosphorus, Magnesium for older ages)
@@ -43,6 +64,12 @@ II. Core Data / Reference Tables (Database - DriLookupService will query this):
 * Criteria for EAR/AI derivation (from Tables S-1 to S-5 and chapter text): This contextual information is vital for understanding the DRI values, even if not directly used in every calculation by the end-user calculator.
 * Reference Weights and Heights (Table 1-3, p. 36) - For extrapolations or if user data is missing.
 * Vitamin D Conversion: 1 µg cholecalciferol = 40 IU (p.18, p.255).
+
+### Dependencies
+`DriLookupService` is a dependency for:
+- `MacronutrientServices` (to get AMDR percentages, RDAs, AIs).
+- `MicronutrientServices` (to get RDA/AI and UL for each vitamin and mineral, and CDRR for Sodium).
+- `WaterTargetService` (to get AI for total water).
 
 1.  **`DriLookupService`** (Existing, role reinforced)
     *   **Responsibility updated to include:** Fetching AIs and ULs for Water, Potassium, Sodium, and Chloride from the database tables, indexed by age group, sex, and special conditions (pregnancy/lactation).

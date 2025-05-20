@@ -2093,3 +2093,4 @@ SOURCE: Proportional increase in protein requirements for growth from FAO/WHO/UN
 <sup>a</sup> The UL is the highest level of daily nutrient intake that is likely to pose no risk of adverse health effects to almost all individuals in the general population. As intake increases above the UL, the risk of adverse effects increases. Unless specified otherwise, the UL represents total nutrient intake from food, water, and supplements.
 <sup>b</sup> The UL for α-tocopherol applies to any form of supplemental α-tocopherol.
 <sup>c</sup> ND. Not determinable due to lack of data of adverse effects in this age group and concern with regard to lack of ability to handle excess amounts. Source of intake should be from food and formula in order to prevent high levels of intake.
+

@@ -1,0 +1,214 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "Orchestration" {
+  class NutrientProfileCalculatorService {
+    + calculateProfile(userInputs): NutrientProfile
+  }
+}
+
+package "Input Processing" {
+  class BmiCalculationService {
+    + calculate(weightKg, heightM): BmiOutput
+  }
+  class PhysicalActivityCoefficientService {
+    + getCoefficient(activityLevelDescription): PALCoefficient
+  }
+  class PalCategoryDeterminationService {
+    + getCategory(activityData): PALCategory
+  }
+  class WeightStatusCategorizationService {
+    + getCategory(bmi, age, sex): WeightStatus
+  }
+}
+
+package "Core Calculation Services" {
+  package "Energy & Macronutrients" {
+    class EnergyRequirementService {
+      + calculateEER(userProfile): EEROutput
+    }
+    class CarbohydrateService {
+      + calculate(userProfile, eer): CarbOutput
+    }
+    class ProteinService {
+      + calculate(userProfile, eer, weightKg): ProteinOutput
+    }
+    class FatService {
+      + calculate(userProfile, eer): FatOutput
+    }
+    class FiberService {
+      + calculate(userProfile, eer): FiberOutput
+    }
+    class WaterService {
+      + calculate(userProfile): WaterOutput
+    }
+  }
+
+  package "Micronutrients & Other Substances" {
+    class VitaminAService {
+     + calculate(userProfile): VitaminAOutput
+    }
+    class VitaminCService {
+     + calculate(userProfile): VitaminCOutput
+    }
+    class VitaminDService {
+     + calculate(userProfile): VitaminDOutput
+    }
+    class VitaminEService {
+     + calculate(userProfile): VitaminEOutput
+    }
+    class VitaminKService {
+     + calculate(userProfile): VitaminKOutput
+    }
+    class ThiaminService {
+     + calculate(userProfile): ThiaminOutput
+    }
+    class RiboflavinService {
+     + calculate(userProfile): RiboflavinOutput
+    }
+    class NiacinService {
+     + calculate(userProfile): NiacinOutput
+    }
+    class VitaminB6Service {
+     + calculate(userProfile): VitaminB6Output
+    }
+    class FolateService {
+     + calculate(userProfile): FolateOutput
+    }
+    class VitaminB12Service {
+     + calculate(userProfile): VitaminB12Output
+    }
+    class PantothenicAcidService {
+     + calculate(userProfile): PantothenicAcidOutput
+    }
+    class BiotinService {
+     + calculate(userProfile): BiotinOutput
+    }
+    class CholineService {
+     + calculate(userProfile): CholineOutput
+    }
+    class CalciumService {
+     + calculate(userProfile): CalciumOutput
+    }
+    class ChlorideService {
+     + calculate(userProfile): ChlorideOutput
+    }
+    class ChromiumService {
+     + calculate(userProfile): ChromiumOutput
+    }
+    class CopperService {
+     + calculate(userProfile): CopperOutput
+    }
+    class FluorideService {
+     + calculate(userProfile): FluorideOutput
+    }
+    class IodineService {
+     + calculate(userProfile): IodineOutput
+    }
+    class IronService {
+     + calculate(userProfile): IronOutput
+    }
+    class MagnesiumService {
+     + calculate(userProfile): MagnesiumOutput
+    }
+    class ManganeseService {
+     + calculate(userProfile): ManganeseOutput
+    }
+    class MolybdenumService {
+     + calculate(userProfile): MolybdenumOutput
+    }
+    class PhosphorusService {
+     + calculate(userProfile): PhosphorusOutput
+    }
+    class PotassiumService {
+     + calculate(userProfile): PotassiumOutput
+    }
+    class SeleniumService {
+     + calculate(userProfile): SeleniumOutput
+    }
+    class SodiumService {
+     + calculate(userProfile): SodiumOutput
+    }
+    class SulfateService {
+     + calculate(userProfile): SulfateOutput
+    }
+    class ZincService {
+     + calculate(userProfile): ZincOutput
+    }
+    class ArsenicService {
+     + calculate(userProfile): ArsenicOutput
+    }
+    class BoronService {
+     + calculate(userProfile): BoronOutput
+    }
+    class NickelService {
+     + calculate(userProfile): NickelOutput
+    }
+    class SiliconService {
+     + calculate(userProfile): SiliconOutput
+    }
+    class VanadiumService {
+     + calculate(userProfile): VanadiumOutput
+    }
+    class CarotenoidsService {
+     + calculate(userProfile): CarotenoidsOutput
+    }
+  }
+}
+
+package "Utility Services" {
+  class DriLookupService {
+    + getDriValue(nutrient, age, sex, condition): DriValue
+  }
+  class UnitConversionService {
+    + convert(value, fromUnit, toUnit): ConvertedValue
+  }
+  class RdaCalculationService {
+    + calculateRdaFromEar(ear, sd_ear?, cv?): RdaValue
+  }
+  class ReferenceBodyDataService {
+    + getReferenceData(ageGroup, sex): ReferenceAnthropometry
+  }
+}
+
+package "Data Seeding (Setup-Time)" {
+  class DriDataSeederService {
+    + seedAllData(): void
+  }
+}
+
+' Relationships
+NutrientProfileCalculatorService ..> EnergyRequirementService : uses
+NutrientProfileCalculatorService ..> CarbohydrateService : uses
+NutrientProfileCalculatorService ..> ProteinService : uses
+NutrientProfileCalculatorService ..> FatService : uses
+NutrientProfileCalculatorService ..> FiberService : uses
+NutrientProfileCalculatorService ..> WaterService : uses
+NutrientProfileCalculatorService ..> BmiCalculationService : uses
+NutrientProfileCalculatorService ..> VitaminAService : uses ' ... and all other nutrient services
+
+EnergyRequirementService ..> PhysicalActivityCoefficientService : uses
+EnergyRequirementService ..> PalCategoryDeterminationService : uses
+EnergyRequirementService ..> ReferenceBodyDataService : uses
+EnergyRequirementService ..> BmiCalculationService : uses (for pregnancy BMI)
+EnergyRequirementService ..> WeightStatusCategorizationService : uses (for pregnancy)
+EnergyRequirementService ..> DriLookupService : uses (for EER equations/coefficients if stored)
+
+
+CarbohydrateService ..> DriLookupService : uses
+ProteinService ..> DriLookupService : uses
+FatService ..> DriLookupService : uses
+FiberService ..> DriLookupService : uses
+WaterService ..> DriLookupService : uses
+
+' Generic relationship for all specific nutrient services
+note "All specific Vitamin/Mineral/OtherSubstance Services\nuse DriLookupService and may use\nUnitConversionService & RdaCalculationService" as N1
+VitaminAService ..> DriLookupService
+VitaminAService ..> UnitConversionService
+CalciumService ..> DriLookupService
+' ... (Repeat for all individual nutrient services)
+
+DriDataSeederService ..> DriLookupService : (conceptually, populates data DriLookupService reads)
+
+@enduml
