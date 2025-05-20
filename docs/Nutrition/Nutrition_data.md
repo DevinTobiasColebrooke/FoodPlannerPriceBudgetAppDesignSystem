@@ -1595,402 +1595,501 @@ SOURCE: Proportional increase in protein requirements for growth from FAO/WHO/UN
 NOTE: The high use of supplements by pregnant women is not reflected in this table.
 SOURCE: Moss et al. (1989).
 
-Box S-1 Dietary Reference Intakes
+### Box S-1 Dietary Reference Intakes
 (From p. 3)
-Term	Definition
-Recommended Dietary Allowance (RDA)	The average daily dietary nutrient intake level sufficient to meet the nutrient requirement of nearly all (97 to 98 percent) healthy individuals in a particular life stage and gender group.
-Adequate Intake (AI)	The recommended average daily intake level based on observed or experimentally determined approximations or estimates of nutrient intake by a group (or groups) of apparently healthy people that are assumed to be adequate—used when an RDA cannot be determined.
-Tolerable Upper Intake Level (UL)	The highest average daily nutrient intake level that is likely to pose no risk of adverse health effects to almost all individuals in the general population. As intake increases above the UL, the potential risk of adverse effects may increase.
-Estimated Average Requirement (EAR)	The average daily nutrient intake level estimated to meet the requirement of half the healthy individuals in a particular life stage and gender group.
-Calculation Logic with Services:
-Core Definitions: These definitions are fundamental to the entire calculator. They dictate how the output of each service is interpreted and used.
-DriLookupService: This service will be responsible for storing and retrieving these four types of DRI values (EAR, RDA, AI, UL) for each nutrient, based on age, sex, and special conditions.
-All Nutrient Services (e.g., VitaminAService, IronService):
-When an EAR is available for a nutrient, the service will typically calculate the RDA using the EAR.
-RDA = EAR + 2 SD_EAR (if standard deviation of requirement is known/provided in DRI tables).
-RDA = 1.2 × EAR (if SD is unknown, assuming a 10% coefficient of variation [CV] for the EAR, as stated on p. 3 of the document).
-If an EAR cannot be determined, an AI will be used as the primary intake goal.
-NutrientProfileCalculatorService (Orchestrator):
-Will receive RDA or AI values from individual nutrient services as the "recommended intake."
-Will receive UL values to present as the "safe upper limit."
-EARs might be used internally for more advanced probabilistic assessments of inadequacy for groups, but for individual needs, RDA/AI are the targets.
-TABLE S-1 Criteria and Dietary Reference Intake Values for Vitamin A by Life Stage Group
-(Combined from p. 8 & p. 9)
-Life Stage Group	Criterion	EAR (µg RAE/d) Male	EAR (µg RAE/d) Female	RDA (µg RAE/d) Male	RDA (µg RAE/d) Female	AI (µg/d)
-0 through 6 mo	Average vitamin A intake from human milk					400
-7 through 12 mo	Extrapolation from 0 through 6 mo AI					500
-1 through 3 y	Extrapolation from adult EAR	210	210	300	300	
-4 through 8 y	Extrapolation from adult EAR	275	275	400	400	
-9 through 13 y	Extrapolation from adult EAR	445	420	600	600	
-14 through 18 y	Extrapolation from adult EAR	630	485	900	700	
-> 18 y (19-50 y from OCR)	Adequate liver vitamin A stores	625	500	900	700	
-Pregnancy						
-14 through 18 y	Adolescent female EAR plus estimated daily accumulation by fetus		530		750	
-19 through 50 y	Adult female EAR plus estimated daily accumulation by fetus		550		770	
-Lactation						
-14 through 18 y	Adolescent female EAR plus average amount of vitamin A secreted in human milk		885		1,200	
-19 through 50 y	Adult female EAR plus average amount of vitamin A secreted in human milk		900		1,300	
-Footnotes for Table S-1 (from p. 8 & p. 9):
-a EAR = Estimated Average Requirement. The intake that meets the estimated nutrient needs of half of the individuals in a group.
-b RDA = Recommended Dietary Allowance. The intake that meets the nutrient need of almost all (97–98 percent) of individuals in a group.
-c AI = Adequate Intake. The observed average or experimentally determined intake by a defined population or subgroup that appears to sustain a defined nutritional status... The AI is not equivalent to an RDA.
-Calculation Logic with Services (Table S-1 Vitamin A):
-DriLookupService: This table's data (EAR, RDA, AI) will be stored, indexed by Life Stage, Sex, and Special Condition (Pregnancy/Lactation).
-VitaminAService:
-Unit Conversion (RAE): Will retrieve values in µg RAE/d. If the calculator allows input of Vitamin A from food composition data in different units (e.g., IU, µg retinol, µg β-carotene), this service (or a UnitConversionService) must convert them to µg RAE using the factors:
-1 µg RAE = 1 µg all-trans-retinol
-1 µg RAE = 12 µg β-carotene (from food)
-1 µg RAE = 24 µg α-carotene or β-cryptoxanthin (from food)
-(Bioconversion for supplemental β-carotene is 2:1 for retinol, so 1 IU supplemental β-carotene = 0.15 µg RAE).
-RDA Calculation: For groups with an EAR, the RDA is likely pre-calculated here based on the document's statement that it's EAR + 2 SD_EAR or 1.2 x EAR. If not, VitaminAService would perform this.
-Child Extrapolation: The "Extrapolation from adult EAR" criteria means if these child values weren't pre-tabulated, the service would calculate them from adult EARs using body weight scaling and growth factors (methodology likely detailed in the full Vitamin A chapter or methods chapter, see Table 2-1 later).
-Pregnancy/Lactation: These are specific EARs/RDAs to be looked up. The criteria ("plus estimated daily accumulation" or "plus average amount secreted") explain how these DRI values were derived by the IOM committee.
-NutrientProfileCalculatorService: Will receive the RDA or AI from VitaminAService as the individual's target intake.
-TABLE S-2 Criteria and Dietary Reference Intake Values for Vitamin K by Life Stage Group
-(Combined from p. 10 & p. 11)
-Life Stage Group	Criterion	AI (µg/d) Male	AI (µg/d) Female
-0 through 6 mo	Average vitamin K intake from human milk	2.0	2.0
-7 through 12 mo	Extrapolation from 0 through 6 mo AI	2.5	2.5
-1 through 3 y	Median intake of vitamin K from the Third National Health and Nutrition Examination Survey (NHANES III)	30	30
-4 through 8 y	Median intake of vitamin K from NHANES III	55	55
-9 through 13 y	Median intake of vitamin K from NHANES III	60	60
-14 through 18 y	Median intake of vitamin K from NHANES III	75	75
-> 18 y	Median intake of vitamin K from NHANES III	120	90
-Pregnancy			
-14 through 18 y	Adolescent female median intake		75
-19 through 50 y	Adult female median intake		90
-Lactation			
-14 through 18 y	Adolescent female median intake		75
-19 through 50 y	Adult female median intake		90
-Footnote for Table S-2 (from p. 10-11):
-a AI = Adequate Intake... The AI is not equivalent to a Recommended Dietary Allowance (RDA).
-Calculation Logic with Services (Table S-2 Vitamin K):
-DriLookupService: Stores these AI values.
-VitaminKService:
-Retrieves the AI value based on the user's life stage and sex.
-Since only AIs are provided (no EAR/RDA), the AI serves as the primary intake goal. The criteria "Median intake from NHANES III" explain the basis of these AIs.
-NutrientProfileCalculatorService: Receives the AI from VitaminKService.
-TABLE S-3 Criteria and Dietary Reference Intake Values for Chromium by Life Stage Group
-(Combined from p. 12 & p. 13)
-Life Stage Group	Criterion	AI (µg/d) Male	AI (µg/d) Female
-0 through 6 mo	Average chromium intake from human milk	0.2	0.2
-7 through 12 mo	Average chromium intake from human milk and complementary foods	5.5	5.5
-1 through 3 y	Extrapolation from adult AI	11	11
-4 through 8 y	Extrapolation from adult AI	15	15
-9 through 13 y	Extrapolation from adult AI	25	21
-14 through 18 y	Extrapolation from adult AI	35	24
-19 through 50 y	Average chromium intake based on the chromium content of foods/1,000 kcal and average energy intakeb	35	25
-≥ 51 y	Average chromium intake based on the chromium content of foods/1,000 kcal and average energy intakeb	30	20
-Pregnancy			
-14 through 18 y	Extrapolation from adolescent AI based on body weight		29
-19 through 50 y	Extrapolation from adult woman AI based on body weight		30
-Lactation			
-14 through 18 y	Adolescent female intake plus average amount of chromium secreted in human milk		44
-19 through 50 y	Adult female intake plus average amount of chromium secreted in human milk		45
-Footnotes for Table S-3 (from p. 12-13):
-a AI = Adequate Intake... The AI is not equivalent to a Recommended Dietary Allowance (RDA).
-b The average chromium content in well balanced diets was determined to be 13.4 µg/1,000 kcal and the average energy intake for adults was obtained from the Third National Health and Nutrition Examination Survey.
-Calculation Logic with Services (Table S-3 Chromium):
-DriLookupService: Stores these AI values.
-ChromiumService:
-Retrieves the AI value.
-The criteria indicate AIs for adults are based on typical energy intakes and an assumed chromium density (13.4 µ g/1000 kcal). This logic could be used by the service if more dynamic calculation based on user-provided EER was desired, but the table provides pre-calculated AIs.
-Child and pregnancy/lactation values appear to be extrapolations or additions based on specific physiological states.
-EnergyRequirementService: While not directly called by ChromiumService for these AI lookups, the EER concept is foundational to how the adult AIs were derived by the IOM.
-(I will continue with the remaining tables: S-4 Copper, S-5 Iodine, S-6 Iron, S-7 Manganese, S-8 Molybdenum, S-9 Zinc, S-10 ULs, and then Table 1-1 Reference Weights and Table 2-1 Growth Factors, as they are key for calculations.)
-TABLE S-4 Criteria and Dietary Reference Intake Values for Copper by Life Stage Group
-(Combined from p. 14 & p. 15)
-Life Stage Group	Criterion	EAR (µg/d) Male	EAR (µg/d) Female	RDA (µg/d) Male	RDA (µg/d) Female	AI (µg/d)
-0 through 6 mo	Average copper intake from human milk					200
-7 through 12 mo	Average copper intake from human milk and complementary foods					220
-1 through 3 y	Extrapolation from adult EAR	260	260	340	340	
-4 through 8 y	Extrapolation from adult EAR	340	340	440	440	
-9 through 13 y	Extrapolation from adult EAR	540	540	700	700	
-14 through 18 y	Extrapolation from adult EAR	685	685	890	890	
-19 through 50 y	Plasma copper, serum ceruloplasmin, and platelet copper concentrations and erythrocyte superoxide dismutase activity	700	700	900	900	
-≥ 51 y	Extrapolation from 19 through 50 y	700	700	900	900	
-Pregnancy						
-14 through 18 y	Adolescent female EAR plus fetal accumulation of copper		785		1,000	
-19 through 50 y	Adult female EAR plus fetal accumulation of copper		800		1,000	
-Lactation						
-14 through 18 y	Adolescent female EAR plus average amount of copper secreted in human milk		985		1,300	
-19 through 50 y	Adult female EAR plus average amount of copper secreted in human milk		1,000		1,300	
-Footnotes S-4 (from p. 14-15): a EAR, b RDA, c AI (definitions as above).
-Calculation Logic with Services (Table S-4 Copper):
-DriLookupService: Stores EAR, RDA, AI values.
-CopperService:
-Retrieves EAR and RDA (or AI for infants).
-If only EAR and SD/CV were stored, it would calculate RDA (1.2 x EAR as per p.3, or specific CV if given in the full chapter).
-Child values are extrapolations from adult EAR.
-NutrientProfileCalculatorService: Receives RDA or AI.
-TABLE S-5 Criteria and Dietary Reference Intake Values for Iodine by Life Stage Group
-(Combined from p. 16 & p. 17)
-Life Stage Group	Criterion	EAR (µg/d) Male	EAR (µg/d) Female	RDA (µg/d) Male	RDA (µg/d) Female	AI (µg/d)
-0 through 6 mo	Average iodine intake from human milk					110
-7 through 12 mo	Extrapolation from 0 through 6 mo AI					130
-1 through 3 y	Balance data on children	65	65	90	90	
-4 through 8 y	Balance data on children	65	65	90	90	
-9 through 13 y	Extrapolation from adult EAR	73	73	120	120	
-14 through 18 y	Extrapolation from adult EAR	95	95	150	150	
-19 through 50 y	Iodine turnover	95	95	150	150	
-≥ 51 y	Extrapolation of iodine turnover studies from 19 through 50 y	95	95	150	150	
-Pregnancy						
-14 through 18 y	Balance data during pregnancy		160		220	
-19 through 50 y	Balance data during pregnancy		160		220	
-Lactation						
-14 through 18 y	Adolescent female average requirement plus average amount of iodine secreted in human milk		209		290	
-19 through 50 y	Adult female average requirement plus average amount of iodine secreted in human milk		209		290	
-Footnotes S-5 (from p. 16-17): a EAR, b RDA, c AI (definitions as above).
-Calculation Logic with Services (Table S-5 Iodine):
-DriLookupService: Stores EAR, RDA, AI values.
-IodineService: Retrieves EAR and RDA (or AI for infants). Child values are extrapolations or based on specific child data.
-NutrientProfileCalculatorService: Receives RDA or AI.
-TABLE S-6 Criteria and Dietary Reference Intake Values for Iron by Life Stage Group
-(Combined from p. 18 & p. 19)
-(Iron has a skewed requirement distribution, so the 1.2xEAR rule doesn't apply directly; RDAs are typically derived from the 97.5th percentile of the requirement distribution from factorial modeling).
-Life Stage Group	Criterion	EAR (mg/d) Male	EAR (mg/d) Female	RDA (mg/d) Male	RDA (mg/d) Female	AI (mg/d)
-0 through 6 mo	Average iron intake from human milk					0.27
-7 through 12 mo	Factorial modeling	6.9	6.9	11	11	
-1 through 3 y	Factorial modeling	3.0	3.0	7	7	
-4 through 8 y	Factorial modeling	4.1	4.1	10	10	
-9 through 13 y	Factorial modeling	5.9	5.7	8	8	
-14 through 18 y	Factorial modeling	7.7	7.9	11	15	
-19 through 30 y	Factorial modeling	6	8.1	8	18	
-31 through 50 y	Factorial modeling	6	8.1	8	18	
-51 through 70 y	Factorial modeling	6	5	8	8	
-> 70 y	Extrapolation of factorial analysis from 51 through 70 y	6	5	8	8	
-Pregnancy						
-14 through 18 y	Factorial modeling		23		27	
-19 through 50 y	Factorial modeling		22		27	
-Lactation						
-14 through 18 y	Adolescent female EAR minus menstrual losses plus average amount of iron secreted in human milk		7		10	
-19 through 50 y	Adult female EAR minus menstrual losses plus average amount of iron secreted in human milk		6.5		9	
-Footnotes S-6 (from p. 18-19): a EAR, b RDA, c AI (definitions as above). "The AI is not equivalent to an RDA."
-Calculation Logic with Services (Table S-6 Iron):
-DriLookupService: Stores EAR, RDA, AI values.
-IronService:
-Retrieves EAR and RDA (or AI for young infants).
-Factorial Modeling Implied: The criteria "Factorial modeling" indicate that the EARs and RDAs are derived from complex calculations of iron losses (basal, menstrual), growth needs, and absorption rates. The service would likely not redo this entire modeling but would use these final values.
-Bioavailability: The EAR/RDA values here assume a certain fractional absorption (e.g., 18% for adults on a typical North American diet, p.13). If the calculator wants to adjust for different dietary patterns (e.g., vegetarian with lower iron bioavailability), IronService would need more complex logic, possibly using different absorption percentages to adjust the dietary iron target. This detail would be in the full Iron chapter.
-Skewed Distribution: (p.3) For population assessment, the EAR cut-point method is not ideal for iron. Your individual calculator will primarily use RDAs.
-NutrientProfileCalculatorService: Receives RDA or AI.
-(Tables S-7, S-8, S-9, S-10, 1-1, 2-1 still to come)
-TABLE S-7 Criteria and Dietary Reference Intake Values for Manganese by Life Stage Group
-(Combined from p. 20 & p. 21)
-Life Stage Group	Criterion	AI (mg/d) Male	AI (mg/d) Female
-0 through 6 mo	Average manganese intake from human milk	0.003	0.003
-7 through 12 mo	Extrapolation from adult AI	0.6	0.6
-1 through 3 y	Median manganese intake from the Food and Drug Administration’s (FDA) Total Diet Study	1.2	1.2
-4 through 8 y	Median manganese intake from FDA Total Diet Study	1.5	1.5
-9 through 13 y	Median manganese intake from FDA Total Diet Study	1.9	1.6
-14 through 18 y	Median manganese intake from FDA Total Diet Study	2.2	1.6
-≥ 19 y	Median manganese intake from FDA Total Diet Study	2.3	1.8
-Pregnancy			
-14 through 18 y	Extrapolation of adolescent female AI based on body weight		2.0
-19 through 50 y	Extrapolation of adult female AI based on body weight		2.0
-Lactation			
-14 through 18 y	Median manganese intake from FDA Total Diet Study		2.6
-19 through 50 y	Median manganese intake from FDA Total Diet Study		2.6
-Footnotes S-7 (from p. 20-21): a AI (definition as above). "The AI is not equivalent to a Recommended Dietary Allowance (RDA)."
-Calculation Logic with Services (Table S-7 Manganese):
-DriLookupService: Stores these AI values.
-ManganeseService: Retrieves AI values. The criteria indicate the basis of the AI (median intakes or extrapolation).
-NutrientProfileCalculatorService: Receives AI.
-TABLE S-8 Criteria and Dietary Reference Intake Values for Molybdenum by Life Stage Group
-(Combined from p. 22 & p. 23)
-Life Stage Group	Criterion	EAR (µg/d) Male	EAR (µg/d) Female	RDA (µg/d) Male	RDA (µg/d) Female	AI (µg/d)
-0 through 6 mo	Average molybdenum intake from human milk					2
-7 through 12 mo	Extrapolation from 0 through 6 mo					3
-1 through 3 y	Extrapolation from adult EAR	13	13	17	17	
-4 through 8 y	Extrapolation from adult EAR	17	17	22	22	
-9 through 13 y	Extrapolation from adult EAR	26	26	34	34	
-14 through 18 y	Extrapolation from adult EAR	33	33	43	43	
-19 through 30 y	Balance data	34	34	45	45	
-≥ 31 y	Extrapolation of balance data from 19 through 30 y	34	34	45	45	
-Pregnancy						
-14 through 18 y	Extrapolation of adolescent female EAR based on body weight		40		50	
-19 through 50 y	Extrapolation of adult female EAR based on body weight		40		50	
-Lactation						
-14 through 18 y	Adolescent female EAR plus average amount of molybdenum secreted in human milk		35		50	
-19 through 50 y	Adult female EAR plus average amount of molybdenum secreted in human milk		36		50	
-Footnotes S-8 (from p. 22-23): a EAR, b RDA, c AI (definitions as above). "The AI is not equivalent to an RDA."
-Calculation Logic with Services (Table S-8 Molybdenum):
-DriLookupService: Stores EAR, RDA, AI values.
-MolybdenumService: Retrieves EAR and RDA (or AI for infants).
-NutrientProfileCalculatorService: Receives RDA or AI.
-TABLE S-9 Criteria and Dietary Reference Intake Values for Zinc by Life Stage Group
-(Combined from p. 24 & p. 25)
-Life Stage Group	Criterion	EAR (mg/d) Male	EAR (mg/d) Female	RDA (mg/d) Male	RDA (mg/d) Female	AI (mg/d)
-0 through 6 mo	Average zinc intake from human milk					2
-7 through 12 mo	Factorial analysis	2.5	2.5	3	3	
-1 through 3 y	Factorial analysis	2.5	2.5	3	3	
-4 through 8 y	Factorial analysis	4.0	4.0	5	5	
-9 through 13 y	Factorial analysis	7.0	7.0	8	8	
-14 through 18 y	Factorial analysis	8.5	7.3	11	9	
-19 through 50 y	Factorial analysis	9.4	6.8	11	8	
-≥ 51 y	Extrapolation of factorial data from 19 through 50 y	9.4	6.8	11	8	
-Pregnancy						
-14 through 18 y	Adolescent female EAR plus fetal accumulation of zinc		10.0		12	
-19 through 50 y	Adult female average requirement plus fetal accumulation of zinc		9.5		11	
-Lactation						
-14 through 18 y	Adolescent female EAR plus average amount of zinc secreted in human milk		10.9		13	
-19 through 50 y	Adult female EAR plus average amount of zinc secreted in human milk		10.4		12	
-Footnotes S-9 (from p. 24-25): a EAR, b RDA, c AI (definitions as above). "The AI is not equivalent to an RDA."
-Calculation Logic with Services (Table S-9 Zinc):
-DriLookupService: Stores EAR, RDA, AI values.
-ZincService: Retrieves EAR and RDA (or AI for young infants). Factorial analysis is the basis for the DRIs; like iron, the service would use these final values rather than re-doing the modeling unless advanced features for different bioavailability scenarios are needed.
-NutrientProfileCalculatorService: Receives RDA or AI.
-TABLE S-10 Tolerable Upper Intake Levels (UL)a, by Life Stage Group
-(Combined from p. 26 & p. 27)
-Life Stage Group	Preformed Vitamin A (µg/d)	Boron (mg/d)	Copper (µg/d)	Iodine (µg/d)	Iron (mg/d)	Manganese (mg/d)	Molybdenum (µg/d)	Nickel (µg/d)	Vanadium (mg/d)c	Zinc (mg/d)
-0 through 6 mo	600	NDb	ND	ND	40	ND	ND	ND	ND	4
-7 through 12 mo	600	ND	ND	ND	40	ND	ND	ND	ND	5
-1 through 3 y	600	3	1,000	200	40	2	300	200	ND	7
-4 through 8 y	900	6	3,000	300	40	3	600	300	ND	12
-9 through 13 y	1,700	11	5,000	600	40	6	1,100	600	ND	23
-14 through 18 y	2,800	17	8,000	900	45	9	1,700	1,000	ND	34
-≥ 19 y	3,000	20	10,000	1,100	45	11	2,000	1,000	1.8	40
-Pregnancy										
-14 through 18 y	2,800	17	8,000	900	45	9	1,700	1,000	ND	34
-19 through 50 y	3,000	20	10,000	1,100	45	11	2,000	1,000	ND	40
-Lactation										
-14 through 18 y	2,800	17	8,000	900	45	9	1,700	1,000	ND	34
-19 through 50 y	3,000	20	10,000	1,100	45	11	2,000	1,000	ND	40
-Footnotes for Table S-10 (from p. 26-27):
-NOTE: ULs not established for vitamin K, chromium, arsenic, silicon.
-a UL definition as above.
-b ND = Not determinable... Source of intake should be from food only.
-c Vanadium UL for adults based on lab animals, not for children/adolescents.
-Calculation Logic with Services (Table S-10 ULs):
-DriLookupService: Stores these UL values for each listed nutrient.
-All Nutrient Services (or NutrientProfileCalculatorService):
-Will retrieve the UL for the specific nutrient, age, and sex.
-Child Extrapolation: The document states on p.53 that child ULs are often extrapolated from adult ULs. This table presents pre-calculated child ULs. If they weren't, services would need to apply: UL_child = UL_adult × (Weight_child / Weight_adult).
-ND Handling: Services must correctly handle cases where a UL is "ND" (Not Determinable), typically by not reporting a UL or indicating it's not established.
-The ULs for Vitamin A are for preformed Vitamin A. Provitamin A carotenoids do not have a UL.
-NutrientProfileCalculatorService: Presents the UL as the safe upper limit.
-TABLE 1-1 Reference Heights and Weights for Children and Adults in the United Statesa
-(From p. 41)
-Gender	Age	Median Body Mass Index ( kg/m ²)	Reference Height, cm (in)	Reference Weightb, kg (lb)
-Male, female	2–6 mo	–	64 (25)	7 (16)
-Male, female	7–11 mo	–	72 (28)	9 (20)
-Male, female	1–3 y	–	91 (36)	13 (29)
-Male, female	4–8 y	15.8	118 (46)	22 (48)
-Male	9–13 y	18.5	147 (58)	40 (88)
-Male	14–18 y	21.3	174 (68)	64 (142)
-Male	19–30 y	24.4	176 (69)	76 (166)
-Female	9–13 y	18.3	148 (58)	40 (88)
-Female	14–18 y	21.3	163 (64)	57 (125)
-Female	19–30 y	22.8	163 (64)	61 (133)
-Footnotes for Table 1-1 (from p.41):
-a Adapted from NHANES III, 1988–1994.
-b Calculated from BMI and height for ages 4 through 8 years and older.
-Calculation Logic with Services (Table 1-1 Reference Weights/Heights):
-Reference Data: These are not DRIs but are inputs for certain DRI calculations.
-DriLookupService (or a separate ReferenceAnthropometryService): Would store this data.
-EnergyRequirementService: Uses these reference weights and heights as inputs for EER formulas if actual user data isn't provided or if reference calculations are needed.
-Various Nutrient Services:
-When calculating child DRIs via extrapolation from adult DRIs (as mentioned for Vit A, Copper, Iodine, Molybdenum, Zinc, and ULs), these reference weights (Weight_child, Weight_adult) are crucial components of the extrapolation formulas (e.g., EAR_child = EAR_adult × (Weight_child/Weight_adult)^0.75 × (1 + growth factor)).
-The 19-30 y reference weights are applied to all adult age groups if specific weights are not used.
-TABLE 2-1 Estimated Growth Factor, by Age Group
-(From p. 53)
-Age Group	Growth Factor
-7 mo–3 y	0.30
-4–8 y	0.15
-9–13 y	0.15
-14–18 y	
-Males	0.15
-Females	0.0
-SOURCE: Proportional increase in protein requirements for growth from FAO/WHO/UNA (1985) used to estimate the growth factor.
-Calculation Logic with Services (Table 2-1 Growth Factors):
-Reference Data: These are inputs for child DRI calculations.
-DriLookupService (or ReferenceAnthropometryService): Stores these growth factors.
-Various Nutrient Services (e.g., VitaminAService, CopperService etc.):
-When extrapolating adult EARs to children, the formula EAR_child = EAR_adult × F is used, where F = (Weight_child/Weight_adult)^0.75 × (1 + growth factor). This table provides the growth factor values.
-This table is critical for the child DRI extrapolation logic if your DRI database doesn't already have pre-calculated values for children based on this method.
 
-TABLE S-1 Criteria and Dietary Reference Intake Values for Vitamin C by Life Stage and Gender Group (pages 6-7)
-Life Stage Group	Criterion	EAR (mg/d) Male	EAR (mg/d) Female	RDA (mg/d) Male	RDA (mg/d) Female	AI (mg/d) Male	AI (mg/d) Female
-0 through 6 mo	Human milk content					40	40
-7 through 12 mo	Human milk + solid food					50	50
-1 through 3 y	Extrapolation from adult	13	13	15	15		
-4 through 8 y	Extrapolation from adult	22	22	25	25		
-9 through 13 y	Extrapolation from adult	39	39	45	45		
-14 through 18 y	Extrapolation from adult	63	56	75	65		
-19 through 30 y	Near-maximal neutrophil concentration	75	60	90	75		
-31 through 50 y	Extrapolation of near-maximal neutrophil concentration from 19 through 30 y	75	60	90	75		
-51 through 70 y	Extrapolation of near-maximal neutrophil concentration from 19 through 30 y	75	60	90	75		
->70 y	Extrapolation of near-maximal neutrophil concentration from 19 through 30 y	75	60	90	75		
-Pregnancy							
-≤18 y	Extrapolation of near-maximal neutrophil concentration plus transfer to the fetus		66		80		
-19 through 50 y	Extrapolation of near-maximal neutrophil concentration plus transfer to the fetus		70		85		
-Lactation							
-≤18 y	Human milk content + age specific requirement		96		115		
-19 through 50 y	Human milk content + age specific requirement		100		120		
+| Term                                | Definition                                                                                                                                                                                                      |
+| :---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Recommended Dietary Allowance (RDA) | The average daily dietary nutrient intake level sufficient to meet the nutrient requirement of nearly all (97 to 98 percent) healthy individuals in a particular life stage and gender group.                   |
+| Adequate Intake (AI)                | The recommended average daily intake level based on observed or experimentally determined approximations or estimates of nutrient intake by a group (or groups) of apparently healthy people that are assumed to be adequate—used when an RDA cannot be determined. |
+| Tolerable Upper Intake Level (UL)   | The highest average daily nutrient intake level that is likely to pose no risk of adverse health effects to almost all individuals in the general population. As intake increases above the UL, the potential risk of adverse effects may increase. |
+| Estimated Average Requirement (EAR) | The average daily nutrient intake level estimated to meet the requirement of half the healthy individuals in a particular life stage and gender group.                                                        |
+
+**Calculation Logic with Services:**
+
+*   **Core Definitions:** These definitions are fundamental to the entire calculator. They dictate how the output of each service is interpreted and used.
+*   **DriLookupService:** This service will be responsible for storing and retrieving these four types of DRI values (EAR, RDA, AI, UL) for each nutrient, based on age, sex, and special conditions.
+*   **All Nutrient Services (e.g., `VitaminAService`, `IronService`):**
+    *   When an EAR is available for a nutrient, the service will typically calculate the RDA using the EAR.
+    *   RDA = EAR + 2 SD_EAR (if standard deviation of requirement is known/provided in DRI tables).
+    *   RDA = 1.2 × EAR (if SD is unknown, assuming a 10% coefficient of variation \[CV] for the EAR, as stated on p. 3 of the document).
+    *   If an EAR cannot be determined, an AI will be used as the primary intake goal.
+*   **NutrientProfileCalculatorService (Orchestrator):**
+    *   Will receive RDA or AI values from individual nutrient services as the "recommended intake."
+    *   Will receive UL values to present as the "safe upper limit."
+    *   EARs might be used internally for more advanced probabilistic assessments of inadequacy for groups, but for individual needs, RDA/AI are the targets.
+
+### TABLE S-1 Criteria and Dietary Reference Intake Values for Vitamin A by Life Stage Group
+(Combined from p. 8 & p. 9)
+
+| Life Stage Group      | Criterion                                                  | EAR (µg RAE/d) Male | EAR (µg RAE/d) Female | RDA (µg RAE/d) Male | RDA (µg RAE/d) Female | AI (µg/d) |
+| :-------------------- | :--------------------------------------------------------- | :------------------ | :-------------------- | :------------------ | :-------------------- | :-------- |
+| 0 through 6 mo        | Average vitamin A intake from human milk                   |                     |                       |                     |                       | 400       |
+| 7 through 12 mo       | Extrapolation from 0 through 6 mo AI                       |                     |                       |                     |                       | 500       |
+| 1 through 3 y         | Extrapolation from adult EAR                               | 210                 | 210                   | 300                 | 300                   |           |
+| 4 through 8 y         | Extrapolation from adult EAR                               | 275                 | 275                   | 400                 | 400                   |           |
+| 9 through 13 y        | Extrapolation from adult EAR                               | 445                 | 420                   | 600                 | 600                   |           |
+| 14 through 18 y       | Extrapolation from adult EAR                               | 630                 | 485                   | 900                 | 700                   |           |
+| > 18 y (19-50 y from OCR) | Adequate liver vitamin A stores                          | 625                 | 500                   | 900                 | 700                   |           |
+| **Pregnancy**         |                                                            |                     |                       |                     |                       |           |
+| 14 through 18 y       | Adolescent female EAR plus estimated daily accumulation by fetus |                     | 530                   |                     | 750                   |           |
+| 19 through 50 y       | Adult female EAR plus estimated daily accumulation by fetus    |                     | 550                   |                     | 770                   |           |
+| **Lactation**         |                                                            |                     |                       |                     |                       |           |
+| 14 through 18 y       | Adolescent female EAR plus average amount of vitamin A secreted in human milk |                     | 885                   |                     | 1,200                 |           |
+| 19 through 50 y       | Adult female EAR plus average amount of vitamin A secreted in human milk |                     | 900                   |                     | 1,300                 |           |
+
+**Footnotes for Table S-1 (from p. 8 & p. 9):**
+
+*   <sup>a</sup> EAR = Estimated Average Requirement. The intake that meets the estimated nutrient needs of half of the individuals in a group.
+*   <sup>b</sup> RDA = Recommended Dietary Allowance. The intake that meets the nutrient need of almost all (97–98 percent) of individuals in a group.
+*   <sup>c</sup> AI = Adequate Intake. The observed average or experimentally determined intake by a defined population or subgroup that appears to sustain a defined nutritional status... The AI is not equivalent to an RDA.
+
+**Calculation Logic with Services (Table S-1 Vitamin A):**
+
+*   **DriLookupService:** This table's data (EAR, RDA, AI) will be stored, indexed by Life Stage, Sex, and Special Condition (Pregnancy/Lactation).
+*   **VitaminAService:**
+    *   **Unit Conversion (RAE):** Will retrieve values in µg RAE/d. If the calculator allows input of Vitamin A from food composition data in different units (e.g., IU, µg retinol, µg β-carotene), this service (or a `UnitConversionService`) must convert them to µg RAE using the factors:
+        *   1 µg RAE = 1 µg all-trans-retinol
+        *   1 µg RAE = 12 µg β-carotene (from food)
+        *   1 µg RAE = 24 µg α-carotene or β-cryptoxanthin (from food)
+        *   (Bioconversion for supplemental β-carotene is 2:1 for retinol, so 1 IU supplemental β-carotene = 0.15 µg RAE).
+    *   **RDA Calculation:** For groups with an EAR, the RDA is likely pre-calculated here based on the document's statement that it's EAR + 2 SD_EAR or 1.2 x EAR. If not, `VitaminAService` would perform this.
+    *   **Child Extrapolation:** The "Extrapolation from adult EAR" criteria means if these child values weren't pre-tabulated, the service would calculate them from adult EARs using body weight scaling and growth factors (methodology likely detailed in the full Vitamin A chapter or methods chapter, see Table 2-1 later).
+    *   **Pregnancy/Lactation:** These are specific EARs/RDAs to be looked up. The criteria ("plus estimated daily accumulation" or "plus average amount secreted") explain how these DRI values were derived by the IOM committee.
+*   **NutrientProfileCalculatorService:** Will receive the RDA or AI from `VitaminAService` as the individual's target intake.
+
+### TABLE S-2 Criteria and Dietary Reference Intake Values for Vitamin K by Life Stage Group
+(Combined from p. 10 & p. 11)
+
+| Life Stage Group | Criterion                                    | AI (µg/d) Male | AI (µg/d) Female |
+| :--------------- | :------------------------------------------- | :------------- | :--------------- |
+| 0 through 6 mo   | Average vitamin K intake from human milk     | 2.0            | 2.0              |
+| 7 through 12 mo  | Extrapolation from 0 through 6 mo AI         | 2.5            | 2.5              |
+| 1 through 3 y    | Median intake of vitamin K from the Third National Health and Nutrition Examination Survey (NHANES III) | 30             | 30               |
+| 4 through 8 y    | Median intake of vitamin K from NHANES III   | 55             | 55               |
+| 9 through 13 y   | Median intake of vitamin K from NHANES III   | 60             | 60               |
+| 14 through 18 y  | Median intake of vitamin K from NHANES III   | 75             | 75               |
+| > 18 y           | Median intake of vitamin K from NHANES III   | 120            | 90               |
+| **Pregnancy**    |                                              |                |                  |
+| 14 through 18 y  | Adolescent female median intake              |                | 75               |
+| 19 through 50 y  | Adult female median intake                   |                | 90               |
+| **Lactation**    |                                              |                |                  |
+| 14 through 18 y  | Adolescent female median intake              |                | 75               |
+| 19 through 50 y  | Adult female median intake                   |                | 90               |
+
+**Footnote for Table S-2 (from p. 10-11):**
+
+*   <sup>a</sup> AI = Adequate Intake... The AI is not equivalent to a Recommended Dietary Allowance (RDA).
+
+**Calculation Logic with Services (Table S-2 Vitamin K):**
+
+*   **DriLookupService:** Stores these AI values.
+*   **VitaminKService:**
+    *   Retrieves the AI value based on the user's life stage and sex.
+    *   Since only AIs are provided (no EAR/RDA), the AI serves as the primary intake goal. The criteria "Median intake from NHANES III" explain the basis of these AIs.
+*   **NutrientProfileCalculatorService:** Receives the AI from `VitaminKService`.
+
+### TABLE S-3 Criteria and Dietary Reference Intake Values for Chromium by Life Stage Group
+(Combined from p. 12 & p. 13)
+
+| Life Stage Group | Criterion                                                                                              | AI (µg/d) Male | AI (µg/d) Female |
+| :--------------- | :----------------------------------------------------------------------------------------------------- | :------------- | :--------------- |
+| 0 through 6 mo   | Average chromium intake from human milk                                                                | 0.2            | 0.2              |
+| 7 through 12 mo  | Average chromium intake from human milk and complementary foods                                        | 5.5            | 5.5              |
+| 1 through 3 y    | Extrapolation from adult AI                                                                            | 11             | 11               |
+| 4 through 8 y    | Extrapolation from adult AI                                                                            | 15             | 15               |
+| 9 through 13 y   | Extrapolation from adult AI                                                                            | 25             | 21               |
+| 14 through 18 y  | Extrapolation from adult AI                                                                            | 35             | 24               |
+| 19 through 50 y  | Average chromium intake based on the chromium content of foods/1,000 kcal and average energy intake<sup>b</sup> | 35             | 25               |
+| ≥ 51 y           | Average chromium intake based on the chromium content of foods/1,000 kcal and average energy intake<sup>b</sup> | 30             | 20               |
+| **Pregnancy**    |                                                                                                        |                |                  |
+| 14 through 18 y  | Extrapolation from adolescent AI based on body weight                                                  |                | 29               |
+| 19 through 50 y  | Extrapolation from adult woman AI based on body weight                                                 |                | 30               |
+| **Lactation**    |                                                                                                        |                |                  |
+| 14 through 18 y  | Adolescent female intake plus average amount of chromium secreted in human milk                          |                | 44               |
+| 19 through 50 y  | Adult female intake plus average amount of chromium secreted in human milk                               |                | 45               |
+
+**Footnotes for Table S-3 (from p. 12-13):**
+
+*   <sup>a</sup> AI = Adequate Intake... The AI is not equivalent to a Recommended Dietary Allowance (RDA).
+*   <sup>b</sup> The average chromium content in well balanced diets was determined to be 13.4 µg/1,000 kcal and the average energy intake for adults was obtained from the Third National Health and Nutrition Examination Survey.
+
+**Calculation Logic with Services (Table S-3 Chromium):**
+
+*   **DriLookupService:** Stores these AI values.
+*   **ChromiumService:**
+    *   Retrieves the AI value.
+    *   The criteria indicate AIs for adults are based on typical energy intakes and an assumed chromium density (13.4 µg/1000 kcal). This logic could be used by the service if more dynamic calculation based on user-provided EER was desired, but the table provides pre-calculated AIs.
+    *   Child and pregnancy/lactation values appear to be extrapolations or additions based on specific physiological states.
+*   **EnergyRequirementService:** While not directly called by `ChromiumService` for these AI lookups, the EER concept is foundational to how the adult AIs were derived by the IOM.
+
+(I will continue with the remaining tables: S-4 Copper, S-5 Iodine, S-6 Iron, S-7 Manganese, S-8 Molybdenum, S-9 Zinc, S-10 ULs, and then Table 1-1 Reference Weights and Table 2-1 Growth Factors, as they are key for calculations.)
+
+### TABLE S-4 Criteria and Dietary Reference Intake Values for Copper by Life Stage Group
+(Combined from p. 14 & p. 15)
+
+| Life Stage Group | Criterion                                                                                                       | EAR (µg/d) Male | EAR (µg/d) Female | RDA (µg/d) Male | RDA (µg/d) Female | AI (µg/d) |
+| :--------------- | :-------------------------------------------------------------------------------------------------------------- | :-------------- | :---------------- | :-------------- | :---------------- | :-------- |
+| 0 through 6 mo   | Average copper intake from human milk                                                                           |                 |                   |                 |                   | 200       |
+| 7 through 12 mo  | Average copper intake from human milk and complementary foods                                                   |                 |                   |                 |                   | 220       |
+| 1 through 3 y    | Extrapolation from adult EAR                                                                                    | 260             | 260               | 340             | 340               |           |
+| 4 through 8 y    | Extrapolation from adult EAR                                                                                    | 340             | 340               | 440             | 440               |           |
+| 9 through 13 y   | Extrapolation from adult EAR                                                                                    | 540             | 540               | 700             | 700               |           |
+| 14 through 18 y  | Extrapolation from adult EAR                                                                                    | 685             | 685               | 890             | 890               |           |
+| 19 through 50 y  | Plasma copper, serum ceruloplasmin, and platelet copper concentrations and erythrocyte superoxide dismutase activity | 700             | 700               | 900             | 900               |           |
+| ≥ 51 y           | Extrapolation from 19 through 50 y                                                                              | 700             | 700               | 900             | 900               |           |
+| **Pregnancy**    |                                                                                                                 |                 |                   |                 |                   |           |
+| 14 through 18 y  | Adolescent female EAR plus fetal accumulation of copper                                                         |                 | 785               |                 | 1,000             |           |
+| 19 through 50 y  | Adult female EAR plus fetal accumulation of copper                                                              |                 | 800               |                 | 1,000             |           |
+| **Lactation**    |                                                                                                                 |                 |                   |                 |                   |           |
+| 14 through 18 y  | Adolescent female EAR plus average amount of copper secreted in human milk                                      |                 | 985               |                 | 1,300             |           |
+| 19 through 50 y  | Adult female EAR plus average amount of copper secreted in human milk                                           |                 | 1,000             |                 | 1,300             |           |
+
+**Footnotes S-4 (from p. 14-15):** <sup>a</sup> EAR, <sup>b</sup> RDA, <sup>c</sup> AI (definitions as above).
+
+**Calculation Logic with Services (Table S-4 Copper):**
+
+*   **DriLookupService:** Stores EAR, RDA, AI values.
+*   **CopperService:**
+    *   Retrieves EAR and RDA (or AI for infants).
+    *   If only EAR and SD/CV were stored, it would calculate RDA (1.2 x EAR as per p.3, or specific CV if given in the full chapter).
+    *   Child values are extrapolations from adult EAR.
+*   **NutrientProfileCalculatorService:** Receives RDA or AI.
+
+### TABLE S-5 Criteria and Dietary Reference Intake Values for Iodine by Life Stage Group
+(Combined from p. 16 & p. 17)
+
+| Life Stage Group | Criterion                                                                                      | EAR (µg/d) Male | EAR (µg/d) Female | RDA (µg/d) Male | RDA (µg/d) Female | AI (µg/d) |
+| :--------------- | :--------------------------------------------------------------------------------------------- | :-------------- | :---------------- | :-------------- | :---------------- | :-------- |
+| 0 through 6 mo   | Average iodine intake from human milk                                                          |                 |                   |                 |                   | 110       |
+| 7 through 12 mo  | Extrapolation from 0 through 6 mo AI                                                           |                 |                   |                 |                   | 130       |
+| 1 through 3 y    | Balance data on children                                                                       | 65              | 65                | 90              | 90                |           |
+| 4 through 8 y    | Balance data on children                                                                       | 65              | 65                | 90              | 90                |           |
+| 9 through 13 y   | Extrapolation from adult EAR                                                                   | 73              | 73                | 120             | 120               |           |
+| 14 through 18 y  | Extrapolation from adult EAR                                                                   | 95              | 95                | 150             | 150               |           |
+| 19 through 50 y  | Iodine turnover                                                                                | 95              | 95                | 150             | 150               |           |
+| ≥ 51 y           | Extrapolation of iodine turnover studies from 19 through 50 y                                  | 95              | 95                | 150             | 150               |           |
+| **Pregnancy**    |                                                                                                |                 |                   |                 |                   |           |
+| 14 through 18 y  | Balance data during pregnancy                                                                  |                 | 160               |                 | 220               |           |
+| 19 through 50 y  | Balance data during pregnancy                                                                  |                 | 160               |                 | 220               |           |
+| **Lactation**    |                                                                                                |                 |                   |                 |                   |           |
+| 14 through 18 y  | Adolescent female average requirement plus average amount of iodine secreted in human milk     |                 | 209               |                 | 290               |           |
+| 19 through 50 y  | Adult female average requirement plus average amount of iodine secreted in human milk          |                 | 209               |                 | 290               |           |
+
+**Footnotes S-5 (from p. 16-17):** <sup>a</sup> EAR, <sup>b</sup> RDA, <sup>c</sup> AI (definitions as above).
+
+**Calculation Logic with Services (Table S-5 Iodine):**
+
+*   **DriLookupService:** Stores EAR, RDA, AI values.
+*   **IodineService:** Retrieves EAR and RDA (or AI for infants). Child values are extrapolations or based on specific child data.
+*   **NutrientProfileCalculatorService:** Receives RDA or AI.
+
+### TABLE S-6 Criteria and Dietary Reference Intake Values for Iron by Life Stage Group
+(Combined from p. 18 & p. 19)
+
+(Iron has a skewed requirement distribution, so the 1.2xEAR rule doesn't apply directly; RDAs are typically derived from the 97.5th percentile of the requirement distribution from factorial modeling).
+
+| Life Stage Group | Criterion                                                                                                | EAR (mg/d) Male | EAR (mg/d) Female | RDA (mg/d) Male | RDA (mg/d) Female | AI (mg/d) |
+| :--------------- | :------------------------------------------------------------------------------------------------------- | :-------------- | :---------------- | :-------------- | :---------------- | :-------- |
+| 0 through 6 mo   | Average iron intake from human milk                                                                      |                 |                   |                 |                   | 0.27      |
+| 7 through 12 mo  | Factorial modeling                                                                                       | 6.9             | 6.9               | 11              | 11                |           |
+| 1 through 3 y    | Factorial modeling                                                                                       | 3.0             | 3.0               | 7               | 7                 |           |
+| 4 through 8 y    | Factorial modeling                                                                                       | 4.1             | 4.1               | 10              | 10                |           |
+| 9 through 13 y   | Factorial modeling                                                                                       | 5.9             | 5.7               | 8               | 8                 |           |
+| 14 through 18 y  | Factorial modeling                                                                                       | 7.7             | 7.9               | 11              | 15                |           |
+| 19 through 30 y  | Factorial modeling                                                                                       | 6               | 8.1               | 8               | 18                |           |
+| 31 through 50 y  | Factorial modeling                                                                                       | 6               | 8.1               | 8               | 18                |           |
+| 51 through 70 y  | Factorial modeling                                                                                       | 6               | 5                 | 8               | 8                 |           |
+| > 70 y           | Extrapolation of factorial analysis from 51 through 70 y                                                 | 6               | 5                 | 8               | 8                 |           |
+| **Pregnancy**    |                                                                                                          |                 |                   |                 |                   |           |
+| 14 through 18 y  | Factorial modeling                                                                                       |                 | 23                |                 | 27                |           |
+| 19 through 50 y  | Factorial modeling                                                                                       |                 | 22                |                 | 27                |           |
+| **Lactation**    |                                                                                                          |                 |                   |                 |                   |           |
+| 14 through 18 y  | Adolescent female EAR minus menstrual losses plus average amount of iron secreted in human milk          |                 | 7                 |                 | 10                |           |
+| 19 through 50 y  | Adult female EAR minus menstrual losses plus average amount of iron secreted in human milk               |                 | 6.5               |                 | 9                 |           |
+
+**Footnotes S-6 (from p. 18-19):** <sup>a</sup> EAR, <sup>b</sup> RDA, <sup>c</sup> AI (definitions as above). "The AI is not equivalent to an RDA."
+
+**Calculation Logic with Services (Table S-6 Iron):**
+
+*   **DriLookupService:** Stores EAR, RDA, AI values.
+*   **IronService:**
+    *   Retrieves EAR and RDA (or AI for young infants).
+    *   **Factorial Modeling Implied:** The criteria "Factorial modeling" indicate that the EARs and RDAs are derived from complex calculations of iron losses (basal, menstrual), growth needs, and absorption rates. The service would likely not redo this entire modeling but would use these final values.
+    *   **Bioavailability:** The EAR/RDA values here assume a certain fractional absorption (e.g., 18% for adults on a typical North American diet, p.13). If the calculator wants to adjust for different dietary patterns (e.g., vegetarian with lower iron bioavailability), `IronService` would need more complex logic, possibly using different absorption percentages to adjust the dietary iron target. This detail would be in the full Iron chapter.
+    *   **Skewed Distribution:** (p.3) For population assessment, the EAR cut-point method is not ideal for iron. Your individual calculator will primarily use RDAs.
+*   **NutrientProfileCalculatorService:** Receives RDA or AI.
+
+(Tables S-7, S-8, S-9, S-10, 1-1, 2-1 still to come)
+
+### TABLE S-7 Criteria and Dietary Reference Intake Values for Manganese by Life Stage Group
+(Combined from p. 20 & p. 21)
+
+| Life Stage Group | Criterion                                                                           | AI (mg/d) Male | AI (mg/d) Female |
+| :--------------- | :---------------------------------------------------------------------------------- | :------------- | :--------------- |
+| 0 through 6 mo   | Average manganese intake from human milk                                            | 0.003          | 0.003            |
+| 7 through 12 mo  | Extrapolation from adult AI                                                         | 0.6            | 0.6              |
+| 1 through 3 y    | Median manganese intake from the Food and Drug Administration’s (FDA) Total Diet Study | 1.2            | 1.2              |
+| 4 through 8 y    | Median manganese intake from FDA Total Diet Study                                   | 1.5            | 1.5              |
+| 9 through 13 y   | Median manganese intake from FDA Total Diet Study                                   | 1.9            | 1.6              |
+| 14 through 18 y  | Median manganese intake from FDA Total Diet Study                                   | 2.2            | 1.6              |
+| ≥ 19 y           | Median manganese intake from FDA Total Diet Study                                   | 2.3            | 1.8              |
+| **Pregnancy**    |                                                                                     |                |                  |
+| 14 through 18 y  | Extrapolation of adolescent female AI based on body weight                          |                | 2.0              |
+| 19 through 50 y  | Extrapolation of adult female AI based on body weight                               |                | 2.0              |
+| **Lactation**    |                                                                                     |                |                  |
+| 14 through 18 y  | Median manganese intake from FDA Total Diet Study                                   |                | 2.6              |
+| 19 through 50 y  | Median manganese intake from FDA Total Diet Study                                   |                | 2.6              |
+
+**Footnotes S-7 (from p. 20-21):** <sup>a</sup> AI (definition as above). "The AI is not equivalent to a Recommended Dietary Allowance (RDA)."
+
+**Calculation Logic with Services (Table S-7 Manganese):**
+
+*   **DriLookupService:** Stores these AI values.
+*   **ManganeseService:** Retrieves AI values. The criteria indicate the basis of the AI (median intakes or extrapolation).
+*   **NutrientProfileCalculatorService:** Receives AI.
+
+### TABLE S-8 Criteria and Dietary Reference Intake Values for Molybdenum by Life Stage Group
+(Combined from p. 22 & p. 23)
+
+| Life Stage Group | Criterion                                                                                | EAR (µg/d) Male | EAR (µg/d) Female | RDA (µg/d) Male | RDA (µg/d) Female | AI (µg/d) |
+| :--------------- | :--------------------------------------------------------------------------------------- | :-------------- | :---------------- | :-------------- | :---------------- | :-------- |
+| 0 through 6 mo   | Average molybdenum intake from human milk                                                |                 |                   |                 |                   | 2         |
+| 7 through 12 mo  | Extrapolation from 0 through 6 mo                                                        |                 |                   |                 |                   | 3         |
+| 1 through 3 y    | Extrapolation from adult EAR                                                             | 13              | 13                | 17              | 17                |           |
+| 4 through 8 y    | Extrapolation from adult EAR                                                             | 17              | 17                | 22              | 22                |           |
+| 9 through 13 y   | Extrapolation from adult EAR                                                             | 26              | 26                | 34              | 34                |           |
+| 14 through 18 y  | Extrapolation from adult EAR                                                             | 33              | 33                | 43              | 43                |           |
+| 19 through 30 y  | Balance data                                                                             | 34              | 34                | 45              | 45                |           |
+| ≥ 31 y           | Extrapolation of balance data from 19 through 30 y                                       | 34              | 34                | 45              | 45                |           |
+| **Pregnancy**    |                                                                                          |                 |                   |                 |                   |           |
+| 14 through 18 y  | Extrapolation of adolescent female EAR based on body weight                                |                 | 40                |                 | 50                |           |
+| 19 through 50 y  | Extrapolation of adult female EAR based on body weight                                   |                 | 40                |                 | 50                |           |
+| **Lactation**    |                                                                                          |                 |                   |                 |                   |           |
+| 14 through 18 y  | Adolescent female EAR plus average amount of molybdenum secreted in human milk           |                 | 35                |                 | 50                |           |
+| 19 through 50 y  | Adult female EAR plus average amount of molybdenum secreted in human milk                |                 | 36                |                 | 50                |           |
+
+**Footnotes S-8 (from p. 22-23):** <sup>a</sup> EAR, <sup>b</sup> RDA, <sup>c</sup> AI (definitions as above). "The AI is not equivalent to an RDA."
+
+**Calculation Logic with Services (Table S-8 Molybdenum):**
+
+*   **DriLookupService:** Stores EAR, RDA, AI values.
+*   **MolybdenumService:** Retrieves EAR and RDA (or AI for infants).
+*   **NutrientProfileCalculatorService:** Receives RDA or AI.
+
+### TABLE S-9 Criteria and Dietary Reference Intake Values for Zinc by Life Stage Group
+(Combined from p. 24 & p. 25)
+
+| Life Stage Group | Criterion                                                                                | EAR (mg/d) Male | EAR (mg/d) Female | RDA (mg/d) Male | RDA (mg/d) Female | AI (mg/d) |
+| :--------------- | :--------------------------------------------------------------------------------------- | :-------------- | :---------------- | :-------------- | :---------------- | :-------- |
+| 0 through 6 mo   | Average zinc intake from human milk                                                      |                 |                   |                 |                   | 2         |
+| 7 through 12 mo  | Factorial analysis                                                                       | 2.5             | 2.5               | 3               | 3                 |           |
+| 1 through 3 y    | Factorial analysis                                                                       | 2.5             | 2.5               | 3               | 3                 |           |
+| 4 through 8 y    | Factorial analysis                                                                       | 4.0             | 4.0               | 5               | 5                 |           |
+| 9 through 13 y   | Factorial analysis                                                                       | 7.0             | 7.0               | 8               | 8                 |           |
+| 14 through 18 y  | Factorial analysis                                                                       | 8.5             | 7.3               | 11              | 9                 |           |
+| 19 through 50 y  | Factorial analysis                                                                       | 9.4             | 6.8               | 11              | 8                 |           |
+| ≥ 51 y           | Extrapolation of factorial data from 19 through 50 y                                     | 9.4             | 6.8               | 11              | 8                 |           |
+| **Pregnancy**    |                                                                                          |                 |                   |                 |                   |           |
+| 14 through 18 y  | Adolescent female EAR plus fetal accumulation of zinc                                    |                 | 10.0              |                 | 12                |           |
+| 19 through 50 y  | Adult female average requirement plus fetal accumulation of zinc                         |                 | 9.5               |                 | 11                |           |
+| **Lactation**    |                                                                                          |                 |                   |                 |                   |           |
+| 14 through 18 y  | Adolescent female EAR plus average amount of zinc secreted in human milk                 |                 | 10.9              |                 | 13                |           |
+| 19 through 50 y  | Adult female EAR plus average amount of zinc secreted in human milk                      |                 | 10.4              |                 | 12                |           |
+
+**Footnotes S-9 (from p. 24-25):** <sup>a</sup> EAR, <sup>b</sup> RDA, <sup>c</sup> AI (definitions as above). "The AI is not equivalent to an RDA."
+
+**Calculation Logic with Services (Table S-9 Zinc):**
+
+*   **DriLookupService:** Stores EAR, RDA, AI values.
+*   **ZincService:** Retrieves EAR and RDA (or AI for young infants). Factorial analysis is the basis for the DRIs; like iron, the service would use these final values rather than re-doing the modeling unless advanced features for different bioavailability scenarios are needed.
+*   **NutrientProfileCalculatorService:** Receives RDA or AI.
+
+### TABLE S-10 Tolerable Upper Intake Levels (UL)<sup>a</sup>, by Life Stage Group
+(Combined from p. 26 & p. 27)
+
+| Life Stage Group  | Preformed Vitamin A (µg/d) | Boron (mg/d) | Copper (µg/d) | Iodine (µg/d) | Iron (mg/d) | Manganese (mg/d) | Molybdenum (µg/d) | Nickel (µg/d) | Vanadium (mg/d)<sup>c</sup> | Zinc (mg/d) |
+| :---------------- | :------------------------- | :----------- | :------------ | :------------ | :---------- | :--------------- | :---------------- | :------------ | :-------------------- | :---------- |
+| 0 through 6 mo    | 600                        | NDb          | ND            | ND            | 40          | ND               | ND                | ND            | ND                    | 4           |
+| 7 through 12 mo   | 600                        | ND           | ND            | ND            | 40          | ND               | ND                | ND            | ND                    | 5           |
+| 1 through 3 y     | 600                        | 3            | 1,000         | 200           | 40          | 2                | 300               | 200           | ND                    | 7           |
+| 4 through 8 y     | 900                        | 6            | 3,000         | 300           | 40          | 3                | 600               | 300           | ND                    | 12          |
+| 9 through 13 y    | 1,700                      | 11           | 5,000         | 600           | 40          | 6                | 1,100             | 600           | ND                    | 23          |
+| 14 through 18 y   | 2,800                      | 17           | 8,000         | 900           | 45          | 9                | 1,700             | 1,000         | ND                    | 34          |
+| ≥ 19 y            | 3,000                      | 20           | 10,000        | 1,100         | 45          | 11               | 2,000             | 1,000         | 1.8                   | 40          |
+| **Pregnancy**     |                            |              |               |               |             |                  |                   |               |                       |             |
+| 14 through 18 y   | 2,800                      | 17           | 8,000         | 900           | 45          | 9                | 1,700             | 1,000         | ND                    | 34          |
+| 19 through 50 y   | 3,000                      | 20           | 10,000        | 1,100         | 45          | 11               | 2,000             | 1,000         | ND                    | 40          |
+| **Lactation**     |                            |              |               |               |             |                  |                   |               |                       |             |
+| 14 through 18 y   | 2,800                      | 17           | 8,000         | 900           | 45          | 9                | 1,700             | 1,000         | ND                    | 34          |
+| 19 through 50 y   | 3,000                      | 20           | 10,000        | 1,100         | 45          | 11               | 2,000             | 1,000         | ND                    | 40          |
+
+**Footnotes for Table S-10 (from p. 26-27):**
+
+*   NOTE: ULs not established for vitamin K, chromium, arsenic, silicon.
+*   <sup>a</sup> UL definition as above.
+*   <sup>b</sup> ND = Not determinable... Source of intake should be from food only.
+*   <sup>c</sup> Vanadium UL for adults based on lab animals, not for children/adolescents.
+
+**Calculation Logic with Services (Table S-10 ULs):**
+
+*   **DriLookupService:** Stores these UL values for each listed nutrient.
+*   **All Nutrient Services (or `NutrientProfileCalculatorService`):**
+    *   Will retrieve the UL for the specific nutrient, age, and sex.
+    *   **Child Extrapolation:** The document states on p.53 that child ULs are often extrapolated from adult ULs. This table presents pre-calculated child ULs. If they weren't, services would need to apply: UL_child = UL_adult × (Weight_child / Weight_adult).
+    *   **ND Handling:** Services must correctly handle cases where a UL is "ND" (Not Determinable), typically by not reporting a UL or indicating it's not established.
+    *   The ULs for Vitamin A are for preformed Vitamin A. Provitamin A carotenoids do not have a UL.
+*   **NutrientProfileCalculatorService:** Presents the UL as the safe upper limit.
+
+### TABLE 1-1 Reference Heights and Weights for Children and Adults in the United States<sup>a</sup>
+(From p. 41)
+
+| Gender       | Age         | Median Body Mass Index ( kg/m²) | Reference Height, cm (in) | Reference Weight<sup>b</sup>, kg (lb) |
+| :----------- | :---------- | :---------------------------- | :------------------------ | :--------------------------------- |
+| Male, female | 2–6 mo      | –                             | 64 (25)                   | 7 (16)                             |
+| Male, female | 7–11 mo     | –                             | 72 (28)                   | 9 (20)                             |
+| Male, female | 1–3 y       | –                             | 91 (36)                   | 13 (29)                            |
+| Male, female | 4–8 y       | 15.8                          | 118 (46)                  | 22 (48)                            |
+| Male         | 9–13 y      | 18.5                          | 147 (58)                  | 40 (88)                            |
+| Male         | 14–18 y     | 21.3                          | 174 (68)                  | 64 (142)                           |
+| Male         | 19–30 y     | 24.4                          | 176 (69)                  | 76 (166)                           |
+| Female       | 9–13 y      | 18.3                          | 148 (58)                  | 40 (88)                            |
+| Female       | 14–18 y     | 21.3                          | 163 (64)                  | 57 (125)                           |
+| Female       | 19–30 y     | 22.8                          | 163 (64)                  | 61 (133)                           |
+
+**Footnotes for Table 1-1 (from p.41):**
+
+*   <sup>a</sup> Adapted from NHANES III, 1988–1994.
+*   <sup>b</sup> Calculated from BMI and height for ages 4 through 8 years and older.
+
+**Calculation Logic with Services (Table 1-1 Reference Weights/Heights):**
+
+*   **Reference Data:** These are not DRIs but are inputs for certain DRI calculations.
+*   **DriLookupService (or a separate `ReferenceAnthropometryService`):** Would store this data.
+*   **EnergyRequirementService:** Uses these reference weights and heights as inputs for EER formulas if actual user data isn't provided or if reference calculations are needed.
+*   **Various Nutrient Services:**
+    *   When calculating child DRIs via extrapolation from adult DRIs (as mentioned for Vit A, Copper, Iodine, Molybdenum, Zinc, and ULs), these reference weights (Weight_child, Weight_adult) are crucial components of the extrapolation formulas (e.g., EAR_child = EAR_adult × (Weight_child/Weight_adult)^0.75 × (1 + growth factor)).
+    *   The 19-30 y reference weights are applied to all adult age groups if specific weights are not used.
+
+### TABLE 2-1 Estimated Growth Factor, by Age Group
+(From p. 53)
+
+| Age Group | Growth Factor |
+| :-------- | :------------ |
+| 7 mo–3 y  | 0.30          |
+| 4–8 y     | 0.15          |
+| 9–13 y    | 0.15          |
+| 14–18 y   |               |
+| Males     | 0.15          |
+| Females   | 0.0           |
+
+SOURCE: Proportional increase in protein requirements for growth from FAO/WHO/UNA (1985) used to estimate the growth factor.
+
+**Calculation Logic with Services (Table 2-1 Growth Factors):**
+
+*   **Reference Data:** These are inputs for child DRI calculations.
+*   **DriLookupService (or `ReferenceAnthropometryService`):** Stores these growth factors.
+*   **Various Nutrient Services (e.g., `VitaminAService`, `CopperService` etc.):**
+    *   When extrapolating adult EARs to children, the formula EAR_child = EAR_adult × F is used, where F = (Weight_child/Weight_adult)^0.75 × (1 + growth factor). This table provides the growth factor values.
+    *   This table is critical for the child DRI extrapolation logic if your DRI database doesn't already have pre-calculated values for children based on this method.
+
+### TABLE S-1 Criteria and Dietary Reference Intake Values for Vitamin C by Life Stage and Gender Group (pages 6-7)
+
+| Life Stage Group | Criterion                                                                      | EAR (mg/d) Male | EAR (mg/d) Female | RDA (mg/d) Male | RDA (mg/d) Female | AI (mg/d) Male | AI (mg/d) Female |
+| :--------------- | :----------------------------------------------------------------------------- | :-------------- | :---------------- | :-------------- | :---------------- | :------------- | :--------------- |
+| 0 through 6 mo   | Human milk content                                                             |                 |                   |                 |                   | 40             | 40               |
+| 7 through 12 mo  | Human milk + solid food                                                        |                 |                   |                 |                   | 50             | 50               |
+| 1 through 3 y    | Extrapolation from adult                                                       | 13              | 13                | 15              | 15                |                |                  |
+| 4 through 8 y    | Extrapolation from adult                                                       | 22              | 22                | 25              | 25                |                |                  |
+| 9 through 13 y   | Extrapolation from adult                                                       | 39              | 39                | 45              | 45                |                |                  |
+| 14 through 18 y  | Extrapolation from adult                                                       | 63              | 56                | 75              | 65                |                |                  |
+| 19 through 30 y  | Near-maximal neutrophil concentration                                          | 75              | 60                | 90              | 75                |                |                  |
+| 31 through 50 y  | Extrapolation of near-maximal neutrophil concentration from 19 through 30 y    | 75              | 60                | 90              | 75                |                |                  |
+| 51 through 70 y  | Extrapolation of near-maximal neutrophil concentration from 19 through 30 y    | 75              | 60                | 90              | 75                |                |                  |
+| >70 y            | Extrapolation of near-maximal neutrophil concentration from 19 through 30 y    | 75              | 60                | 90              | 75                |                |                  |
+| **Pregnancy**    |                                                                                |                 |                   |                 |                   |                |                  |
+| ≤18 y            | Extrapolation of near-maximal neutrophil concentration plus transfer to the fetus |                 | 66                |                 | 80                |                |                  |
+| 19 through 50 y  | Extrapolation of near-maximal neutrophil concentration plus transfer to the fetus |                 | 70                |                 | 85                |                |                  |
+| **Lactation**    |                                                                                |                 |                   |                 |                   |                |                  |
+| ≤18 y            | Human milk content + age specific requirement                                  |                 | 96                |                 | 115               |                |                  |
+| 19 through 50 y  | Human milk content + age specific requirement                                  |                 | 100               |                 | 120               |                |                  |
+
 <sup>a</sup> EAR = Estimated Average Requirement. The intake that meets the estimated nutrient needs of half of the individuals in a group.
 <sup>b</sup> RDA = Recommended Dietary Allowance. The intake that meets the nutrient needs of almost all (97–98 percent) individuals in a group.
 <sup>c</sup> AI = Adequate Intake. The observed average or experimentally set intake by a defined population or subgroup that appears to sustain a defined nutritional status.
-TABLE S-2 Criteria and Dietary Reference Intake Values for α-Tocopherol<sup>a</sup> by Life Stage Group (pages 8-9)
-Life Stage Group<sup>b</sup>	Criterion	EAR (mg/d)<sup>c</sup>	RDA (mg/d)<sup>d</sup>	AI (mg/d)<sup>e</sup>
-0 through 6 mo	Human milk content			4
-7 through 12 mo	Extrapolation from 0 to 6 mo			6
-1 through 3 y	Extrapolation from adult	5	6	
-4 through 8 y	Extrapolation from adult	6	7	
-9 through 13 y	Extrapolation from adult	9	11	
-14 through 18 y	Extrapolation from adult	12	15	
-19 through 30 y	Prevention of hydrogen peroxide-induced hemolysis	12	15	
-31 through 50 y	Extrapolation of hydrogen peroxide-induced hemolysis from 19 through 30 y	12	15	
-51 through 70 y	Extrapolation of hydrogen peroxide-induced hemolysis from 19 through 30 y	12	15	
->70 y	Extrapolation of hydrogen peroxide-induced hemolysis from 19 through 50 y	12	15	
-Pregnancy				
-≤18 y	Plasma concentration	12	15	
-19 through 50 y	Plasma concentration	12	15	
-Lactation				
-≤18 y	Human milk content + age specific requirement	16	19	
-19 through 50 y	Human milk content + age specific requirement	16	19	
+
+### TABLE S-2 Criteria and Dietary Reference Intake Values for α-Tocopherol<sup>a</sup> by Life Stage Group (pages 8-9)
+
+| Life Stage Group<sup>b</sup> | Criterion                                                                 | EAR (mg/d)<sup>c</sup> | RDA (mg/d)<sup>d</sup> | AI (mg/d)<sup>e</sup> |
+| :----------------------- | :------------------------------------------------------------------------ | :--------------------- | :--------------------- | :-------------------- |
+| 0 through 6 mo           | Human milk content                                                        |                        |                        | 4                     |
+| 7 through 12 mo          | Extrapolation from 0 to 6 mo                                              |                        |                        | 6                     |
+| 1 through 3 y            | Extrapolation from adult                                                  | 5                      | 6                      |                       |
+| 4 through 8 y            | Extrapolation from adult                                                  | 6                      | 7                      |                       |
+| 9 through 13 y           | Extrapolation from adult                                                  | 9                      | 11                     |                       |
+| 14 through 18 y          | Extrapolation from adult                                                  | 12                     | 15                     |                       |
+| 19 through 30 y          | Prevention of hydrogen peroxide-induced hemolysis                         | 12                     | 15                     |                       |
+| 31 through 50 y          | Extrapolation of hydrogen peroxide-induced hemolysis from 19 through 30 y | 12                     | 15                     |                       |
+| 51 through 70 y          | Extrapolation of hydrogen peroxide-induced hemolysis from 19 through 30 y | 12                     | 15                     |                       |
+| >70 y                    | Extrapolation of hydrogen peroxide-induced hemolysis from 19 through 50 y | 12                     | 15                     |                       |
+| **Pregnancy**            |                                                                           |                        |                        |                       |
+| ≤18 y                    | Plasma concentration                                                      | 12                     | 15                     |                       |
+| 19 through 50 y          | Plasma concentration                                                      | 12                     | 15                     |                       |
+| **Lactation**            |                                                                           |                        |                        |                       |
+| ≤18 y                    | Human milk content + age specific requirement                             | 16                     | 19                     |                       |
+| 19 through 50 y          | Human milk content + age specific requirement                             | 16                     | 19                     |                       |
+
 <sup>a</sup> α-Tocopherol includes RRR-α-tocopherol, the only form of α-tocopherol that occurs naturally in foods, and the 2R-stereoisomeric forms of α-tocopherol (RRR-, RSR-, RRS-, and RSS-α-tocopherol) that occur in fortified foods and supplements. Does not include the 2S-stereoisomeric forms of α-tocopherol (SRR-, SSR-, SRS-, and SSS-α-tocopherol), also found in fortified foods and supplements. The 2R-stereoisomeric forms of α-tocopherol, as defined in this report, are the only forms of Vitamin E that have been shown to meet human requirements.
 <sup>b</sup> All groups except Pregnancy and Lactation are males and females.
 <sup>c</sup> EAR = Estimated Average Requirement. The intake that meets the estimated nutrient needs of half of the individuals in a group, men and women combined.
 <sup>d</sup> RDA = Recommended Dietary Allowance. The intake that meets the nutrient needs of almost all (97–98 percent) individuals in a group.
 <sup>e</sup> AI = Adequate Intake. The observed average or experimentally set intake by a defined population or subgroup that appears to sustain a defined nutritional status. An AI is used if sufficient scientific evidence is not available to derive an EAR. For healthy human milk-fed infants, the AI is the mean intake. The AI is not equivalent to an RDA.
-TABLE S-3 Criteria and Dietary Reference Intake Values for Selenium by Life Stage Group (pages 10-11)
-Life Stage Group<sup>a</sup>	Criterion	EAR (µg/d)<sup>b</sup>	RDA (µg/d)<sup>c</sup>	AI (µg/d)<sup>d</sup>
-0 through 6 mo	Human milk content			15
-7 through 12 mo	Human milk + solid food			20
-1 through 3 y	Extrapolation from adult	17	20	
-4 through 8 y	Extrapolation from adult	23	30	
-9 through 13 y	Extrapolation from adult	35	40	
-14 through 18 y	Extrapolation from adult	45	55	
-19 through 30 y	Maximizing plasma glutathione peroxidase activity	45	55	
-31 through 50 y	Extrapolation of plasma glutathione peroxidase activity from 19 through 30 y	45	55	
-51 through 70 y	Extrapolation of plasma glutathione peroxidase activity from 19 through 30 y	45	55	
->70 y	Extrapolation of plasma glutathione peroxidase activity from 19 through 30 y	45	55	
-Pregnancy				
-≤18 y	Saturation of fetal selenoprotein	49	60	
-19 through 50 y	Saturation of fetal selenoprotein	49	60	
-Lactation				
-≤18 y	Human milk content + age specific requirement	59	70	
-19 through 50 y	Human milk content + age specific requirement	59	70	
+
+### TABLE S-3 Criteria and Dietary Reference Intake Values for Selenium by Life Stage Group (pages 10-11)
+
+| Life Stage Group<sup>a</sup> | Criterion                                                                      | EAR (µg/d)<sup>b</sup> | RDA (µg/d)<sup>c</sup> | AI (µg/d)<sup>d</sup> |
+| :----------------------- | :----------------------------------------------------------------------------- | :--------------------- | :--------------------- | :-------------------- |
+| 0 through 6 mo           | Human milk content                                                             |                        |                        | 15                    |
+| 7 through 12 mo          | Human milk + solid food                                                        |                        |                        | 20                    |
+| 1 through 3 y            | Extrapolation from adult                                                       | 17                     | 20                     |                       |
+| 4 through 8 y            | Extrapolation from adult                                                       | 23                     | 30                     |                       |
+| 9 through 13 y           | Extrapolation from adult                                                       | 35                     | 40                     |                       |
+| 14 through 18 y          | Extrapolation from adult                                                       | 45                     | 55                     |                       |
+| 19 through 30 y          | Maximizing plasma glutathione peroxidase activity                                | 45                     | 55                     |                       |
+| 31 through 50 y          | Extrapolation of plasma glutathione peroxidase activity from 19 through 30 y   | 45                     | 55                     |                       |
+| 51 through 70 y          | Extrapolation of plasma glutathione peroxidase activity from 19 through 30 y   | 45                     | 55                     |                       |
+| >70 y                    | Extrapolation of plasma glutathione peroxidase activity from 19 through 30 y   | 45                     | 55                     |                       |
+| **Pregnancy**            |                                                                                |                        |                        |                       |
+| ≤18 y                    | Saturation of fetal selenoprotein                                              | 49                     | 60                     |                       |
+| 19 through 50 y          | Saturation of fetal selenoprotein                                              | 49                     | 60                     |                       |
+| **Lactation**            |                                                                                |                        |                        |                       |
+| ≤18 y                    | Human milk content + age specific requirement                                  | 59                     | 70                     |                       |
+| 19 through 50 y          | Human milk content + age specific requirement                                  | 59                     | 70                     |                       |
+
 <sup>a</sup> All groups except Pregnancy and Lactation are males and females.
 <sup>b</sup> EAR = Estimated Average Requirement. The intake that meets the estimated nutrient needs of half of the individuals in a group, men and women combined.
 <sup>c</sup> RDA = Recommended Dietary Allowance. The intake that meets the nutrient needs of almost all (97–98 percent) individuals in a group.
 <sup>d</sup> AI = Adequate Intake. The observed average or experimentally set intake by a defined population or subgroup that appears to sustain a defined nutritional status. An AI is used if sufficient scientific evidence is not available to derive an EAR. For healthy human milk-fed infants, the AI is the mean intake. The AI is not equivalent to an RDA.
-TABLE S-4 Tolerable Upper Intake Levels (UL<sup>a</sup>) by Life Stage Group (page 14)
-Life Stage Group	Vitamin C (mg/d)	α-Tocopherol (mg/d)<sup>b</sup>	Selenium (µg/d)
-0 through 6 mo	ND<sup>c</sup>	ND<sup>c</sup>	45
-7 through 12 mo	ND<sup>c</sup>	ND<sup>c</sup>	60
-1 through 3 y	400	200	90
-4 through 8 y	650	300	150
-9 through 13 y	1,200	600	280
-14 through 18 y	1,800	800	400
-19 through 70 y	2,000	1,000	400
->70 y	2,000	1,000	400
-Pregnancy			
-≤18 y	1,800	800	400
-19 through 50 y	2,000	1,000	400
-Lactation			
-≤18 y	1,800	800	400
-19 through 50 y	2,000	1,000	400
+
+### TABLE S-4 Tolerable Upper Intake Levels (UL<sup>a</sup>) by Life Stage Group (page 14)
+
+| Life Stage Group | Vitamin C (mg/d) | α-Tocopherol (mg/d)<sup>b</sup> | Selenium (µg/d) |
+| :--------------- | :--------------- | :---------------------------- | :-------------- |
+| 0 through 6 mo   | ND<sup>c</sup>     | ND<sup>c</sup>                | 45              |
+| 7 through 12 mo  | ND<sup>c</sup>     | ND<sup>c</sup>                | 60              |
+| 1 through 3 y    | 400              | 200                           | 90              |
+| 4 through 8 y    | 650              | 300                           | 150             |
+| 9 through 13 y   | 1,200            | 600                           | 280             |
+| 14 through 18 y  | 1,800            | 800                           | 400             |
+| 19 through 70 y  | 2,000            | 1,000                         | 400             |
+| >70 y            | 2,000            | 1,000                         | 400             |
+| **Pregnancy**    |                  |                               |                 |
+| ≤18 y            | 1,800            | 800                           | 400             |
+| 19 through 50 y  | 2,000            | 1,000                         | 400             |
+| **Lactation**    |                  |                               |                 |
+| ≤18 y            | 1,800            | 800                           | 400             |
+| 19 through 50 y  | 2,000            | 1,000                         | 400             |
+
 <sup>a</sup> The UL is the highest level of daily nutrient intake that is likely to pose no risk of adverse health effects to almost all individuals in the general population. As intake increases above the UL, the risk of adverse effects increases. Unless specified otherwise, the UL represents total nutrient intake from food, water, and supplements.
 <sup>b</sup> The UL for α-tocopherol applies to any form of supplemental α-tocopherol.
 <sup>c</sup> ND. Not determinable due to lack of data of adverse effects in this age group and concern with regard to lack of ability to handle excess amounts. Source of intake should be from food and formula in order to prevent high levels of intake.
