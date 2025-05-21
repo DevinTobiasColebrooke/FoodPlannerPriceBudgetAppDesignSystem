@@ -1,0 +1,256 @@
+@startuml User Onboarding Class Diagram
+
+!theme materia
+skinparam classAttributeIconSize 0
+hide empty members
+left to right direction
+
+title User Onboarding - Ruby on Rails 8 Application - Class Diagram
+
+package "Core Models" {
+  class User {
+    + id: integer
+    -- Authentication --
+    + email: string
+    + encrypted_password: string
+    -- Basic Profile (from macro_outline & onboarding) --
+    + age: integer
+    + sex: string ' e.g., male, female, prefer_not_to_say
+    + activity_level: string ' sedentary, moderately_active, active
+    + pregnancy_status: string ' e.g., none, trimester_1, trimester_2, trimester_3
+    + lactation_status: string ' e.g., none, first_6_months, second_6_months
+    -- Preferences & Settings (from micro_outlines) --
+    + avatar_url: string ' path to selected or default avatar
+    + selected_avatar_identifier: string ' if using a predefined set from Avatar model
+    + household_size_category: string ' e.g., "1-4", "5-10"
+    + number_of_people: integer ' alternative or supplement to category
+    + preferred_prep_time_max_minutes: integer
+    + preferred_cook_time_max_minutes: integer
+    + meal_difficulty_preference: string ' e.g., "easy", "medium", "hard"
+    + shopping_difficulty_preference: string ' e.g., "convenience_focused", "single_store_preferred"
+    + weekly_budget_amount: decimal
+    + budget_is_flexible: boolean
+    + location_preference_type: string ' e.g., "use_device_location", "set_region"
+    + shopping_region: string ' e.g., ZIP code, city
+    + latitude: decimal
+    + longitude: decimal
+    -- State --
+    + onboarding_completed_at: datetime (nullable)
+    -- Timestamps --
+    + created_at: datetime
+    + updated_at: datetime
+    -- Methods (Conceptual) --
+    + calorie_adjustment(): integer
+  }
+
+  class Allergy {
+    + id: integer
+    + name: string
+    + description: text (optional)
+    -- Timestamps --
+    + created_at: datetime
+    + updated_at: datetime
+  }
+
+  class UserAllergy <<JoinTable>> {
+    + user_id: integer (FK to User)
+    + allergy_id: integer (FK to Allergy)
+    + severity: string (optional) ' e.g., mild, moderate, severe
+    + notes: text (optional)
+  }
+
+  class Equipment {
+    + id: integer
+    + name: string ' e.g., Instapot, Blender
+    -- Timestamps --
+    + created_at: datetime
+    + updated_at: datetime
+  }
+
+  class UserEquipment <<JoinTable>> {
+    + user_id: integer (FK to User)
+    + equipment_id: integer (FK to Equipment)
+  }
+
+  class Goal {
+    + id: integer
+    + name: string ' e.g., Weight Loss, Muscle Gain
+    + description: text (optional)
+    -- Timestamps --
+    + created_at: datetime
+    + updated_at: datetime
+  }
+
+  class UserGoal <<JoinTable>> {
+    + user_id: integer (FK to User)
+    + goal_id: integer (FK to Goal)
+    + is_primary: boolean
+    + custom_goal_details: text (optional)
+  }
+}
+
+package "Supporting Models (Optional/Conditional)" {
+  class Avatar {
+    ' For predefined avatars
+    + id: integer
+    + name: string ' identifier
+    + image_path: string
+    + category: string (optional)
+    -- Timestamps --
+    + created_at: datetime
+    + updated_at: datetime
+  }
+
+  class LegalDocument {
+    ' For dynamic disclosure, privacy policy, ToS
+    + id: integer
+    + title: string
+    + content: text
+    + version: string
+    + document_type: string ' disclosure, privacy_policy, terms_of_service
+    -- Timestamps --
+    + created_at: datetime
+    + updated_at: datetime
+  }
+
+  class HouseholdMember {
+    ' For inviting other members to the household plan
+    + id: integer
+    + inviting_user_id: integer (FK to User - the main account holder)
+    + invited_email: string
+    + status: string ' e.g., pending, accepted, declined
+    + can_set_own_allergies: boolean
+    + linked_user_id: integer (FK to User - if invited person creates/links an account, optional)
+    -- Timestamps --
+    + created_at: datetime
+    + updated_at: datetime
+  }
+}
+
+package "Onboarding Controllers (Conceptual Flow)" {
+  abstract class Onboarding::BaseController {
+    # current_user: User
+    # onboarding_profile: OnboardingProfile (PORO or Session data)
+    # next_step()
+    # previous_step()
+    # complete_onboarding()
+  }
+
+  class Onboarding::WelcomeController < Onboarding::BaseController {
+    + show()
+  }
+  note bottom of Onboarding::WelcomeController : Displays welcome, links to start or sign-in.
+
+  class Onboarding::DisclosuresController < Onboarding::BaseController {
+    + show()
+    + update() ' User acknowledges disclosure
+  }
+  note bottom of Onboarding::DisclosuresController : Displays legal info (may use LegalDocument).
+
+  class Onboarding::ProfileInfoController < Onboarding::BaseController {
+    ' Handles Age, Sex, Activity Level, Pregnancy/Lactation
+    + new()
+    + create_or_update()
+  }
+  note bottom of Onboarding::ProfileInfoController : Collects basic profile data for User model.
+
+  class Onboarding::GoalsController < Onboarding::BaseController {
+    + new()
+    + create()
+  }
+  note bottom of Onboarding::GoalsController : Manages UserGoal associations.
+
+  class Onboarding::PeopleController < Onboarding::BaseController {
+    + new()
+    + create()
+  }
+  note bottom of Onboarding::PeopleController : Sets User.household_size, may create HouseholdMember.
+
+  class Onboarding::AllergiesController < Onboarding::BaseController {
+    + new()
+    + create()
+  }
+  note bottom of Onboarding::AllergiesController : Manages UserAllergy associations.
+
+  class Onboarding::EquipmentController < Onboarding::BaseController {
+    + new()
+    + create()
+  }
+  note bottom of Onboarding::EquipmentController : Manages UserEquipment associations.
+
+  class Onboarding::TimePrepController < Onboarding::BaseController {
+    + new()
+    + create()
+  }
+  note bottom of Onboarding::TimePrepController : Sets User cooking time/difficulty preferences.
+
+  class Onboarding::ShoppingController < Onboarding::BaseController {
+    + new()
+    + create()
+  }
+  note bottom of Onboarding::ShoppingController : Sets User shopping preferences (budget, location).
+
+  class Onboarding::AvatarsController < Onboarding::BaseController {
+    + new()
+    + create()
+  }
+  note bottom of Onboarding::AvatarsController : Sets User.avatar_url (may use Avatar model).
+
+  class Onboarding::FinalizeController < Onboarding::BaseController {
+    + create()
+  }
+  note bottom of Onboarding::FinalizeController : Marks User.onboarding_completed_at, redirects to dashboard.
+
+  ' Simplified Flow Indication
+  Onboarding::WelcomeController --> Onboarding::DisclosuresController
+  Onboarding::DisclosuresController --> Onboarding::ProfileInfoController
+  Onboarding::ProfileInfoController --> Onboarding::GoalsController
+  Onboarding::GoalsController --> Onboarding::PeopleController
+  Onboarding::PeopleController --> Onboarding::AllergiesController
+  Onboarding::AllergiesController --> Onboarding::EquipmentController
+  Onboarding::EquipmentController --> Onboarding::TimePrepController
+  Onboarding::TimePrepController --> Onboarding::ShoppingController
+  Onboarding::ShoppingController --> Onboarding::AvatarsController
+  Onboarding::AvatarsController --> Onboarding::FinalizeController
+}
+
+' --- Relationships ---
+User "1" -- "0..*" UserAllergy : has many
+UserAllergy "many" -- "1" Allergy : belongs to
+
+User "1" -- "0..*" UserEquipment : has many
+UserEquipment "many" -- "1" Equipment : belongs to
+
+User "1" -- "0..*" UserGoal : has many
+UserGoal "many" -- "1" Goal : belongs to
+
+User "1" -- "0..1" Avatar : (optionally) selects predefined
+' Note: User.selected_avatar_identifier would reference Avatar.id or Avatar.name
+
+User "1" -- "0..*" HouseholdMember : (as inviting_user) manages
+HouseholdMember "0..1" -- "1" User : (as linked_user, optional) is a
+
+' Controllers interact with models, primarily User and its associations.
+' For clarity, direct lines from each controller to models are omitted,
+' but notes indicate primary interactions.
+Onboarding::BaseController .up.> User : (manages/updates)
+
+' --- Styling ---
+hide circle
+skinparam ArrowColor #505050
+skinparam ClassBorderColor #505050
+skinparam ClassBackgroundColor #FFFFF0
+skinparam NoteBackgroundColor #F0F0F0
+skinparam NoteBorderColor #505050
+skinparam PackageBorderColor #808080
+skinparam shadowing false
+
+legend right
+  <u>Relationship Key</u>
+  "1" -- "0..*" : One to Zero or Many
+  "many" -- "1" : Many to One (Join Table)
+  A --> B : Inheritance / Generalization
+  A .> B : Dependency / Interaction
+end legend
+
+@enduml
