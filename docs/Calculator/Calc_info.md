@@ -77,10 +77,38 @@ To be stored, likely in database:
 *   **Dependencies**: `DriLookupService`, `EnergyRequirementService`.
 
 ### 6. `WaterService`
-*   **Input**: Age, sex, potentially PAL and environmental factors (if advanced).
+*   **Input**: Age, sex, pregnancy_status, lactation_status, PAL (Physical Activity Level), environmental_factors (optional).
 *   **Responsibility**: Calculate AI for Total Water (L/day, including from beverages and food).
-*   **Output**: `{ ai_liters: X }`
-*   **Dependencies**: `DriLookupService`.
+*   **Methods**:
+    *   `calculate_ai_for_adequacy(age, sex, pregnancy_status, lactation_status)`:
+        *   **Logic Source**: Chapter 2 ("Water: Dietary Reference Intakes for Adequacy").
+        *   **Methodology**:
+            *   Based on median total water intakes from NHANES (U.S.) and CCHS Nutrition 2015 (Canada).
+            *   **Infants (0-12 months)**:
+                *   0-6 months: 0.7 L/d
+                *   7-12 months: 0.8 L/d
+            *   **Children & Adolescents (1-18 years)**:
+                *   1-3 years: 1.3 L/d
+                *   4-8 years: 1.7 L/d
+                *   9-13 years: 2.4 L/d (males), 2.1 L/d (females)
+                *   14-18 years: 3.3 L/d (males), 2.3 L/d (females)
+            *   **Adults (≥ 19 years)**:
+                *   Males ≥ 19y: 3.7 L/d
+                *   Females ≥ 19y: 2.7 L/d
+            *   **Pregnancy**:
+                *   14-18y: 2.8 L/d
+                *   19-50y: 3.0 L/d
+            *   **Lactation**:
+                *   14-18y: 3.8 L/d
+                *   19-50y: 3.8 L/d
+    *   `calculate_ul_for_toxicity(age, sex)`:
+        *   **Logic Source**: Chapter 3 ("Water: Dietary Reference Intakes for Toxicity").
+        *   **Methodology**: No UL established due to insufficient evidence of toxicity risk in apparently healthy population.
+    *   `calculate_cdrr(age, sex)`:
+        *   **Logic Source**: Chapter 4 ("Water: Dietary Reference Intakes Based on Chronic Disease").
+        *   **Methodology**: No CDRR established due to insufficient evidence.
+*   **Output**: `{ ai_liters: X, ul: "Not established", cdrr: "Not established" }`
+*   **Dependencies**: `DriLookupService` (for AI values).
 
 ## V. Micronutrient Calculation Services - Vitamins
 For each vitamin (A, C, D, E, K, Thiamin, Riboflavin, Niacin, B6, Folate, B12, Pantothenic Acid, Biotin, Choline):
@@ -197,31 +225,34 @@ This structure should provide a flexible and maintainable system. As you upload 
 
 ## XI. Calculation vs. Lookup Analysis
 
+This section analyzes whether primary DRI values (EAR, RDA, AI, UL) for key nutrients are directly looked up from stored tables or require specific calculations by the application's services. Refer to `RdaCalculationService` (Section VII.3) for detailed RDA formulas.
+**General UL Derivation Principle**: Tolerable Upper Intake Levels (ULs) are typically derived by dividing a No Observed Adverse Effect Level (NOAEL) or a Lowest Observed Adverse Effect Level (LOAEL) by an Uncertainty Factor (UF) (i.e., `UL = NOAEL / UF` or `UL = LOAEL / UF`). The UF accounts for various uncertainties such as inter-individual variation, extrapolation from animal studies, and the nature of the adverse effect.
+
 ### Summary Table: DRI Value Type vs. Method
 
 | Nutrient   | DRI Value Type                     | Lookup or Calculation? | Notes                                                                                                                                                                                                     |
 | :--------- | :--------------------------------- | :--------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Calcium    | AI (Adequate Intake)               | Lookup                 | The report sets AIs for all life stages for Calcium (Table S-1).                                                                                                                                          |
+| Calcium    | AI (Adequate Intake)               | Lookup                 | The report sets AIs for all life stages for Calcium (Table S-1). AI is set due to uncertainties in balance studies and lack of long-term data for EAR. Derived from various data: human milk intake (infants), extrapolation and retention goals (children), desirable calcium retention models/factorial approaches (adolescents/adults). |
 |            | EAR                                | N/A                    | Not established for Calcium in this report.                                                                                                                                                               |
 |            | RDA                                | N/A                    | Not established for Calcium (as EAR is not established).                                                                                                                                                    |
-|            | UL (Tolerable Upper Intake Level)  | Lookup                 | Provided in Table S-6. Note: ND (Not Determinable) for infants 0-12 months.                                                                                                                               |
-| Phosphorus | AI (Infants 0-12m)                 | Lookup                 | Table S-2 provides AIs for infants.                                                                                                                                                                       |
-|            | EAR (>1 year)                      | Lookup                 | Table S-2 provides EARs for children and adults.                                                                                                                                                          |
-|            | RDA (>1 year)                      | Lookup (or Calculation)| Table S-2 provides RDAs. Fundamentally, `RDA = EAR + 2 SD` (or `EAR * 1.2` if CV=10%). Your `DriLookupService` could store the pre-calculated RDA, or your `PhosphorusService` could calculate it from the looked-up EAR. |
-|            | UL                                 | Lookup                 | Provided in Table S-6. Note: ND for infants 0-12 months.                                                                                                                                                  |
-| Magnesium  | AI (Infants 0-12m)                 | Lookup                 | Table S-3 provides AIs for infants.                                                                                                                                                                       |
-|            | EAR (>1 year)                      | Lookup                 | Table S-3 provides EARs for children and adults (note gender differences and pregnancy adjustment).                                                                                                       |
-|            | RDA (>1 year)                      | Lookup (or Calculation)| Table S-3 provides RDAs. Similar to Phosphorus, this can be a lookup if your DB stores it, or a calculation from the EAR by `MagnesiumService`.                                                              |
-|            | UL (Supplemental)                  | Lookup                 | Provided in Table S-6. Crucially, this UL applies only to magnesium from pharmacological agents (supplements, medications) and NOT from food/water. Your calculator needs to message this if assessing intake against the UL. |
-| Vitamin D  | AI                                 | Lookup                 | The report sets AIs for all life stages for Vitamin D (Table S-4). These AIs assume minimal/no sun exposure.                                                                                              |
+|            | UL (Tolerable Upper Intake Level)  | Lookup                 | Provided in Table S-6. Based on Milk-Alkali Syndrome (MAS) as critical endpoint (LOAEL / UF). Note: ND (Not Determinable) for infants 0-12 months for total intake; source should be food/formula.          |
+| Phosphorus | AI (Infants 0-12m)                 | Lookup                 | Table S-2 provides AIs for infants. Based on mean intake from human milk (and complementary foods for older infants).                                                                                     |
+|            | EAR (>1 year)                      | Lookup                 | Table S-2 provides EARs for children and adults. Children/Adolescents: Factorial approach (accretion + urinary loss / absorption efficiency). Adults: Maintenance of serum P<sub>i</sub> at lower end of normal. |
+|            | RDA (>1 year)                      | Lookup (or Calculation)| Table S-2 provides RDAs. Fundamentally, `RDA = EAR + 2 SD` (or `EAR * 1.2` if CV=10% is assumed, as is common). Your `DriLookupService` could store the pre-calculated RDA, or your `PhosphorusService` could calculate it from the looked-up EAR. |
+|            | UL                                 | Lookup                 | Provided in Table S-6. Based on hyperphosphatemia/metastatic calcification (NOAEL / UF). Note: ND for infants 0-12 months.                                                                                    |
+| Magnesium  | AI (Infants 0-12m)                 | Lookup                 | Table S-3 provides AIs for infants. Based on mean intake from human milk (and complementary foods for older infants).                                                                                     |
+|            | EAR (>1 year)                      | Lookup                 | Table S-3 provides EARs for children and adults. Children/Adolescents: Balance studies (target mg/kg/day). Adults: Balance studies (maintenance of zero balance). Pregnancy: Adds fixed amount to non-pregnant EAR for LBM accretion. Note gender differences. |
+|            | RDA (>1 year)                      | Lookup (or Calculation)| Table S-3 provides RDAs. Similar to Phosphorus, this can be a lookup if your DB stores it, or a calculation from the EAR (typically `EAR * 1.2` assuming 10% CV) by `MagnesiumService`.                 |
+|            | UL (Supplemental)                  | Lookup                 | Provided in Table S-6. Based on diarrhea from nonfood sources (LOAEL / UF). Crucially, this UL **applies only to magnesium from pharmacological agents (supplements, medications) and NOT from food/water.** Your calculator needs to message this. ND for infants (0-12m) for supplements. |
+| Vitamin D  | AI                                 | Lookup                 | The report sets AIs for all life stages for Vitamin D (Table S-4). These AIs assume minimal/no sun exposure (value often based on observed need without sun, then doubled as a safety factor, except for infants 0-6m). Criteria include rickets prevention, maintenance of serum 25(OH)D levels, prevention of bone loss/secondary hyperparathyroidism, and fracture reduction in older adults. |
 |            | EAR                                | N/A                    | Not established for Vitamin D in this report.                                                                                                                                                             |
 |            | RDA                                | N/A                    | Not established for Vitamin D.                                                                                                                                                                            |
-|            | UL                                 | Lookup                 | Provided in Table S-6.                                                                                                                                                                                    |
+|            | UL                                 | Lookup                 | Provided in Table S-6. Based on hypercalcemia as critical endpoint (NOAEL / UF).                                                                                                                          |
 |            | µg to IU conversion                | Calculation            | 1 µg cholecalciferol = 40 IU. This conversion would be done by `VitaminDService` or `UnitConversionService`.                                                                                               |
-| Fluoride   | AI                                 | Lookup                 | The report sets AIs for all life stages for Fluoride (Table S-5). Note gender differences from age 19+.                                                                                                   |
+| Fluoride   | AI                                 | Lookup                 | The report sets AIs for all life stages for Fluoride (Table S-5). Infants 0-6m: Based on human milk fluoride. Ages >6m: Based on optimal water fluoridation (~1mg/L) intake (0.05 mg/kg/day) × Reference Body Weight to maximize caries reduction without moderate fluorosis. Note gender differences from age 19+. |
 |            | EAR                                | N/A                    | Not established for Fluoride in this report.                                                                                                                                                              |
 |            | RDA                                | N/A                    | Not established for Fluoride.                                                                                                                                                                             |
-|            | UL                                 | Lookup                 | Provided in Table S-6.                                                                                                                                                                                    |
+|            | UL                                 | Lookup                 | Provided in Table S-6. Children 0-8y: Based on moderate enamel fluorosis (LOAEL / UF, effectively 0.1 mg/kg/day × Ref Wt). Ages >8y: Based on preclinical skeletal fluorosis (NOAEL / UF).               |
 
 ### Summary of Calculations Your Application Will Likely Perform:
 *   **RDA from EAR**: If your database primarily stores EARs (and SD<sub>EAR</sub> or an assumed CV, like 10%), then the individual nutrient services for Phosphorus and Magnesium (for ages >1 year) will need to calculate the RDA.
