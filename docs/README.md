@@ -32,6 +32,12 @@ The meals
     Dietary Guidelines - https://www.dietaryguidelines.gov/sites/default/files/2020-12/Dietary_Guidelines_for_Americans_2020-2025.pdf
     Recalls - https://www.fsis.usda.gov/recalls
 
+    User has option to analyze meals / or dynamic plan meals
+        Analyze meals
+            User will provide pictures or rough meals of what they eat through the week
+        Dynamic meal planning
+            User will recieve a meal plan
+
 
     Recipes
         - https://www.nutrition.gov/recipes

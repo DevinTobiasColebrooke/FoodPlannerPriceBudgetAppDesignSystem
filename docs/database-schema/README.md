@@ -392,27 +392,28 @@ end
 
 ### 15. `dri_values` table
 
-Stores the actual DRI values for each nutrient, age group, sex, and special life stage.
+Stores the actual DRI values for each nutrient, age group, sex, special life stage, and potentially physical activity level (for EER).
 
-| Column Name                    | Data Type               | Constraints & Notes |
-|--------------------------------|-------------------------|---------------------|
-| `id`                           | `BIGSERIAL PRIMARY KEY` |                     |
-| `nutrition_item_id`            | `BIGINT`                | `REFERENCES nutrition_items(id)`, `NOT NULL` |
-| `age_group_id`                 | `BIGINT`                | `REFERENCES age_groups(id)`, `NOT NULL` |
-| `sex`                          | `VARCHAR(10)`           | 'male', 'female', or 'all' (for non-sex-specific) |
-| `special_life_stage_modifier`  | `VARCHAR(100)`          | Nullable (e.g., "Trimester 2", "Postpartum 0-6 months", "Smoker") |
-| `ear_value`                    | `DECIMAL(10, 4)`        | Nullable (Estimated Average Requirement) |
-| `rda_value`                    | `DECIMAL(10, 4)`        | Nullable (Recommended Dietary Allowance) |
-| `ai_value`                     | `DECIMAL(10, 4)`        | Nullable (Adequate Intake) |
-| `ul_value`                     | `DECIMAL(10, 4)`        | Nullable (Tolerable Upper Intake Level) |
-| `amdr_min_percent`             | `DECIMAL(5, 2)`         | Nullable (For macronutrients) |
-| `amdr_max_percent`             | `DECIMAL(5, 2)`         | Nullable (For macronutrients) |
-| `cdrr_value`                   | `DECIMAL(10,4)`         | Nullable (Chronic Disease Risk Reduction Intake, e.g. for Sodium) |
-| `notes`                        | `TEXT`                  | For any specific conditions or footnotes from DRI tables |
-| `source_document_reference`    | `VARCHAR(255)`          | Optional, to track which DRI report the value came from |
-| `created_at`                   | `TIMESTAMP`             | `NOT NULL`          |
-| `updated_at`                   | `TIMESTAMP`             | `NOT NULL`          |
-|                                |                         | `UNIQUE (nutrition_item_id, age_group_id, sex, special_life_stage_modifier)` |
+| Column Name                    | Data Type                | Constraints & Notes                                                                 |
+|--------------------------------|--------------------------|-------------------------------------------------------------------------------------|
+| `id`                           | `BIGSERIAL PRIMARY KEY`  |                                                                                     |
+| `nutrition_item_id`            | `BIGINT`                 | `REFERENCES nutrition_items(id)`, `NOT NULL`                                        |
+| `age_group_id`                 | `BIGINT`                 | `REFERENCES age_groups(id)`, `NOT NULL`                                             |
+| `sex`                          | `VARCHAR(10)`            | 'male', 'female', or 'all' (for non-sex-specific)                                   |
+| `physical_activity_level`      | `VARCHAR(50)`            | Nullable. e.g., 'sedentary', 'low_active', 'active', 'very_active'. For EER values. |
+| `special_life_stage_modifier`  | `VARCHAR(100)`           | Nullable (e.g., "Trimester 2", "Postpartum 0-6 months", "Smoker")                   |
+| `ear_value`                    | `DECIMAL(10, 4)`         | Nullable (Estimated Average Requirement)                                            |
+| `rda_value`                    | `DECIMAL(10, 4)`         | Nullable (Recommended Dietary Allowance)                                            |
+| `ai_value`                     | `DECIMAL(10, 4)`         | Nullable (Adequate Intake)                                                          |
+| `ul_value`                     | `DECIMAL(10, 4)`         | Nullable (Tolerable Upper Intake Level)                                             |
+| `amdr_min_percent`             | `DECIMAL(5, 2)`          | Nullable (For macronutrients, Acceptable Macronutrient Distribution Range min)      |
+| `amdr_max_percent`             | `DECIMAL(5, 2)`          | Nullable (For macronutrients, Acceptable Macronutrient Distribution Range max)      |
+| `cdrr_value`                   | `DECIMAL(10,4)`          | Nullable (Chronic Disease Risk Reduction Intake, e.g. for Sodium)                   |
+| `notes`                        | `TEXT`                   | For any specific conditions or footnotes from DRI tables (e.g., criterion)          |
+| `source_document_reference`    | `VARCHAR(255)`           | Optional, to track which DRI report/table the value came from (e.g., "Nutrition_data.md - Table A1-1") |
+| `created_at`                   | `TIMESTAMP`              | `NOT NULL`                                                                          |
+| `updated_at`                   | `TIMESTAMP`              | `NOT NULL`                                                                          |
+|                                |                          | `UNIQUE (nutrition_item_id, age_group_id, sex, special_life_stage_modifier, physical_activity_level)` (Note: Handle NULLs in unique constraint based on DB system, e.g. Postgres treats NULLs as distinct) |
 
 **Active Record Associations:**
 ```ruby
@@ -501,6 +502,124 @@ class Store < ApplicationRecord
   has_many :shopping_list_items # If items can be sourced to a specific store on the list
 end
 ```
+Dietary Pattern Data
+The following tables store data related to dietary patterns as outlined in USDA guidelines (e.g., Tables A3-1 to A3-5 in Nutrition_data.md).
+19. dietary_patterns table
+Stores information about different dietary patterns.
+Column Name	Data Type	Constraints & Notes
+id	BIGSERIAL PRIMARY KEY	
+name	VARCHAR(255)	UNIQUE, NOT NULL (e.g., "Healthy U.S.-Style Ages 2+")
+description	TEXT	Optional, further details about the pattern
+source_document_reference	VARCHAR(255)	e.g., "Nutrition_data.md - Table A3-2"
+created_at	TIMESTAMP	NOT NULL
+updated_at	TIMESTAMP	NOT NULL
+Active Record Associations:
+class DietaryPattern < ApplicationRecord
+  has_many :dietary_pattern_calorie_levels
+  # ...
+end
+
+20. food_groups table
+Stores predefined food groups and subgroups relevant to dietary patterns. This is distinct from ingredients.category which might be more granular for individual food items.
+Column Name	Data Type	Constraints & Notes
+id	BIGSERIAL PRIMARY KEY	
+name	VARCHAR(100)	UNIQUE, NOT NULL (e.g., "Vegetables", "Dark-Green Vegetables", "Fruits", "Whole Grains", "Beans, Peas, Lentils (Vegetable Group)")
+parent_food_group_id	BIGINT	Nullable, REFERENCES food_groups(id) (for subgroups)
+recommended_unit	VARCHAR(50)	NOT NULL (e.g., "cup eq", "ounce eq", "grams")
+notes	TEXT	Optional, e.g., "Includes cooked dry beans, peas, lentils" or specific seafood advice from footnotes
+created_at	TIMESTAMP	NOT NULL
+updated_at	TIMESTAMP	NOT NULL
+Active Record Associations:
+class FoodGroup < ApplicationRecord
+  belongs_to :parent_food_group, class_name: 'FoodGroup', optional: true
+  has_many :child_food_groups, class_name: 'FoodGroup', foreign_key: 'parent_food_group_id'
+  # ...
+end
+
+21. dietary_pattern_calorie_levels table
+Defines specific calorie levels within a dietary pattern.
+Column Name	Data Type	Constraints & Notes
+id	BIGSERIAL PRIMARY KEY	
+dietary_pattern_id	BIGINT	REFERENCES dietary_patterns(id), NOT NULL
+calorie_level	INTEGER	NOT NULL (e.g., 700, 1000, 1200, 2000)
+limit_on_calories_other_uses_kcal_day	INTEGER	Nullable, from USDA pattern tables
+limit_on_calories_other_uses_percent_day	DECIMAL(5, 2)	Nullable, from USDA pattern tables
+created_at	TIMESTAMP	NOT NULL
+updated_at	TIMESTAMP	NOT NULL
+UNIQUE (dietary_pattern_id, calorie_level)
+Active Record Associations:
+class DietaryPatternCalorieLevel < ApplicationRecord
+  belongs_to :dietary_pattern
+  has_many :dietary_pattern_food_group_recommendations
+  # ...
+end
+
+22. dietary_pattern_food_group_recommendations table
+Stores recommended amounts of food groups for a specific dietary pattern and calorie level.
+Column Name	Data Type	Constraints & Notes
+id	BIGSERIAL PRIMARY KEY	
+dietary_pattern_calorie_level_id	BIGINT	REFERENCES dietary_pattern_calorie_levels(id), NOT NULL
+food_group_id	BIGINT	REFERENCES food_groups(id), NOT NULL
+amount_value	DECIMAL(10, 4)	NOT NULL (e.g., 0.66, 1.0, 2.5)
+amount_frequency	VARCHAR(10)	NOT NULL (e.g., 'daily', 'weekly')
+created_at	TIMESTAMP	NOT NULL
+updated_at	TIMESTAMP	NOT NULL
+UNIQUE (dietary_pattern_calorie_level_id, food_group_id)
+Active Record Associations:
+class DietaryPatternFoodGroupRecommendation < ApplicationRecord
+  belongs_to :dietary_pattern_calorie_level
+  belongs_to :food_group
+end
+
+Estimated Energy Requirement (EER) Equation Data
+The following tables store parameters for TEE (Total Energy Expenditure) and EER (Estimated Energy Requirement) equations from sources like Tables S-7, S-8, etc., in Nutrition_data.md. These allow for dynamic calculation of energy needs.
+23. eer_profiles table
+Stores coefficients and basic parameters for TEE/EER predictive equations based on distinct population profiles.
+Column Name	Data Type	Constraints & Notes
+id	BIGSERIAL PRIMARY KEY	
+name	VARCHAR(255)	NOT NULL, UNIQUE (e.g., "Men 19+ Inactive TEE", "Girls 0-2y TEE")
+source_table_reference	VARCHAR(100)	e.g., "Nutrition_data.md - Table S-7"
+sex	VARCHAR(10)	NOT NULL ('male', 'female', 'all')
+age_min_months	INTEGER	Nullable. Lower bound of age applicability in months.
+age_max_months	INTEGER	Nullable. Upper bound of age applicability in months.
+physical_activity_level_category	VARCHAR(50)	Nullable (e.g., 'sedentary', 'low_active', 'active', 'very_active')
+coefficient_intercept	DECIMAL(12, 4)	
+coefficient_age_input_unit	VARCHAR(10)	e.g., 'years', 'months'. Default 'years'.
+coefficient_age	DECIMAL(12, 4)	Coefficient for age (unit depends on coefficient_age_input_unit)
+coefficient_height_cm	DECIMAL(12, 4)	Coefficient for height in centimeters
+coefficient_weight_kg	DECIMAL(12, 4)	Coefficient for weight in kilograms
+coefficient_pal	DECIMAL(12,4)	Nullable. If PAL is a direct multiplier in the equation (e.g., TEE = BMR * PAL).
+coefficient_gestation_weeks	DECIMAL(12, 4)	Nullable. For pregnancy equations.
+equation_basis	VARCHAR(50)	NOT NULL (e.g., 'TEE', 'EER_base') Indicates if this profile calculates TEE or a base EER before additive components.
+notes	TEXT	e.g., Specific formula structure if not standard; units.
+created_at	TIMESTAMP	NOT NULL
+updated_at	TIMESTAMP	NOT NULL
+Active Record Associations:
+class EerProfile < ApplicationRecord
+  # ...
+end
+
+24. eer_additive_components table
+Stores values for components added to TEE to calculate final EER, such as energy for growth, pregnancy deposition, or lactation.
+Column Name	Data Type	Constraints & Notes
+id	BIGSERIAL PRIMARY KEY	
+component_type	VARCHAR(50)	NOT NULL ('growth', 'pregnancy_deposition', 'lactation_milk_production', 'lactation_mobilization')
+source_table_reference	VARCHAR(100)	e.g., "Nutrition_data.md - Table S-8", "Nutrition_data.md - Table S-4 (Pregnancy EER)"
+sex	VARCHAR(10)	Nullable. 'male', 'female', 'all'.
+age_min_months	INTEGER	Nullable. Lower bound of age applicability for this component.
+age_max_months	INTEGER	Nullable. Upper bound of age applicability for this component.
+condition_pregnancy_trimester	INTEGER	Nullable. (1, 2, 3)
+condition_pre_pregnancy_bmi_category	VARCHAR(20)	Nullable. ('underweight', 'normal', 'overweight', 'obese')
+condition_lactation_months_postpartum	VARCHAR(20)	Nullable. ('0-6mo', '7-12mo')
+value_kcal_day	INTEGER	NOT NULL. The energy value in kcal/day for this component.
+notes	TEXT	
+created_at	TIMESTAMP	NOT NULL
+updated_at	TIMESTAMP	NOT NULL
+UNIQUE (component_type, sex, age_min_months, age_max_months, condition_pregnancy_trimester, condition_pre_pregnancy_bmi_category, condition_lactation_months_postpartum) (Ensure uniqueness based on all distinguishing conditions)
+Active Record Associations:
+class EerAdditiveComponent < ApplicationRecord
+  # ...
+end
 
 ---
 ### Considerations / Future Tables:
