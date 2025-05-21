@@ -1,174 +1,349 @@
 @startuml NutrientCalculatorServices
+' skinparam linetype ortho
 skinparam classAttributeIconSize 0
 hide empty members
+skinparam packageStyle rect
+
+'######################################################################
+'# Input & Output Object Definitions
+'######################################################################
+
+package "Data Contracts (Inputs)" <<Folder>> {
+    class UserInput {
+        + age: AgeInfo
+        + sex: SexEnum
+        + height: Measurement
+        + weight: Measurement
+        + physicalActivityLevelInput: PALInputType ' Can be enum or detailed activity
+        + specialConditions: SpecialConditionFlags
+    }
+    class AgeInfo {
+        + years: int
+        + months: int
+    }
+    enum SexEnum {
+        MALE
+        FEMALE
+        INTERSEX_CONSIDERATION
+    }
+    class Measurement {
+        + value: float
+        + unit: string ' e.g., "kg", "lbs", "cm", "inches"
+    }
+    enum PALEnum { ' Represents defined PAL categories
+        SEDENTARY
+        LOW_ACTIVE
+        ACTIVE
+        VERY_ACTIVE
+    }
+    ' PALInputType could be PALEnum or a more complex structure if PAL is calculated
+    ' For simplicity, assuming PALEnum is used or PhysicalActivityCoefficientService handles complex input.
+    class SpecialConditionFlags {
+        + isPregnant: boolean
+        + pregnancyTrimester: int_ (1,2,3, null)
+        + isLactating: boolean
+        + lactationMonthsPostpartum: int_ (0-6, 7-12, null)
+        + isSmoker: boolean
+        + isVegetarianOrVegan: boolean
+    }
+}
+
+package "Data Contracts (Outputs)" <<Folder>> {
+    class NutrientProfile {
+        + eer: EnergyOutput
+        + carbohydrates: CarbohydrateOutput
+        + protein: ProteinOutput
+        + totalFat: TotalFatOutput
+        + saturatedFat: SaturatedFatOutput
+        + transFat: TransFattyAcidsOutput
+        + polyunsaturatedFat: PolyunsaturatedFattyAcidsOutput
+        + monounsaturatedFat: MonounsaturatedFattyAcidsOutput
+        + fiber: FiberOutput
+        + addedSugars: AddedSugarsOutput
+        + water: WaterOutput
+        + aminoAcids: AminoAcidsOutput
+        + vitamins: Map<String, MicronutrientDriOutput>
+        + minerals: Map<String, MicronutrientDriOutput>
+        + otherSubstances: Map<String, MicronutrientDriOutput> ' For Carotenoids, Sulfate etc.
+        + bmi: BmiOutput_ (optional, if calculated for display)
+        + weightStatus: WeightStatus_ (optional)
+    }
+
+    class EnergyOutput {
+        + eer_kcal_day: float
+        + predictionInterval_kcal_day: String_ (e.g., "2000-2400 kcal")
+        + notes: String_ (e.g., pregnancy/lactation additions)
+    }
+    class CarbohydrateOutput {
+        + rda_g: float
+        + ai_g: float
+        + amdr_percent_min: float
+        + amdr_percent_max: float
+        + amdr_g_min: float
+        + amdr_g_max: float
+    }
+    class ProteinOutput {
+        + rda_g_per_kg: float
+        + rda_g_total: float
+        + ai_g_total: float
+        + amdr_percent_min: float
+        + amdr_percent_max: float
+        + amdr_g_min: float
+        + amdr_g_max: float
+    }
+    class TotalFatOutput {
+        + ai_g_infants: float_ (nullable)
+        + amdr_percent_min: float
+        + amdr_percent_max: float
+        + amdr_g_min: float
+        + amdr_g_max: float
+    }
+    class SaturatedFatOutput {
+        + limit_percent_eer: float
+        + limit_g: float
+    }
+    class TransFattyAcidsOutput {
+        + recommendation_text: String ' e.g., "As low as possible"
+        + limit_g: float_ (effectively 0 for calculation)
+    }
+    class PolyunsaturatedFattyAcidsOutput {
+        + linoleic_ai_g: float
+        + ala_ai_g: float
+        ' Could also include a calculated range within total fat if desired
+    }
+    class MonounsaturatedFattyAcidsOutput {
+        + calculated_g_min: float
+        + calculated_g_max: float
+        + notes: String_ (e.g., "Calculated as residual")
+    }
+    class AddedSugarsOutput {
+        + limit_percent_eer: float
+        + limit_g: float
+    }
+    class FiberOutput {
+        + ai_g: float
+    }
+    class WaterOutput {
+        + ai_liters_day: float
+        + ul_status: String ' e.g., "Not Established"
+        + cdrr_status: String ' e.g., "Not Established"
+    }
+    class AminoAcidsOutput {
+        + requirements: Map<String, AminoAcidRequirement> ' Key: AminoAcidName
+    }
+    class AminoAcidRequirement {
+        + ear_mg_kg_day: float
+        + rda_mg_kg_day: float
+        + ear_total_mg_day: float
+        + rda_total_mg_day: float
+    }
+    class MicronutrientDriOutput {
+        + nutrientName: String
+        + rda: DriValueWithUnit
+        + ai: DriValueWithUnit
+        + ul: DriValueWithUnit
+        + cdrr: DriValueWithUnit_ (for Sodium)
+        + notes: String_ (e.g., "Smoker adjustment applied", "UL for supplemental forms only")
+    }
+    class DriValueWithUnit {
+      + value: float_ (nullable)
+      + unit: String_ (nullable)
+    }
+    class BmiOutput {
+        + value: float
+        + category: String
+    }
+    class WeightStatus {
+        + category: String
+    }
+}
+
+package "Core Data / Reference" <<Database>> {
+    class DriDatabase {
+        + driTables: Map<NutrientKey, DriDataEntry>
+        + eerCoefficients: Map
+        + referenceWeightsHeights: Map
+        + conversionFactors: Map ' Vit A RAE, Niacin NE, Folate DFE
+        + driSourceInfo: Map ' DGA App1, NCBI Summaries, Water Report etc.
+    }
+    note right of DriDatabase
+        Stores DRI tables (EAR, RDA, AI, UL, AMDR%, CDRR),
+        EER formulas/coefficients, reference data.
+        Indexed by age group, sex, special condition.
+        Populated by DriDataSeederService.
+        Data sourced from DGA, NCBI, IOM Reports.
+    end note
+}
+
+'######################################################################
+'# Services
+'######################################################################
 
 package "Orchestration" {
   class NutrientProfileCalculatorService {
-    + calculateProfile(userInputs): NutrientProfile
+    + calculateProfile(userInput: UserInput): NutrientProfile
   }
 }
 
-package "Input Processing" {
+package "Input Processing Support" {
   class BmiCalculationService {
-    + calculate(weightKg, heightM): BmiOutput
+    + calculate(weightKg: float, heightM: float): BmiOutput
   }
   class PhysicalActivityCoefficientService {
-    + getCoefficient(activityLevelDescription): PALCoefficient
+    + getCoefficient(activityLevelDescription: PALInputType, age: AgeInfo, sex: SexEnum): float ' Returns PAL value
   }
+  note left of PhysicalActivityCoefficientService
+    Maps descriptive PAL input to a numerical PAL coefficient.
+    E.g., "Sedentary" -> 1.2, "Active" -> 1.6 etc.
+    Uses DGA Table A2-2 coefficients.
+  end note
   class PalCategoryDeterminationService {
-    + getCategory(activityData): PALCategory
+    + getCategory(activityData: Object): PALEnum ' Determines PALEnum if input is complex
   }
+  note left of PalCategoryDeterminationService
+    Optional: If user provides detailed activity logs,
+    this service categorizes it into PALEnum
+    (Sedentary, Low Active, etc.).
+  end note
   class WeightStatusCategorizationService {
-    + getCategory(bmi, age, sex): WeightStatus
+    + getCategory(bmi: float, age: AgeInfo, sex: SexEnum): WeightStatus
   }
 }
 
 package "Core Calculation Services" {
   package "Energy & Macronutrients" {
     class EnergyRequirementService {
-      + calculateEER(userProfile): EEROutput
+      + calculateEER(userInput: UserInput, palCoefficient: float): EnergyOutput
     }
+    note right of EnergyRequirementService
+        Calculates EER based on IOM formulas.
+        Uses PAL coefficient.
+        Adds kcal for pregnancy/lactation (DGA Table A2-3).
+        Toddler EER from DGA Table A2-1.
+    end note
     class CarbohydrateService {
-      + calculate(userProfile, eer): CarbOutput
+      + calculate(userInput: UserInput, eer_kcal: float): CarbohydrateOutput
     }
     class ProteinService {
-      + calculate(userProfile, eer, weightKg): ProteinOutput
+      + calculate(userInput: UserInput, eer_kcal: float, weightKg: float): ProteinOutput
     }
-    class FatService {
-      + calculate(userProfile, eer): FatOutput
+    class TotalFatService {
+      + calculate(userInput: UserInput, eer_kcal: float): TotalFatOutput
+    }
+    class SaturatedFatService {
+      + calculate(userInput: UserInput, eer_kcal: float): SaturatedFatOutput
+    }
+    class TransFattyAcidsService {
+      + calculate(userInput: UserInput, eer_kcal: float): TransFattyAcidsOutput
+    }
+    class MonounsaturatedFattyAcidsService {
+      + calculate(totalFat_g_range: Range, satFat_g: float, transFat_g: float, pufa_g: float): MonounsaturatedFattyAcidsOutput
+    }
+    note top of MonounsaturatedFattyAcidsService : Calculates MUFA as residual.
+    class PolyunsaturatedFattyAcidsService {
+      + calculate(userInput: UserInput, eer_kcal: float): PolyunsaturatedFattyAcidsOutput ' For Linoleic, ALA AIs
+    }
+    class AddedSugarsService {
+      + calculate(userInput: UserInput, eer_kcal: float): AddedSugarsOutput
     }
     class FiberService {
-      + calculate(userProfile, eer): FiberOutput
+      + calculate(userInput: UserInput, eer_kcal: float): FiberOutput
     }
     class WaterService {
-      + calculate(userProfile): WaterOutput
+      + calculateAdequacy(userInput: UserInput): WaterOutput
+      ' Internal methods might include:
+      ' - calculate_ai_for_adequacy(age, sex, preg, lact)
+      ' - get_ul_status()
+      ' - get_cdrr_status()
+    }
+    class AminoAcidsService {
+      + calculate(userInput: UserInput, weightKg: float): AminoAcidsOutput
     }
   }
 
   package "Micronutrients & Other Substances" {
-    class VitaminAService {
-     + calculate(userProfile): VitaminAOutput
-    }
-    class VitaminCService {
-     + calculate(userProfile): VitaminCOutput
-    }
-    class VitaminDService {
-     + calculate(userProfile): VitaminDOutput
-    }
-    class VitaminEService {
-     + calculate(userProfile): VitaminEOutput
-    }
-    class VitaminKService {
-     + calculate(userProfile): VitaminKOutput
-    }
-    class ThiaminService {
-     + calculate(userProfile): ThiaminOutput
-    }
-    class RiboflavinService {
-     + calculate(userProfile): RiboflavinOutput
-    }
-    class NiacinService {
-     + calculate(userProfile): NiacinOutput
-    }
-    class VitaminB6Service {
-     + calculate(userProfile): VitaminB6Output
-    }
-    class FolateService {
-     + calculate(userProfile): FolateOutput
-    }
-    class VitaminB12Service {
-     + calculate(userProfile): VitaminB12Output
-    }
-    class PantothenicAcidService {
-     + calculate(userProfile): PantothenicAcidOutput
-    }
-    class BiotinService {
-     + calculate(userProfile): BiotinOutput
-    }
-    class CholineService {
-     + calculate(userProfile): CholineOutput
-    }
-    class CalciumService {
-     + calculate(userProfile): CalciumOutput
-    }
-    class ChlorideService {
-     + calculate(userProfile): ChlorideOutput
-    }
-    class ChromiumService {
-     + calculate(userProfile): ChromiumOutput
-    }
-    class CopperService {
-     + calculate(userProfile): CopperOutput
-    }
-    class FluorideService {
-     + calculate(userProfile): FluorideOutput
-    }
-    class IodineService {
-     + calculate(userProfile): IodineOutput
-    }
-    class IronService {
-     + calculate(userProfile): IronOutput
-    }
-    class MagnesiumService {
-     + calculate(userProfile): MagnesiumOutput
-    }
-    class ManganeseService {
-     + calculate(userProfile): ManganeseOutput
-    }
-    class MolybdenumService {
-     + calculate(userProfile): MolybdenumOutput
-    }
-    class PhosphorusService {
-     + calculate(userProfile): PhosphorusOutput
-    }
-    class PotassiumService {
-     + calculate(userProfile): PotassiumOutput
-    }
-    class SeleniumService {
-     + calculate(userProfile): SeleniumOutput
-    }
-    class SodiumService {
-     + calculate(userProfile): SodiumOutput
-    }
-    class SulfateService {
-     + calculate(userProfile): SulfateOutput
-    }
-    class ZincService {
-     + calculate(userProfile): ZincOutput
-    }
-    class ArsenicService {
-     + calculate(userProfile): ArsenicOutput
-    }
-    class BoronService {
-     + calculate(userProfile): BoronOutput
-    }
-    class NickelService {
-     + calculate(userProfile): NickelOutput
-    }
-    class SiliconService {
-     + calculate(userProfile): SiliconOutput
-    }
-    class VanadiumService {
-     + calculate(userProfile): VanadiumOutput
-    }
-    class CarotenoidsService {
-     + calculate(userProfile): CarotenoidsOutput
-    }
+    ' Listing all services explicitly as in user's diagram
+    ' Common dependencies shown via note N1 later
+    class VitaminAService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class VitaminCService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class VitaminDService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class VitaminEService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class VitaminKService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class ThiaminService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class RiboflavinService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class NiacinService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class VitaminB6Service { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class FolateService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class VitaminB12Service { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class PantothenicAcidService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class BiotinService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class CholineService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class CalciumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class ChlorideService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class ChromiumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class CopperService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class FluorideService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class IodineService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class IronService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class MagnesiumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class ManganeseService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class MolybdenumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class PhosphorusService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class PotassiumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class SeleniumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class SodiumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class SulfateService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class ZincService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    ' Trace elements with ULs or for future consideration
+    class ArsenicService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class BoronService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class NickelService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class SiliconService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class VanadiumService { + calculate(userInput: UserInput): MicronutrientDriOutput }
+    class CarotenoidsService { + calculate(userInput: UserInput): MicronutrientDriOutput } ' Non-Provitamin A carotenoids status
   }
 }
 
 package "Utility Services" {
   class DriLookupService {
-    + getDriValue(nutrient, age, sex, condition): DriValue
+    + getFundamentalDri(nutrientName: String, ageInfo: AgeInfo, sex: SexEnum, conditions: SpecialConditionFlags): DriValuesForNutrient
+    + getAmdrPercentage(nutrientName: String, ageInfo: AgeInfo, sex: SexEnum, conditions: SpecialConditionFlags): AmdrPercentageRange
+    + getEerFormulaCoefficients(ageInfo: AgeInfo, sex: SexEnum, conditions: SpecialConditionFlags): Object ' EERCoefficients
+    + getSpecificLimitPercentage(limitName: String): float ' e.g., "AddedSugarsLimit", "SaturatedFatLimit"
+    + getEfaGrams(efaName: String, ageInfo: AgeInfo, sex: SexEnum, conditions: SpecialConditionFlags): float
+    + getWaterAiLiters(ageInfo: AgeInfo, sex: SexEnum, conditions: SpecialConditionFlags): float
   }
+  class DriValuesForNutrient {
+    + ear: DriValueWithUnit
+    + rda: DriValueWithUnit
+    + ai: DriValueWithUnit
+    + ul: DriValueWithUnit
+    + cdrr: DriValueWithUnit_ (for Sodium)
+    + notes: String_ (e.g., "UL refers to synthetic forms")
+  }
+  class AmdrPercentageRange {
+    + min_percent: float
+    + max_percent: float
+  }
+  note top of DriLookupService
+    Core service for fetching DRI values from the DriDatabase.
+    Handles age group bracketing, special conditions.
+    Sources: DGA App1, NCBI Summaries, Water DRI Report, etc.
+    Provides values in their standard units (RAE, DFE, NE).
+  end note
+
   class UnitConversionService {
-    + convert(value, fromUnit, toUnit): ConvertedValue
+    + convert(value: float, fromUnit: string, toUnit: string): float
+    ' Converts lbs<>kg, in<>cm, IU<>µg (VitD, VitA), etc.
   }
   class RdaCalculationService {
-    + calculateRdaFromEar(ear, sd_ear?, cv?): RdaValue
+    + calculateRdaFromEar(earValue: float, earUnit: string, sd_ear?: float, cv?: float = 0.10): DriValueWithUnit
   }
+  note bottom of RdaCalculationService : Calculates RDA = EAR * 1.2 (if CV=10%) or EAR + 2*SD_EAR.
   class ReferenceBodyDataService {
-    + getReferenceData(ageGroup, sex): ReferenceAnthropometry
+    + getReferenceWeightKg(age: AgeInfo, sex: SexEnum): float
+    + getReferenceHeightM(age: AgeInfo, sex: SexEnum): float
+    ' Used for some extrapolations or default values.
   }
 }
 
@@ -176,39 +351,87 @@ package "Data Seeding (Setup-Time)" {
   class DriDataSeederService {
     + seedAllData(): void
   }
+  note bottom of DriDataSeederService : Parses DRI tables (DGA, NCBI, IOM) and populates DriDatabase. Critical setup step.
 }
 
-' Relationships
-NutrientProfileCalculatorService ..> EnergyRequirementService : uses
-NutrientProfileCalculatorService ..> CarbohydrateService : uses
-NutrientProfileCalculatorService ..> ProteinService : uses
-NutrientProfileCalculatorService ..> FatService : uses
-NutrientProfileCalculatorService ..> FiberService : uses
-NutrientProfileCalculatorService ..> WaterService : uses
-NutrientProfileCalculatorService ..> BmiCalculationService : uses
-NutrientProfileCalculatorService ..> VitaminAService : uses ' ... and all other nutrient services
+'######################################################################
+'# Relationships
+'######################################################################
 
-EnergyRequirementService ..> PhysicalActivityCoefficientService : uses
-EnergyRequirementService ..> PalCategoryDeterminationService : uses
-EnergyRequirementService ..> ReferenceBodyDataService : uses
-EnergyRequirementService ..> BmiCalculationService : uses (for pregnancy BMI)
-EnergyRequirementService ..> WeightStatusCategorizationService : uses (for pregnancy)
-EnergyRequirementService ..> DriLookupService : uses (for EER equations/coefficients if stored)
+' Orchestrator dependencies
+NutrientProfileCalculatorService --> UserInput : uses as input
+NutrientProfileCalculatorService --> NutrientProfile : creates as output
+
+NutrientProfileCalculatorService ..> BmiCalculationService : uses >
+NutrientProfileCalculatorService ..> PhysicalActivityCoefficientService : uses >
+NutrientProfileCalculatorService ..> EnergyRequirementService : uses >
+NutrientProfileCalculatorService ..> CarbohydrateService : uses >
+NutrientProfileCalculatorService ..> ProteinService : uses >
+NutrientProfileCalculatorService ..> TotalFatService : uses >
+NutrientProfileCalculatorService ..> SaturatedFatService : uses >
+NutrientProfileCalculatorService ..> TransFattyAcidsService : uses >
+NutrientProfileCalculatorService ..> PolyunsaturatedFattyAcidsService : uses >
+NutrientProfileCalculatorService ..> MonounsaturatedFattyAcidsService : uses >
+NutrientProfileCalculatorService ..> AddedSugarsService : uses >
+NutrientProfileCalculatorService ..> FiberService : uses >
+NutrientProfileCalculatorService ..> WaterService : uses >
+NutrientProfileCalculatorService ..> AminoAcidsService : uses >
+' Micronutrient service dependencies for Orchestrator
+NutrientProfileCalculatorService ..> VitaminAService : uses > ' Representative
+' ... (Implied for all other specific micronutrient services)
+NutrientProfileCalculatorService ..> CalciumService : uses > ' Representative
 
 
-CarbohydrateService ..> DriLookupService : uses
-ProteinService ..> DriLookupService : uses
-FatService ..> DriLookupService : uses
-FiberService ..> DriLookupService : uses
-WaterService ..> DriLookupService : uses
+' Input Processing dependencies
+PhysicalActivityCoefficientService ..> PalCategoryDeterminationService : uses (optional) >
 
-' Generic relationship for all specific nutrient services
-note "All specific Vitamin/Mineral/OtherSubstance Services\nuse DriLookupService and may use\nUnitConversionService & RdaCalculationService" as N1
+' Energy & Macronutrient Service dependencies
+EnergyRequirementService ..> UserInput : uses
+EnergyRequirementService ..> DriLookupService : uses (for EER coefficients/formulas if stored) >
+EnergyRequirementService ..> ReferenceBodyDataService : uses >
+' EER might use BMI for pregnancy adjustments or weight status for context
+EnergyRequirementService ..> BmiCalculationService : uses >
+EnergyRequirementService ..> WeightStatusCategorizationService : uses >
+
+
+CarbohydrateService ..> DriLookupService : uses >
+ProteinService ..> DriLookupService : uses >
+TotalFatService ..> DriLookupService : uses >
+SaturatedFatService ..> DriLookupService : uses >
+TransFattyAcidsService ..> DriLookupService : uses >
+PolyunsaturatedFattyAcidsService ..> DriLookupService : uses >
+AddedSugarsService ..> DriLookupService : uses >
+FiberService ..> DriLookupService : uses >
+WaterService ..> DriLookupService : uses >
+AminoAcidsService ..> DriLookupService : uses >
+
+' MonounsaturatedFattyAcidsService gets inputs from other fat calculations
+MonounsaturatedFattyAcidsService ..> TotalFatOutput : uses (as input param)
+MonounsaturatedFattyAcidsService ..> SaturatedFatOutput : uses (as input param)
+MonounsaturatedFattyAcidsService ..> TransFattyAcidsOutput : uses (as input param)
+MonounsaturatedFattyAcidsService ..> PolyunsaturatedFattyAcidsOutput : uses (as input param)
+
+
+' Generic relationship for all specific Vitamin/Mineral/OtherSubstance Services
+note "All specific Vitamin/Mineral/OtherSubstance Services:\n- Use UserInput\n- Use DriLookupService to get base DRI values (EAR, AI, UL, CDRR)\n- May use UnitConversionService (e.g. Vit D IU <> µg, Vit A RAE)\n- May use RdaCalculationService (to derive RDA from EAR)\n- May use ReferenceBodyDataService for extrapolations\n- Handle special conditions (e.g. smoker Vit C +35mg, vegetarian Iron factor)" as N1
+
+VitaminAService .. N1
+CalciumService .. N1
+' ...(This note applies to all individual micronutrient services)
+
+VitaminAService ..> UserInput
 VitaminAService ..> DriLookupService
 VitaminAService ..> UnitConversionService
-CalciumService ..> DriLookupService
-' ... (Repeat for all individual nutrient services)
+VitaminAService ..> RdaCalculationService
 
-DriDataSeederService ..> DriLookupService : (conceptually, populates data DriLookupService reads)
+' Utility Service dependencies
+DriLookupService ..> DriDatabase : queries >
+DriDataSeederService ..> DriDatabase : populates (conceptually) >
+
+' For Ruby on Rails Context:
+' Services are likely POROs in app/services.
+' Input/Output objects are POROs or Structs.
+' DriDatabase might be backed by ActiveRecord models.
+' DriDataSeederService would use Rails' seeding mechanisms (db/seeds.rb or custom rake tasks).
 
 @enduml
