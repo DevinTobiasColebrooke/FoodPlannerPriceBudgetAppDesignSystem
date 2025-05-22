@@ -143,11 +143,9 @@ class DriDataSeederService
     growth_data.each do |data|
       life_stage = LifeStageGroup.find_by!(name: data[:life_stage_name])
 
-      GrowthFactor.find_or_create_by!(
-        life_stage_group: life_stage,
-        factor_type: data[:factor_type]
-      ) do |factor|
+      GrowthFactor.find_or_create_by!(life_stage_group: life_stage) do |factor|
         factor.factor_value = data[:factor_value]
+        factor.factor_type = data[:factor_type]
         factor.source_document_reference = data[:source_document]
       end
     end
@@ -177,13 +175,17 @@ class DriDataSeederService
     food_groups_data.each do |data|
       FoodGroup.find_or_create_by!(name: data[:name]) do |fg|
         fg.default_unit_name = data[:default_unit_name]
+        fg.notes = data[:notes]
       end
     end
 
     food_subgroups_data = load_food_subgroups_data
     food_subgroups_data.each do |data|
-      food_group = FoodGroup.find_by!(name: data[:food_group_name])
-      FoodSubgroup.find_or_create_by!(food_group: food_group, name: data[:name])
+      parent_group = FoodGroup.find_by!(name: data[:food_group_name])
+      FoodGroup.find_or_create_by!(name: data[:name]) do |subgroup|
+        subgroup.parent_food_group_id = parent_group.id
+        subgroup.default_unit_name = parent_group.default_unit_name
+      end
     end
   end
 
@@ -201,20 +203,18 @@ class DriDataSeederService
     components_data = load_dietary_pattern_components_data
     components_data.each do |data|
       pattern = DietaryPattern.find_by!(name: data[:dietary_pattern_name])
-      food_group = data[:food_group_name].present? ? FoodGroup.find_by(name: data[:food_group_name]) : nil
-      food_subgroup = data[:food_subgroup_name].present? ? FoodSubgroup.find_by(name: data[:food_subgroup_name]) : nil
-
-      DietaryPatternComponent.find_or_create_by!(
+      calorie_level = DietaryPatternCalorieLevel.find_or_create_by!(
         dietary_pattern: pattern,
-        calorie_level: data[:calorie_level],
-        food_group: food_group,
-        food_subgroup: food_subgroup,
-        component_name: data[:component_name]
-      ) do |component|
-        component.amount_value = data[:amount_value]
-        component.amount_unit = data[:amount_unit]
-        component.frequency = data[:frequency]
-        component.notes = data[:notes]
+        calorie_level: data[:calorie_level]
+      )
+      food_group = FoodGroup.find_by!(name: data[:food_group_name])
+
+      DietaryPatternFoodGroupRecommendation.find_or_create_by!(
+        dietary_pattern_calorie_level: calorie_level,
+        food_group: food_group
+      ) do |recommendation|
+        recommendation.amount_value = data[:amount_value]
+        recommendation.amount_frequency = data[:frequency]
       end
     end
   end
@@ -359,13 +359,20 @@ class DriDataSeederService
   
   def self.load_food_groups_data
     load_data_from_csv('food_groups.csv') do |row|
-      { name: row[:name], default_unit_name: row[:default_unit_name] }
+      { 
+        name: row[:name], 
+        default_unit_name: row[:default_unit_name],
+        notes: row[:notes]
+      }
     end
   end
 
   def self.load_food_subgroups_data
     load_data_from_csv('food_subgroups.csv') do |row|
-      { food_group_name: row[:food_group_name], name: row[:name] }
+      { 
+        food_group_name: row[:food_group_name], 
+        name: row[:name] 
+      }
     end
   end
 
@@ -385,12 +392,8 @@ class DriDataSeederService
         dietary_pattern_name: row[:dietary_pattern_name],
         calorie_level: row[:calorie_level]&.to_i,
         food_group_name: row[:food_group_name],
-        food_subgroup_name: row[:food_subgroup_name],
-        component_name: row[:component_name],
         amount_value: row[:amount_value],
-        amount_unit: row[:amount_unit],
-        frequency: row[:frequency],
-        notes: row[:notes]
+        frequency: row[:frequency]
       }
     end
   end
@@ -462,7 +465,7 @@ life_stage_name,pal_category,pal_range_min_value,pal_range_max_value,percentile_
 
 ### Food Groups (food_groups.csv)
 ```csv
-name,default_unit_name
+name,default_unit_name,notes
 ```
 
 ### Food Subgroups (food_subgroups.csv)
@@ -477,7 +480,7 @@ name,description,source_document_reference
 
 ### Dietary Pattern Components (dietary_pattern_components.csv)
 ```csv
-dietary_pattern_name,calorie_level,food_group_name,food_subgroup_name,component_name,amount_value,amount_unit,frequency,notes
+dietary_pattern_name,calorie_level,food_group_name,amount_value,frequency
 ```
 
 ## Data Source References
