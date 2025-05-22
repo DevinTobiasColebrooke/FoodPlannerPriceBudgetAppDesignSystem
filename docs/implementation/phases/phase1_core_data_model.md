@@ -60,6 +60,18 @@ Allergy.create!([
   { name: "Shellfish" }, { name: "Soy" }, { name: "Gluten" }, { name: "Fish" }, { name: "Sesame" }
 ])
 
+puts "Seeding Kitchen Equipment..."
+KitchenEquipment.create!([
+  { name: "Instapot / Pressure Cooker" },
+  { name: "Blender" },
+  { name: "Food Processor" },
+  { name: "Strainer / Colander" },
+  { name: "Juicer" },
+  { name: "Oven" },
+  { name: "Microwave" },
+  { name: "Air Fryer" }
+])
+
 # ... Seed other lookup tables ...
 ```
 
