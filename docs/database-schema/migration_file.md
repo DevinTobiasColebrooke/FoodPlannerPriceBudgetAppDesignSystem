@@ -3,7 +3,7 @@ class CreateAppSchema < ActiveRecord::Migration[7.0]
     # 1. users table
     create_table :users do |t|
       t.string :username, limit: 255, null: false
-      t.string :email, limit: 255, null: false
+      t.string :email_address, limit: 255, null: false
       t.string :password_digest, limit: 255, null: false
       t.string :avatar_url, limit: 255
       t.string :household_size, limit: 50
@@ -29,7 +29,7 @@ class CreateAppSchema < ActiveRecord::Migration[7.0]
       t.timestamps null: false
     end
     add_index :users, :username, unique: true
-    add_index :users, :email, unique: true
+    add_index :users, :email_address, unique: true
 
     # 2. goals table
     create_table :goals do |t|

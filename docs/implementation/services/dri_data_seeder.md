@@ -16,8 +16,6 @@ class DriDataSeederService
     seed_reference_anthropometries
     seed_growth_factors
     seed_pal_definitions
-    
-    # New methods for Dietary Patterns from DGA Appendix 3
     seed_food_groups_and_subgroups
     seed_dietary_patterns
     seed_dietary_pattern_components
@@ -81,7 +79,7 @@ class DriDataSeederService
   def self.seed_eer_profiles
     eer_profiles_data = load_eer_profiles_data
     eer_profiles_data.each do |data|
-      life_stage = LifeStageGroup.find_by(name: data[:life_stage_name])
+      life_stage = data[:life_stage_name] ? LifeStageGroup.find_by(name: data[:life_stage_name]) : nil
 
       EerProfile.find_or_create_by!(name: data[:name]) do |profile|
         profile.source_table_reference = data[:source_table]
@@ -107,7 +105,7 @@ class DriDataSeederService
   def self.seed_eer_additive_components
     components_data = load_eer_components_data
     components_data.each do |data|
-      life_stage = LifeStageGroup.find_by(name: data[:life_stage_name])
+      life_stage = data[:life_stage_name] ? LifeStageGroup.find_by(name: data[:life_stage_name]) : nil
 
       EerAdditiveComponent.find_or_create_by!(
         component_type: data[:component_type],
@@ -121,6 +119,7 @@ class DriDataSeederService
       ) do |component|
         component.value_kcal_day = data[:value_kcal_day]
         component.notes = data[:notes]
+        component.source_document_reference = data[:source_document_reference]
       end
     end
   end
@@ -144,7 +143,10 @@ class DriDataSeederService
     growth_data.each do |data|
       life_stage = LifeStageGroup.find_by!(name: data[:life_stage_name])
 
-      GrowthFactor.find_or_create_by!(life_stage_group: life_stage) do |factor|
+      GrowthFactor.find_or_create_by!(
+        life_stage_group: life_stage,
+        factor_type: data[:factor_type]
+      ) do |factor|
         factor.factor_value = data[:factor_value]
         factor.source_document_reference = data[:source_document]
       end
@@ -170,7 +172,6 @@ class DriDataSeederService
     end
   end
   
-  # New seeding methods for Dietary Patterns
   def self.seed_food_groups_and_subgroups
     food_groups_data = load_food_groups_data
     food_groups_data.each do |data|
@@ -200,8 +201,8 @@ class DriDataSeederService
     components_data = load_dietary_pattern_components_data
     components_data.each do |data|
       pattern = DietaryPattern.find_by!(name: data[:dietary_pattern_name])
-      food_group = data[:food_group_name] ? FoodGroup.find_by(name: data[:food_group_name]) : nil
-      food_subgroup = data[:food_subgroup_name] ? FoodSubgroup.find_by(name: data[:food_subgroup_name]) : nil
+      food_group = data[:food_group_name].present? ? FoodGroup.find_by(name: data[:food_group_name]) : nil
+      food_subgroup = data[:food_subgroup_name].present? ? FoodSubgroup.find_by(name: data[:food_subgroup_name]) : nil
 
       DietaryPatternComponent.find_or_create_by!(
         dietary_pattern: pattern,
@@ -222,9 +223,10 @@ class DriDataSeederService
   def self.load_data_from_csv(file_name, &block)
     file_path = Rails.root.join('db', 'data_sources', file_name)
     return [] unless File.exist?(file_path)
-    CSV.read(file_path, headers: true, header_converters: :symbol).map do |row|
-      block.call(row)
-    end
+    CSV.read(file_path, headers: true, header_converters: :symbol, skip_blanks: true).map do |row|
+      cleaned_row = row.to_h.transform_keys { |k| k.to_s.strip.to_sym }.transform_values { |v| v.is_a?(String) ? v.strip : v }
+      block.call(cleaned_row)
+    end.compact
   end
 
   def self.load_nutrients_data
@@ -280,7 +282,7 @@ class DriDataSeederService
       {
         name: row[:name],
         source_table: row[:source_table_reference],
-        life_stage_name: row[:life_stage_name],
+        life_stage_name: row[:life_stage_group_id_placeholder],
         sex_filter: row[:sex_filter],
         age_min_months: row[:age_min_months_filter]&.to_i,
         age_max_months: row[:age_max_months_filter]&.to_i,
@@ -300,10 +302,10 @@ class DriDataSeederService
   end
 
   def self.load_eer_components_data
-    load_data_from_csv('eer_components.csv') do |row|
+    load_data_from_csv('eer_additive_components.csv') do |row|
       {
         component_type: row[:component_type],
-        life_stage_name: row[:life_stage_name],
+        life_stage_name: row[:life_stage_group_id_placeholder],
         sex_filter: row[:sex_filter],
         age_min_months: row[:age_min_months_filter]&.to_i,
         age_max_months: row[:age_max_months_filter]&.to_i,
@@ -311,7 +313,8 @@ class DriDataSeederService
         pre_pregnancy_bmi: row[:condition_pre_pregnancy_bmi_category_filter],
         lactation_period: row[:condition_lactation_period_filter],
         value_kcal_day: row[:value_kcal_day]&.to_f,
-        notes: row[:notes]
+        notes: row[:notes],
+        source_document_reference: row[:source_document_reference]
       }
     end
   end
@@ -319,7 +322,7 @@ class DriDataSeederService
   def self.load_reference_anthropometries_data
     load_data_from_csv('reference_anthropometries.csv') do |row|
       {
-        life_stage_name: row[:life_stage_name],
+        life_stage_name: row[:life_stage_group_id_placeholder],
         reference_height_cm: row[:reference_height_cm]&.to_f,
         reference_weight_kg: row[:reference_weight_kg]&.to_f,
         median_bmi: row[:median_bmi]&.to_f,
@@ -331,7 +334,7 @@ class DriDataSeederService
   def self.load_growth_factors_data
     load_data_from_csv('growth_factors.csv') do |row|
       {
-        life_stage_name: row[:life_stage_name],
+        life_stage_name: row[:life_stage_group_id_placeholder],
         factor_value: row[:factor_value]&.to_f,
         factor_type: row[:factor_type],
         source_document: row[:source_document_reference]
@@ -405,18 +408,12 @@ DriDataSeederService.seed_all_data
 ### Seeding Individual Components
 ```ruby
 # Seed just nutrients
-DriDataSeederService.seed_nutrients
+# DriDataSeederService.seed_nutrients
 
 # Seed just life stage groups
-DriDataSeederService.seed_life_stage_groups
+# DriDataSeederService.seed_life_stage_groups
 
-# Seed just DRI values
-DriDataSeederService.seed_dri_values_from_dga_app1
-
-# Seed Dietary Pattern related data
-DriDataSeederService.seed_food_groups_and_subgroups
-DriDataSeederService.seed_dietary_patterns
-DriDataSeederService.seed_dietary_pattern_components
+# ... (similar for other individual seed methods)
 ```
 
 ## Data Sources
@@ -426,46 +423,75 @@ The service expects data files in the following format:
 ### Nutrients (nutrients.csv)
 ```csv
 dri_identifier,name,category,default_unit,analysis_unit,conversion_factor,description,sort_order
-PROCNT,Protein,macronutrient,g,g,1.0,Total protein,1
-CHOCDF,Carbohydrate,macronutrient,g,g,1.0,Total carbohydrate,2
-FAT,Total Fat,macronutrient,g,g,1.0,Total fat,3
-...
 ```
 
 ### Life Stage Groups (life_stages.csv)
 ```csv
 name,min_age_months,max_age_months,sex,special_condition,trimester,lactation_period,notes
-Adults 19-30 years,228,360,male,,,,
-Adults 19-30 years,228,360,female,,,,
-Pregnancy 2nd trimester,228,360,female,pregnancy,2,,
-...
 ```
 
 ### DRI Values (dri_values.csv)
 ```csv
 nutrient_identifier,life_stage_name,dri_type,value_numeric,value_string,unit,source_of_goal,criterion,footnote_marker,notes,source_document
-PROCNT,Adults 19-30 years,RDA,0.8,,g/kg body weight,EAR,Protein requirement,1,,DRI 2005
-...
 ```
 
-Similar CSV/JSON files should be created for:
-- eer_profiles.csv
-- eer_components.csv
-- reference_anthropometries.csv
-- growth_factors.csv
-- pal_definitions.csv
+### EER Profiles (eer_profiles.csv)
+```csv
+name,source_table_reference,life_stage_group_id_placeholder,sex_filter,age_min_months_filter,age_max_months_filter,pal_category_applicable,coefficient_intercept,coefficient_age_years,coefficient_age_months,coefficient_height_cm,coefficient_weight_kg,coefficient_pal_value,coefficient_gestation_weeks,equation_basis,standard_error_of_predicted_value_kcal,notes
+```
+
+### EER Additive Components (eer_additive_components.csv)
+```csv
+component_type,life_stage_group_id_placeholder,sex_filter,age_min_months_filter,age_max_months_filter,condition_pregnancy_trimester_filter,condition_pre_pregnancy_bmi_category_filter,condition_lactation_period_filter,value_kcal_day,notes,source_document_reference
+```
+
+### Reference Anthropometries (reference_anthropometries.csv)
+```csv
+life_stage_group_id_placeholder,reference_height_cm,reference_weight_kg,median_bmi,source_document_reference
+```
+
+### Growth Factors (growth_factors.csv)
+```csv
+life_stage_group_id_placeholder,factor_value,factor_type,source_document_reference
+```
+
+### PAL Definitions (pal_definitions.csv)
+```csv
+life_stage_name,pal_category,pal_range_min_value,pal_range_max_value,percentile_value,pal_value_at_percentile,coefficient_for_eer_equation,source_document_reference
+```
+
+### Food Groups (food_groups.csv)
+```csv
+name,default_unit_name
+```
+
+### Food Subgroups (food_subgroups.csv)
+```csv
+food_group_name,name
+```
+
+### Dietary Patterns (dietary_patterns.csv)
+```csv
+name,description,source_document_reference
+```
+
+### Dietary Pattern Components (dietary_pattern_components.csv)
+```csv
+dietary_pattern_name,calorie_level,food_group_name,food_subgroup_name,component_name,amount_value,amount_unit,frequency,notes
+```
 
 ## Data Source References
 
 The data should be sourced from:
-1. Dietary Guidelines for Americans (DGA)
-2. National Academies of Sciences, Engineering, and Medicine (NASEM)
-3. Institute of Medicine (IOM) reports
-4. Food and Nutrition Board (FNB) publications
+- Dietary Guidelines for Americans (DGA) - Appendices 1, 2, 3, and others as noted
+- National Academies of Sciences, Engineering, and Medicine (NASEM) - DRI Reports
+- Institute of Medicine (IOM) reports (now NASEM)
+- Food and Nutrition Board (FNB) publications
 
 ## Error Handling
 
 The service includes basic error handling:
+
 ```ruby
 def self.seed_with_error_handling
   ActiveRecord::Base.transaction do
@@ -473,8 +499,7 @@ def self.seed_with_error_handling
   end
 rescue StandardError => e
   Rails.logger.error "Error seeding DRI data: #{e.message}"
-  Rails.logger.error e.backtrace.join("
-")
+  Rails.logger.error e.backtrace.join("\n")
   raise e
 end
 ```
@@ -482,11 +507,11 @@ end
 ## Validation
 
 Before seeding, validate the data:
+
 ```ruby
 def self.validate_data
   validate_nutrients_data
   validate_life_stages_data
-  validate_dri_values_data
   # ... validate other data
 end
 
@@ -504,4 +529,4 @@ def self.valid_nutrient_data?(row)
     row[:default_unit].present? &&
     row[:analysis_unit].present?
 end
-``` 
+```
